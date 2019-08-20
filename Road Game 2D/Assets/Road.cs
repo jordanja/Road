@@ -15,10 +15,26 @@ public class Road : MonoBehaviour {
     void Start() {
         DrawControlPointGizmos();
 
+        DrawRoad();
 
     }
 
+    private void DrawRoad() {
+        Point2D[] pointsAlongRoad = new Point2D[segments + 1];
+        for (int i = 0; i < segments + 1; i++) {
+            float percentageThroughRoad = (float)(((float)i) / ((float)segments));
+            pointsAlongRoad[i] = GetLocationOnRoad(percentageThroughRoad);
+        }
 
+        LineRenderer lRend = gameObject.AddComponent<LineRenderer>();
+        lRend.positionCount = segments + 1;
+        lRend.startWidth = 0.1f;
+        lRend.endWidth = 0.1f;
+
+        for (int i = 0; i < pointsAlongRoad.Length; i++) {
+            lRend.SetPosition(i, pointsAlongRoad[i].getPosition());
+        }
+    }
 
     private Point2D GetLocationOnRoad(float t) {
 
@@ -31,7 +47,7 @@ public class Road : MonoBehaviour {
         multiple = 3 * (1 - t) * t * t;
         Point2D p2 = new Point2D(controlPoints[2].getX() * multiple, controlPoints[2].getY() * multiple);
 
-        multiple = 3 * t * t * t;
+        multiple = t * t * t;
         Point2D p3 = new Point2D(controlPoints[3].getX() * multiple, controlPoints[3].getY() * multiple);
 
 
