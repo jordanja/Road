@@ -29,6 +29,23 @@ namespace Application {
             return new Vector3(this.getX(), this.getY());
         }
 
+        public static Point2D operator +(Point2D p1, Point2D p2) {
+            return new Point2D(p1.getX() + p2.getX(), p1.getY() + p2.getY());
+        }
+        public static Point2D operator +(Point2D p1, Vector3 vec) {
+            return new Point2D(p1.getX() + vec.x, p1.getY() + vec.y);
+        }
+
+        public static Point2D operator -(Point2D p1, Point2D p2) {
+            return new Point2D(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+        }
+        public static Point2D operator -(Point2D p1, Vector3 vec) {
+            return new Point2D(p1.getX() - vec.x, p1.getY() - vec.y);
+        }
+
+        public static Point2D operator *(Point2D point, float multiple) {
+            return new Point2D(point.getX() * multiple, point.getY() * multiple);
+        }
 
 
     }
