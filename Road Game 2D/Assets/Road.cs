@@ -7,7 +7,9 @@ using System;
 public class Road : MonoBehaviour {
 
     Point2D[] controlPoints = { new Point2D(0, 0), new Point2D(3, 3), new Point2D(-3, 3), new Point2D(-3, -3) };
-    int segments = 12;
+    //Point2D[] controlPoints = { new Point2D(0, 0), new Point2D(0, 1), new Point2D(0, 2), new Point2D(3, 3) };
+
+    int segments = 32;
 
     [SerializeField]
     GameObject circleGizmo;
@@ -26,7 +28,7 @@ public class Road : MonoBehaviour {
             pointsAlongRoad[i] = GetLocationOnRoad(percentageThroughRoad);
         }
 
-        //LineRenderRoad(pointsAlongRoad);
+        LineRenderRoad(pointsAlongRoad);
 
         gameObject.AddComponent<MeshFilter>();
         gameObject.AddComponent<MeshRenderer>();
@@ -41,26 +43,33 @@ public class Road : MonoBehaviour {
             float percentageThroughRoad = (float)(((float)i) / ((float)segments));
             Vector3 derivitive = GetDerivitiveOnRoad(percentageThroughRoad);
 
-            print("derivitive = " + derivitive);
-
-            Point2D side1 = pointsAlongRoad[i] + derivitive;
-            Point2D side2 = pointsAlongRoad[i] - derivitive;
+            Vector3 rightAngle = RightAngleVector(derivitive);
+            
+            Point2D side1 = pointsAlongRoad[i] + rightAngle;
+            Point2D side2 = pointsAlongRoad[i] - rightAngle;
             points[2 * i] = side1.getPosition();
             points[2 * i + 1] = side2.getPosition();
 
         }
 
-        for (int i = 0; i < segments + 1; i++) {
+        for (int i = 0; i < (segments); i++) {
 
-            triangles[i*6] = i;
-            triangles[i*6 + 2] = i + 2;
-            triangles[i*6 + 1] = i + 1;
+            triangles[i * 6] = i*2;
+            triangles[i * 6 + 1] = i * 2 + 2;
+            triangles[i * 6 + 2] = i*2 + 1;
 
-
+            triangles[i * 6 + 3] = i*2 + 1;
+            triangles[i * 6 + 5] = i*2 + 3;
+            triangles[i * 6 + 4] = i*2 + 2;
         }
 
         mesh.vertices = points;
         mesh.triangles = triangles;
+    }
+
+    private Vector3 RightAngleVector(Vector3 derivitive) {
+        return new Vector3(-derivitive.y, derivitive.x);
+        
     }
 
     private void LineRenderRoad(Point2D[] pointsAlongRoad) {
@@ -76,21 +85,62 @@ public class Road : MonoBehaviour {
 
     private Point2D GetLocationOnRoad(float t) {
 
-        float multiple = (1 - t) * (1 - t) * (1 - t);
-        Point2D p0 = new Point2D(controlPoints[0].getX() * multiple, controlPoints[0].getY() * multiple);
+        float multiple;
+
+        multiple = (1 - t) * (1 - t) * (1 - t);
+        Point2D p0 = controlPoints[0] * multiple;
+        print("origonal multiple 1: " + multiple);
 
         multiple = 3 * (1 - t) * (1 - t) * t;
-        Point2D p1 = new Point2D(controlPoints[1].getX() * multiple, controlPoints[1].getY() * multiple);
+        Point2D p1 = controlPoints[1] * multiple;
+        print("origonal multiple 2: " + multiple);
 
         multiple = 3 * (1 - t) * t * t;
-        Point2D p2 = new Point2D(controlPoints[2].getX() * multiple, controlPoints[2].getY() * multiple);
+        Point2D p2 = controlPoints[2] * multiple;
+        print("origonal multiple 3: " + multiple);
 
         multiple = t * t * t;
-        Point2D p3 = new Point2D(controlPoints[3].getX() * multiple, controlPoints[3].getY() * multiple);
+        Point2D p3 = controlPoints[3] * multiple;
+        print("origonal multiple 4: " + multiple);
 
-        return new Point2D(p0.getX() + p1.getX() + p2.getX() + p3.getX(), p0.getY() + p1.getY() + p2.getY() + p3.getY());
+
+        print("origonal sum: " + (p0 + p1 + p2 + p3));
+        //return p0 + p1 + p2 + p3;
+
+        int numControlPoints = controlPoints.Length;
+
+        Point2D sum = new Point2D(0,0);
+
+        for (int i = 0; i < numControlPoints; i++) {
+            int binCof = BinomialCoefficient(i, numControlPoints-1);
+
+            double term = binCof * Math.Pow((1-t), (numControlPoints-1 - i)) * Math.Pow(t, i);
+
+            print("multiple " + (i+1) + ": " + term);
+            print("the above multiple = (1-t)^" + (numControlPoints - 1 - i) + " * t^" + i);
+
+            sum = sum + (controlPoints[i] * term);
+
+        }
+
+        print("new sum: " + sum);
+
+        print("\n");
+        return sum;
+
+
     }
 
+    private int BinomialCoefficient(int K, int N) {
+
+        int result = 1;
+        for (int i = 1; i <= K; i++) {
+            result *= N - (K - i);
+            result /= i;
+        }
+        return result;
+
+    }
 
     private Vector3 GetDerivitiveOnRoad(float t) {
 

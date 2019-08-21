@@ -47,6 +47,12 @@ namespace Application {
             return new Point2D(point.getX() * multiple, point.getY() * multiple);
         }
 
+        public static Point2D operator *(Point2D point, double multiple) {
+            return new Point2D((float)(point.getX() * multiple), (float)(point.getY() * multiple));
+        }
 
+        public override string ToString() {
+            return ("[x: " + _x + ", y: " + _y + "]");
+        }
     }
 }
