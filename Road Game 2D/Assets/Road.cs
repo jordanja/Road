@@ -14,6 +14,9 @@ public class Road : MonoBehaviour {
     [SerializeField]
     GameObject circleGizmo;
 
+    [SerializeField]
+    Texture2D roadTexture;
+
     void Start() {
         DrawControlPointGizmos();
 
@@ -37,18 +40,23 @@ public class Road : MonoBehaviour {
 
         Vector3[] points = new Vector3[(segments + 1) * 2];
         int[] triangles = new int[(segments + 1) * 6];
-
+        Vector2[] uv = new Vector2[(segments + 1) * 2];
 
         for (int i = 0; i < segments + 1; i++) {
             float percentageThroughRoad = (float)(((float)i) / ((float)segments));
             Vector3 derivitive = GetDerivitiveOnRoad(percentageThroughRoad);
 
-            Vector3 rightAngle = RightAngleVector(derivitive);
+            Vector3 rightAngle = RightAngleVector(derivitive)/4;
+
+
             
             Point2D side1 = pointsAlongRoad[i] + rightAngle;
             Point2D side2 = pointsAlongRoad[i] - rightAngle;
             points[2 * i] = side1.getPosition();
             points[2 * i + 1] = side2.getPosition();
+
+            uv[2 * i] = new Vector2(0, percentageThroughRoad);
+            uv[2 * i + 1] = new Vector2(1, percentageThroughRoad);
 
         }
 
@@ -65,6 +73,7 @@ public class Road : MonoBehaviour {
 
         mesh.vertices = points;
         mesh.triangles = triangles;
+        mesh.uv = uv;
     }
 
     private Vector3 RightAngleVector(Vector3 derivitive) {
@@ -85,28 +94,6 @@ public class Road : MonoBehaviour {
 
     private Point2D GetLocationOnRoad(float t) {
 
-        float multiple;
-
-        multiple = (1 - t) * (1 - t) * (1 - t);
-        Point2D p0 = controlPoints[0] * multiple;
-        print("origonal multiple 1: " + multiple);
-
-        multiple = 3 * (1 - t) * (1 - t) * t;
-        Point2D p1 = controlPoints[1] * multiple;
-        print("origonal multiple 2: " + multiple);
-
-        multiple = 3 * (1 - t) * t * t;
-        Point2D p2 = controlPoints[2] * multiple;
-        print("origonal multiple 3: " + multiple);
-
-        multiple = t * t * t;
-        Point2D p3 = controlPoints[3] * multiple;
-        print("origonal multiple 4: " + multiple);
-
-
-        print("origonal sum: " + (p0 + p1 + p2 + p3));
-        //return p0 + p1 + p2 + p3;
-
         int numControlPoints = controlPoints.Length;
 
         Point2D sum = new Point2D(0,0);
@@ -116,31 +103,16 @@ public class Road : MonoBehaviour {
 
             double term = binCof * Math.Pow((1-t), (numControlPoints-1 - i)) * Math.Pow(t, i);
 
-            print("multiple " + (i+1) + ": " + term);
-            print("the above multiple = (1-t)^" + (numControlPoints - 1 - i) + " * t^" + i);
-
+           
             sum = sum + (controlPoints[i] * term);
 
         }
 
-        print("new sum: " + sum);
-
-        print("\n");
         return sum;
 
 
     }
 
-    private int BinomialCoefficient(int K, int N) {
-
-        int result = 1;
-        for (int i = 1; i <= K; i++) {
-            result *= N - (K - i);
-            result /= i;
-        }
-        return result;
-
-    }
 
     private Vector3 GetDerivitiveOnRoad(float t) {
 
@@ -159,11 +131,21 @@ public class Road : MonoBehaviour {
         point = controlPoints[3] - controlPoints[2];
         Point2D p2 = point * multiple;
 
-        return (p0 + p1 + p2).getPosition().normalized/4;
+        return (p0 + p1 + p2).getPosition().normalized;
 
     }
 
 
+    private int BinomialCoefficient(int k, int n) {
+        
+        int result = 1;
+        for (int i = 1; i <= k; i++) {
+            result *= n - (k - i);
+            result /= i;
+        }
+        return result;
+        
+    }
 
     private void DrawControlPointGizmos() {
         foreach (Point2D point in controlPoints) {
