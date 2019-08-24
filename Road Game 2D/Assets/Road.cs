@@ -20,7 +20,11 @@ public class Road : MonoBehaviour {
     [SerializeField]
     Material roadMat;
 
+    [SerializeField]
+    GameObject SubRoads;
 
+    [SerializeField]
+    GameObject Gizmos;
 
     void Start() {
         Point2D[][] controlPoints = GenerateControlPoints();
@@ -109,7 +113,7 @@ public class Road : MonoBehaviour {
 
             GameObject road = new GameObject();
             road.name = "road " + curve.ToString();
-            road.transform.parent = this.transform;
+            road.transform.parent = SubRoads.transform;
 
 
             road.AddComponent<MeshFilter>();
@@ -229,7 +233,7 @@ public class Road : MonoBehaviour {
         for (int i = 0; i < controlPoints.Length; i++) {
 
             for (int j = 0; j < controlPoints[i].Length; j++) {
-                GameObject circle = Instantiate(circleGizmo, controlPoints[i][j].getPosition(), Quaternion.identity, this.transform);
+                GameObject circle = Instantiate(circleGizmo, controlPoints[i][j].getPosition(), Quaternion.identity, Gizmos.transform);
                 circle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             }
 
