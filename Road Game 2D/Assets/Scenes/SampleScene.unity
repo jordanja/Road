@@ -151,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circleGizmo: {fileID: 6461046102939215091, guid: ef6eaab2ba2ec4383bf9650503c12a24,
     type: 3}
+  roadMat: {fileID: 2100000, guid: c606bc321144a4b5d93061666b2129a6, type: 2}
 --- !u!4 &365064122
 Transform:
   m_ObjectHideFlags: 0

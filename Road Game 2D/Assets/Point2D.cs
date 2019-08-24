@@ -24,6 +24,10 @@ namespace Application {
             return _y;
         }
 
+        public Vector2 toVector() {
+            return new Vector2(_x, _y);
+        }
+
 
         public Vector3 getPosition() {
             return new Vector3(this.getX(), this.getY());
@@ -52,7 +56,7 @@ namespace Application {
         }
 
         public override string ToString() {
-            return ("[x: " + _x + ", y: " + _y + "]");
+            return ("[x: " + _x.ToString("0.##") + ", y: " + _y.ToString("0.##") + "]");
         }
     }
 }
