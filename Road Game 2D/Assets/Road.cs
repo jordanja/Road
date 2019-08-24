@@ -12,64 +12,68 @@ public class Road : MonoBehaviour {
 
     float roadCurveHeight = 4;
 
+    int controlPointsPerCurve = 4;
+
     [SerializeField]
     GameObject circleGizmo;
 
     [SerializeField]
     Material roadMat;
 
-    [SerializeField]
-    Texture roadTexture;
+
 
     void Start() {
-        Point2D[,] controlPoints = GenerateControlPoints();
+        Point2D[][] controlPoints = GenerateControlPoints();
 
-        //DrawControlPointGizmos(controlPoints);
+        DrawControlPointGizmos(controlPoints);
 
         DrawRoad(controlPoints);
 
     }
 
-    private Point2D[,] GenerateControlPoints() {
-        Point2D[,] controlPoints = new Point2D[pointsOnRoad.Length-1,4];
+    private Point2D[][] GenerateControlPoints() {
+        Point2D[][] controlPoints = new Point2D[pointsOnRoad.Length-1][];
 
         for (int i = 0; i < pointsOnRoad.Length-1; i++) {
-            Point2D p0;
-            Point2D p1;
-            Point2D p2;
-            Point2D p3;
+
+            Point2D[] points = new Point2D[controlPointsPerCurve];
+
+
 
             if (i == 0) {
-                p0 = pointsOnRoad[0];
-                p3 = pointsOnRoad[1];
+                points[0] = pointsOnRoad[0];
+                points[controlPointsPerCurve-1] = pointsOnRoad[i + 1];
 
-                Vector2 vecBetween = (p3 - p0).getPosition();
-                float offset = GetRandomOffset();
+                Vector2 vecBetween = (points[controlPointsPerCurve - 1] - points[0]).getPosition();
 
-                p1 = new Point2D(p0.getX() + vecBetween.x / 3, p0.getY() + (vecBetween.y / 3) + offset);
+                for (int remainingPoints = 1; remainingPoints < points.Length - 1; remainingPoints++) {
 
-                offset = GetRandomOffset();
-                p2 = new Point2D(p0.getX() + (2 * vecBetween.x / 3), p0.getY() + (2 * vecBetween.y / 3) + offset);
+                    float offset = GetRandomOffset();
+                    points[remainingPoints] = new Point2D(points[0].getX() + (remainingPoints * vecBetween.x) / (controlPointsPerCurve-1), points[0].getY() + ((remainingPoints * vecBetween.y) / (controlPointsPerCurve - 1)) + offset);
+
+                
+                }
 
 
 
             } else {
-                p0 = pointsOnRoad[i];
-                p3 = pointsOnRoad[i + 1];
+                points[0] = pointsOnRoad[i];
+                points[controlPointsPerCurve - 1] = pointsOnRoad[i + 1];
+                Vector2 lastVector = (controlPoints[i - 1][controlPointsPerCurve - 1] - controlPoints[i - 1][controlPointsPerCurve - 2]).toVector();
 
-                Vector2 p3ToP2 = (controlPoints[i - 1,3] - controlPoints[i - 1,2]).toVector();
-                Vector2 p2ToP3 = -p3ToP2;
-                p1 = p0 + p3ToP2;
+                points[1] = points[0] + lastVector;
 
-                Vector2 vecBetween = (p3 - p0).getPosition();
-                float offset = GetRandomOffset();
-                p2 = new Point2D(p0.getX() + (2 * vecBetween.x / 3), p0.getY() + (2 * vecBetween.y / 3) + offset);
+                Vector2 vecBetween = (points[controlPointsPerCurve - 1] - points[0]).getPosition();
+                for (int remainingPoints = 2; remainingPoints < points.Length - 1; remainingPoints++) {
+                    float offset = GetRandomOffset();
+                    points[remainingPoints] = new Point2D(points[0].getX() + ((remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1)), points[0].getY() + ((remainingPoints * vecBetween.x) * vecBetween.y / (controlPointsPerCurve - 1)) + offset);
+
+                }
+
+
 
             }
-            controlPoints[i, 0] = p0;
-            controlPoints[i, 1] = p1;
-            controlPoints[i, 2] = p2;
-            controlPoints[i, 3] = p3;
+            controlPoints[i] = points;
         }
 
         return controlPoints;
@@ -92,14 +96,14 @@ public class Road : MonoBehaviour {
     }
 
 
-    private void DrawRoad(Point2D[,] controlPoints) {
+    private void DrawRoad(Point2D[][] controlPoints) {
 
-        for (int curve = 0; curve < controlPoints.GetLength(0); curve++) {
+        for (int curve = 0; curve < controlPoints.Length; curve++) {
 
             Point2D[] fractionalPointsAlongBezier = new Point2D[segments + 1];
             for (int i = 0; i < segments + 1; i++) {
                 float percentageThroughRoad = (float)(((float)i) / ((float)segments));
-                fractionalPointsAlongBezier[i] = GetLocationOnRoad(percentageThroughRoad, GetRow(controlPoints,curve));
+                fractionalPointsAlongBezier[i] = GetLocationOnRoad(percentageThroughRoad, controlPoints[curve]);
             }
 
 
@@ -122,7 +126,7 @@ public class Road : MonoBehaviour {
             
             for (int i = 0; i < segments + 1; i++) {
                 float percentageThroughRoad = (float)(((float)i) / ((float)segments));
-                Vector3 derivitive = GetDerivitiveOnRoad(percentageThroughRoad,GetRow(controlPoints,curve));
+                Vector3 derivitive = GetDerivitiveOnRoad(percentageThroughRoad, controlPoints[curve]);
                 
                 Vector3 rightAngle = RightAngleVector(derivitive)/4;
                 
@@ -228,11 +232,11 @@ public class Road : MonoBehaviour {
         
     }
 
-    private void DrawControlPointGizmos(Point2D[,] controlPoints) {
-        for (int i = 0; i < controlPoints.GetLength(0); i++) {
+    private void DrawControlPointGizmos(Point2D[][] controlPoints) {
+        for (int i = 0; i < controlPoints.Length; i++) {
 
-            for (int j = 0; j < controlPoints.GetLength(1); j++) {
-                GameObject circle = Instantiate(circleGizmo, controlPoints[i,j].getPosition(), Quaternion.identity, this.transform);
+            for (int j = 0; j < controlPoints[i].Length; j++) {
+                GameObject circle = Instantiate(circleGizmo, controlPoints[i][j].getPosition(), Quaternion.identity, this.transform);
                 circle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             }
 
