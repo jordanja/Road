@@ -39,7 +39,6 @@ public class Road : MonoBehaviour {
             Point2D[] points = new Point2D[controlPointsPerCurve];
 
 
-
             if (i == 0) {
                 points[0] = pointsOnRoad[0];
                 points[controlPointsPerCurve-1] = pointsOnRoad[i + 1];
@@ -49,7 +48,7 @@ public class Road : MonoBehaviour {
                 for (int remainingPoints = 1; remainingPoints < points.Length - 1; remainingPoints++) {
 
                     float offset = GetRandomOffset();
-                    points[remainingPoints] = new Point2D(points[0].getX() + (remainingPoints * vecBetween.x) / (controlPointsPerCurve-1), points[0].getY() + ((remainingPoints * vecBetween.y) / (controlPointsPerCurve - 1)) + offset);
+                    points[remainingPoints] = new Point2D(points[0].getX() + (remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1), points[0].getY() + ((remainingPoints * vecBetween.y) / (controlPointsPerCurve - 1)) + offset);
 
                 
                 }
@@ -66,7 +65,7 @@ public class Road : MonoBehaviour {
                 Vector2 vecBetween = (points[controlPointsPerCurve - 1] - points[0]).getPosition();
                 for (int remainingPoints = 2; remainingPoints < points.Length - 1; remainingPoints++) {
                     float offset = GetRandomOffset();
-                    points[remainingPoints] = new Point2D(points[0].getX() + ((remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1)), points[0].getY() + ((remainingPoints * vecBetween.x) * vecBetween.y / (controlPointsPerCurve - 1)) + offset);
+                    points[remainingPoints] = new Point2D(points[0].getX() + ((remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1)), points[0].getY() + (remainingPoints * vecBetween.y / (controlPointsPerCurve - 1)) + offset);
 
                 }
 
@@ -116,7 +115,6 @@ public class Road : MonoBehaviour {
             road.AddComponent<MeshFilter>();
             MeshRenderer mr = road.AddComponent<MeshRenderer>();
             mr.material = roadMat;
-            //mr.
             Mesh mesh = road.GetComponent<MeshFilter>().mesh;
             mesh.Clear();
             
@@ -201,23 +199,18 @@ public class Road : MonoBehaviour {
 
     private Vector3 GetDerivitiveOnRoad(float t, Point2D[] curveControlPoints) {
 
-        float multiple;
-        Point2D point;
+        int numControlPoints = curveControlPoints.Length;
+        Point2D sum = new Point2D(0, 0);
 
-        multiple = 3 * (1 - t) * (1 - t);
-        point = curveControlPoints[1] - curveControlPoints[0];
-        Point2D p0 = point * multiple;
+        for (int i = 0; i < numControlPoints - 1; i++) {
+            int binCof = BinomialCoefficient(i, numControlPoints - 2);
 
-        multiple = 6 * (1 - t) * t;
-        point = curveControlPoints[2] - curveControlPoints[1];
-        Point2D p1 = point * multiple;
+            double term = binCof * Math.Pow(t,i) * Math.Pow((1 - t),(numControlPoints - 2 - i));
 
-        multiple = 3 * t * t;
-        point = curveControlPoints[3] - curveControlPoints[2];
-        Point2D p2 = point * multiple;
+            sum = sum + ((curveControlPoints[i + 1] - curveControlPoints[i]) * term);
 
-        return (p0 + p1 + p2).getPosition().normalized;
-
+        }
+        return sum.getPosition().normalized;
     }
 
 
