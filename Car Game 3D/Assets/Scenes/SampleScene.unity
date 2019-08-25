@@ -129,6 +129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 250636633}
+  - component: {fileID: 250636634}
   m_Layer: 0
   m_Name: Road
   m_TagString: Untagged
@@ -152,6 +153,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &250636634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250636632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7c84f046ac5b4980935cd03f17b84bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  circleGizmo: {fileID: 5678564339544477186, guid: 6237d6aba4d8647278d968b4ffb1c243,
+    type: 3}
+  roadMat: {fileID: 2100000, guid: 7c85746c6c3e1410aa7f2c8ba9f8afbc, type: 2}
+  SubRoads: {fileID: 1862813709}
+  Gizmos: {fileID: 1009098395}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
