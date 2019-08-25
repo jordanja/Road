@@ -21,6 +21,10 @@ public class Road : MonoBehaviour {
     [SerializeField]
     GameObject circleGizmo;
 
+    internal void Init(GameObject gameObject) {
+    
+    }
+
     [SerializeField]
     Material roadMat;
 

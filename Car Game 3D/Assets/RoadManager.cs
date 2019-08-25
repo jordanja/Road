@@ -8,12 +8,16 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
+    [SerializeField]
+    GameObject roadBlueprint;
+
     void Awake() {
         instance = this;
     }
 
     public void CreateNewRoad() {
-
+        GameObject road = Instantiate(roadBlueprint, transform, false);
+        road.GetComponent<Road>()?.Init();
     }
 
 }
