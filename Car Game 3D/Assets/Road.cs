@@ -10,7 +10,9 @@ public class Road : MonoBehaviour {
 
     int segments = 32;
 
-    float roadCurveHeight = 4;
+    float roadCurviness = 4;
+
+    float roadWidth = 0.25f;
 
     int controlPointsPerCurve = 4;
 
@@ -28,7 +30,6 @@ public class Road : MonoBehaviour {
 
     void Start() {
         Point3D[][] controlPoints = GenerateControlPoints();
-        printControlPoints(controlPoints);
         DrawControlPointGizmos(controlPoints);
 
         DrawRoad(controlPoints);
@@ -63,7 +64,6 @@ public class Road : MonoBehaviour {
                 points[controlPointsPerCurve - 1] = pointsOnRoad[i + 1];
                 Vector3 lastVector = (controlPoints[i - 1][controlPointsPerCurve - 1] - controlPoints[i - 1][controlPointsPerCurve - 2]).toVector();
 
-                print(lastVector);
 
                 points[1] = points[0] + lastVector;
 
@@ -86,7 +86,7 @@ public class Road : MonoBehaviour {
     }
 
     private float GetRandomOffset() {
-        return roadCurveHeight * UnityEngine.Random.Range(-1f, +1f);
+        return roadCurviness * UnityEngine.Random.Range(-1f, +1f);
     }
 
     private void printControlPoints(Point3D[][] controlPoints) {
@@ -112,7 +112,6 @@ public class Road : MonoBehaviour {
             }
 
 
-
             GameObject road = new GameObject();
             road.name = "road " + curve.ToString();
             road.transform.parent = SubRoads.transform;
@@ -132,17 +131,15 @@ public class Road : MonoBehaviour {
                 float percentageThroughRoad = (float)(((float)i) / ((float)segments));
                 Vector3 derivitive = GetDerivitiveOnRoad(percentageThroughRoad, controlPoints[curve]);
                 
-                Vector3 rightAngle = RightAngleVector(derivitive)/4;
-                
-                
-                
+                Vector3 rightAngle = RightAngleVector(derivitive) * roadWidth;
+
                 Point3D side1 = fractionalPointsAlongBezier[i] + rightAngle;
                 Point3D side2 = fractionalPointsAlongBezier[i] - rightAngle;
                 points[2 * i] = side1.toVector();
                 points[2 * i + 1] = side2.toVector();
                 
                 uv[2 * i] = new Vector2(0, percentageThroughRoad);
-                uv[2 * i + 1] = new Vector2(1, percentageThroughRoad);
+                uv[2 * i + 1] = new Vector2(0.5f, percentageThroughRoad);
                 
             }
             
@@ -156,7 +153,7 @@ public class Road : MonoBehaviour {
                 triangles[i * 6 + 5] = i * 2 + 3;
                 triangles[i * 6 + 4] = i * 2 + 2;
             }
-            
+
             mesh.vertices = points;
             mesh.triangles = triangles;
             mesh.uv = uv;
@@ -237,6 +234,7 @@ public class Road : MonoBehaviour {
             for (int j = 0; j < controlPoints[i].Length; j++) {
                 GameObject circle = Instantiate(circleGizmo, controlPoints[i][j].toVector(), Quaternion.identity, Gizmos.transform);
                 circle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                circle.name = "Gizmo " + i + ":" + j;
             }
 
 
