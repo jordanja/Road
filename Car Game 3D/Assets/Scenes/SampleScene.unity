@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circleGizmo: {fileID: 5678564339544477186, guid: 6237d6aba4d8647278d968b4ffb1c243,
     type: 3}
-  roadMat: {fileID: 2100000, guid: 7c85746c6c3e1410aa7f2c8ba9f8afbc, type: 2}
+  roadMat: {fileID: 2100000, guid: 005ed24d32585479596f4300cc114158, type: 2}
   SubRoads: {fileID: 1862813709}
   Gizmos: {fileID: 1009098395}
 --- !u!1 &705507993

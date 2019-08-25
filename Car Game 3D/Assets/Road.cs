@@ -16,6 +16,8 @@ public class Road : MonoBehaviour {
 
     int controlPointsPerCurve = 4;
 
+    float roadDepth = 1;
+
     [SerializeField]
     GameObject circleGizmo;
 
@@ -117,16 +119,18 @@ public class Road : MonoBehaviour {
             road.transform.parent = SubRoads.transform;
 
 
+
             road.AddComponent<MeshFilter>();
             MeshRenderer mr = road.AddComponent<MeshRenderer>();
             mr.material = roadMat;
             Mesh mesh = road.GetComponent<MeshFilter>().mesh;
             mesh.Clear();
             
-            Vector3[] points = new Vector3[(segments + 1) * 2];
-            int[] triangles = new int[(segments + 1) * 6];
-            Vector2[] uv = new Vector2[(segments + 1) * 2];
-            
+            Vector3[] points = new Vector3[(segments + 1) * 4];
+            int[] triangles = new int[(segments + 1) * 18];
+            Vector2[] uv = new Vector2[(segments + 1) * 4];
+
+
             for (int i = 0; i < segments + 1; i++) {
                 float percentageThroughRoad = (float)(((float)i) / ((float)segments));
                 Vector3 derivitive = GetDerivitiveOnRoad(percentageThroughRoad, controlPoints[curve]);
@@ -135,24 +139,54 @@ public class Road : MonoBehaviour {
 
                 Point3D side1 = fractionalPointsAlongBezier[i] + rightAngle;
                 Point3D side2 = fractionalPointsAlongBezier[i] - rightAngle;
-                points[2 * i] = side1.toVector();
-                points[2 * i + 1] = side2.toVector();
+
+                points[4 * i + 0] = side1.toVector();
+                points[4 * i + 1] = side2.toVector();
                 
-                uv[2 * i] = new Vector2(0, percentageThroughRoad);
+                uv[2 * i + 0] = new Vector2(0, percentageThroughRoad);
                 uv[2 * i + 1] = new Vector2(0.5f, percentageThroughRoad);
-                
+
+
+                Point3D bottom1 = side1 - new Vector3(0, roadDepth, 0);
+                Point3D bottom2 = side2 - new Vector3(0, roadDepth, 0);
+                points[4 * i + 2] = bottom1.toVector();
+                points[4 * i + 3] = bottom2.toVector();
+
+                uv[2 * i + 2] = new Vector2(1f, 0);
+                uv[2 * i + 3] = new Vector2(1f, 0);
+
+
             }
-            
+
             for (int i = 0; i < (segments); i++) {
                 
-                triangles[i * 6] = i * 2;
-                triangles[i * 6 + 1] = i * 2 + 2;
-                triangles[i * 6 + 2] = i * 2 + 1;
+                triangles[i * 18 + 0] = i * 4;
+                triangles[i * 18 + 1] = i * 4 + 4;
+                triangles[i * 18 + 2] = i * 4 + 1;
                 
-                triangles[i * 6 + 3] = i * 2 + 1;
-                triangles[i * 6 + 5] = i * 2 + 3;
-                triangles[i * 6 + 4] = i * 2 + 2;
+                triangles[i * 18 + 3] = i * 4 + 1;
+                triangles[i * 18 + 4] = i * 4 + 4;
+                triangles[i * 18 + 5] = i * 4 + 5;
+
+
+                triangles[i * 18 + 6] = i * 4 + 1;
+                triangles[i * 18 + 7] = i * 4 + 7;
+                triangles[i * 18 + 8] = i * 4 + 3;
+
+                triangles[i * 18 + 9] = i * 4 + 1;
+                triangles[i * 18 + 10] = i * 4 + 5;
+                triangles[i * 18 + 11] = i * 4 + 7;
+
+
+
             }
+
+
+
+
+
+
+
 
             mesh.vertices = points;
             mesh.triangles = triangles;
