@@ -32,7 +32,7 @@ public class CarMovement : MonoBehaviour {
             float fractionAlongCurrentRoad = (timeSinceStart - (currentRoad * timeForOneRoad))/timeForOneRoad;
             GameObject road = RoadManager.instance.GetRoad(currentRoad);
             Point3D location = road.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-            transform.position = location.toVector();
+            transform.position = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());//location.toVector();
         }
     }
 
