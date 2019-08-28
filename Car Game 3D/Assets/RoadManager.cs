@@ -11,6 +11,7 @@ public class RoadManager : MonoBehaviour {
 
     Point3D[] pointsOnRoad = { new Point3D(0, 0, 0), new Point3D(0, 0, 2), new Point3D(0, 0, 4), new Point3D(0, 0, 6), new Point3D(0, 0, 8) };
 
+    public bool initialized = false;
 
     [SerializeField]
     GameObject roadBlueprint;
@@ -23,6 +24,7 @@ public class RoadManager : MonoBehaviour {
         for (int i = 0; i < pointsOnRoad.Length - 1; i++) {
             CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1]);
         }
+        initialized = true;
     }
 
     public void CreateNewRoad(Point3D firstPoint, Point3D lastPoint) {
@@ -51,6 +53,10 @@ public class RoadManager : MonoBehaviour {
 
     public List<GameObject> GetAllRoads() {
         return roads;
+    }
+
+    public int NumRoads() {
+        return roads.Count - 1;
     }
 
 }
