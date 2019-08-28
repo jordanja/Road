@@ -28,13 +28,6 @@ public class Road : MonoBehaviour {
     [SerializeField]
     Material roadMat;
 
-    [SerializeField]
-    GameObject SubRoads;
-
-    [SerializeField]
-    GameObject Gizmos;
-
-
 
     internal void Init(Point3D first, Point3D last) {
         firstPoint = first;
@@ -54,7 +47,7 @@ public class Road : MonoBehaviour {
 
     private void CommonInit(bool firstRoad) {
         GenerateControlPoints(firstRoad);
-        DrawControlPointGizmos();
+        //DrawControlPointGizmos();
         DrawRoad();
 
     }
@@ -106,17 +99,6 @@ public class Road : MonoBehaviour {
         return roadCurviness * UnityEngine.Random.Range(-1f, +1f);
     }
 
-    private void printControlPoints(Point3D[][] controlPoints) {
-
-        for (int i = 0; i < controlPoints.Length; i++) {
-            string line = "";
-            for (int j = 0; j < controlPoints[i].Length; j++) {
-                line = line + controlPoints[i][j] + ", ";
-            }
-            print(line);
-        }
-    }
-
 
     private void DrawRoad() {
 
@@ -128,20 +110,18 @@ public class Road : MonoBehaviour {
         }
 
 
-        GameObject road = new GameObject();
-        road.name = "road (add number)";
-        //road.transform.parent = SubRoads.transform;
+        transform.parent = this.transform;
 
 
-        road.AddComponent<MeshFilter>();
-        MeshRenderer mr = road.AddComponent<MeshRenderer>();
+        gameObject.AddComponent<MeshFilter>();
+        MeshRenderer mr = gameObject.AddComponent<MeshRenderer>();
         mr.material = roadMat;
-        Mesh mesh = road.GetComponent<MeshFilter>().mesh;
+        Mesh mesh = gameObject.GetComponent<MeshFilter>().mesh;
         mesh.Clear();
 
-        Vector3[] points = new Vector3[(segments + 1) * 4];
-        int[] triangles = new int[(segments + 1) * 18];
-        Vector2[] uv = new Vector2[(segments + 1) * 4];
+        Vector3[] points = new Vector3[(segments + 1) * 2];
+        int[] triangles = new int[(segments + 1) * 6];
+        Vector2[] uv = new Vector2[(segments + 1) * 2];
 
 
         for (int i = 0; i < segments + 1; i++) {
@@ -153,51 +133,27 @@ public class Road : MonoBehaviour {
             Point3D side1 = fractionalPointsAlongBezier[i] + rightAngle;
             Point3D side2 = fractionalPointsAlongBezier[i] - rightAngle;
 
-            points[4 * i + 0] = side1.toVector();
-            points[4 * i + 1] = side2.toVector();
+            points[2 * i + 0] = side1.toVector();
+            points[2 * i + 1] = side2.toVector();
 
             uv[2 * i + 0] = new Vector2(0, percentageThroughRoad);
-            uv[2 * i + 1] = new Vector2(0.5f, percentageThroughRoad);
+            uv[2 * i + 1] = new Vector2(1f, percentageThroughRoad);
 
 
-            Point3D bottom1 = side1 - new Vector3(0, roadDepth, 0);
-            Point3D bottom2 = side2 - new Vector3(0, roadDepth, 0);
-            points[4 * i + 2] = bottom1.toVector();
-            points[4 * i + 3] = bottom2.toVector();
-
-            uv[2 * i + 2] = new Vector2(1f, 0);
-            uv[2 * i + 3] = new Vector2(1f, 0);
-
+           
 
         }
 
         for (int i = 0; i < (segments); i++) {
 
-            triangles[i * 18 + 0] = i * 4;
-            triangles[i * 18 + 1] = i * 4 + 4;
-            triangles[i * 18 + 2] = i * 4 + 1;
+            triangles[i * 6 + 0] = i * 2;
+            triangles[i * 6 + 1] = i * 2 + 2;
+            triangles[i * 6 + 2] = i * 2 + 1;
 
-            triangles[i * 18 + 3] = i * 4 + 1;
-            triangles[i * 18 + 4] = i * 4 + 4;
-            triangles[i * 18 + 5] = i * 4 + 5;
-
-
-            triangles[i * 18 + 6] = i * 4 + 1;
-            triangles[i * 18 + 7] = i * 4 + 7;
-            triangles[i * 18 + 8] = i * 4 + 3;
-
-            triangles[i * 18 + 9] = i * 4 + 1;
-            triangles[i * 18 + 10] = i * 4 + 5;
-            triangles[i * 18 + 11] = i * 4 + 7;
-
-
-
+            triangles[i * 6 + 3] = i * 2 + 1;
+            triangles[i * 6 + 4] = i * 2 + 2;//could be 1
+            triangles[i * 6 + 5] = i * 2 + 3;
         }
-
-
-
-
-
 
 
 
@@ -278,7 +234,7 @@ public class Road : MonoBehaviour {
     private void DrawControlPointGizmos() {
 
         for (int j = 0; j < controlPoints.Length; j++) {
-            GameObject circle = Instantiate(circleGizmo, controlPoints[j].toVector(), Quaternion.identity, Gizmos.transform);
+            GameObject circle = Instantiate(circleGizmo, controlPoints[j].toVector(), Quaternion.identity, this.transform);
             circle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             circle.name = "Gizmo " + j;
         }
