@@ -35,7 +35,7 @@ public class RoadManager : MonoBehaviour {
             int controlPointsPerCurve = lastRoad.GetComponent<Road>().GetControlPointsPerCurve();
             Vector3 lastVector = (controlPoints[controlPointsPerCurve - 1] - controlPoints[controlPointsPerCurve - 2]).toVector();
 
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint,lastVector);
 
         }
         roads.Add(road);
