@@ -29,10 +29,13 @@ public class CarMovement : MonoBehaviour {
         if (allowCarMovement) {
             timeSinceStart += Time.deltaTime;
             int currentRoad = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
-            float fractionAlongCurrentRoad = (timeSinceStart - (currentRoad * timeForOneRoad))/timeForOneRoad;
-            GameObject road = RoadManager.instance.GetRoad(currentRoad);
-            Point3D location = road.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-            transform.position = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());//location.toVector();
+            if (currentRoad <= RoadManager.instance.NumRoads()) {
+
+                float fractionAlongCurrentRoad = (timeSinceStart - (currentRoad * timeForOneRoad))/timeForOneRoad;
+                GameObject road = RoadManager.instance.GetRoad(currentRoad);
+                Point3D location = road.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
+                transform.position = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
+            }
         }
     }
 
