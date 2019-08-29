@@ -37,8 +37,11 @@ public class CarMovement : MonoBehaviour {
                 transform.position = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
 
                 Vector3 facing = road.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
+                
+                float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
 
-
+                //print("facing = " + facing + ", angle = " + angle);
+                transform.eulerAngles = new Vector3(0, angle, 0);
 
             }
         }
