@@ -30,6 +30,9 @@ public class RoadManager : MonoBehaviour {
     public void CreateNewRoad(Point3D firstPoint, Point3D lastPoint) {
         GameObject road = Instantiate(roadBlueprint, transform, false);
         road.name = "Road " + roads.Count;
+
+
+
         if (roads.Count == 0) {
             road.GetComponent<Road>()?.Init(firstPoint, lastPoint);
         } else {
