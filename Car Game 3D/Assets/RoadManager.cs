@@ -28,10 +28,12 @@ public class RoadManager : MonoBehaviour {
     }
 
     public void CreateNewRoad(Point3D firstPoint, Point3D lastPoint) {
-        GameObject road = Instantiate(roadBlueprint, transform, false);
+        GameObject roadParent = new GameObject();
+        roadParent.transform.parent = this.transform;
+        roadParent.name = "Road Parent " + roads.Count;
+
+        GameObject road = Instantiate(roadBlueprint, roadParent.transform, false);
         road.name = "Road " + roads.Count;
-
-
 
         if (roads.Count == 0) {
             road.GetComponent<Road>()?.Init(firstPoint, lastPoint);
@@ -44,6 +46,12 @@ public class RoadManager : MonoBehaviour {
             road.GetComponent<Road>()?.Init(firstPoint, lastPoint,lastVector);
 
         }
+
+        GameObject roadBox = new GameObject();
+        roadBox.name = "Road Box " + roads.Count;
+        roadBox.transform.parent = roadParent.transform;
+
+
         roads.Add(road);
     }
 

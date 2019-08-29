@@ -16,8 +16,6 @@ public class Road : MonoBehaviour {
 
     int controlPointsPerCurve = 4;
 
-    float roadDepth = 1;
-
     [SerializeField]
     GameObject circleGizmo;
 
@@ -46,52 +44,17 @@ public class Road : MonoBehaviour {
     }
 
     private void CommonInit(bool firstRoad) {
-        GenerateControlPoints(firstRoad);
-        //DrawControlPointGizmos();
-        DrawRoad();
-
-    }
-
-
-    private void GenerateControlPoints(bool firstRoad) {
-        controlPoints = new Point3D[controlPointsPerCurve];
-
-
-        if (firstRoad == true) {
-            controlPoints[0] = firstPoint;
-            controlPoints[controlPointsPerCurve - 1] = lastPoint;
-
-            Vector3 vecBetween = (controlPoints[controlPointsPerCurve - 1] - controlPoints[0]).toVector();
-            for (int remainingPoints = 1; remainingPoints < controlPoints.Length - 1; remainingPoints++) {
-
-                float offset = GetRandomOffset();
-                controlPoints[remainingPoints] = new Point3D(controlPoints[0].getX() + (remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1) + offset, 0, controlPoints[0].getZ() + ((remainingPoints * vecBetween.z) / (controlPointsPerCurve - 1)));
-
-
-            }
-
-
-
+        if (firstRoad) {
+            controlPoints = BezierCurve.GenerateControlPoints(firstPoint, lastPoint, controlPointsPerCurve, roadCurviness);
         } else {
-            controlPoints[0] = firstPoint;
-            controlPoints[controlPointsPerCurve - 1] = lastPoint;
-            
-            controlPoints[1] = controlPoints[0] + lastVector;
-
-            Vector3 vecBetween = (controlPoints[controlPointsPerCurve - 1] - controlPoints[0]).toVector();
-
-            for (int remainingPoints = 2; remainingPoints < controlPoints.Length - 1; remainingPoints++) {
-                float offset = GetRandomOffset();
-                controlPoints[remainingPoints] = new Point3D(controlPoints[0].getX() + ((remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1)) + offset, 0, controlPoints[0].getZ() + (remainingPoints * vecBetween.z / (controlPointsPerCurve - 1)));
-
-            }
-
-
-
+            controlPoints = BezierCurve.GenerateControlPoints(firstPoint, lastPoint, lastVector, controlPointsPerCurve, roadCurviness);
         }
-
+        GenerateMesh();
 
     }
+
+
+
 
     internal Point3D GetLocationOnRoad(float fractionAlongCurrentRoad) {
         return BezierCurve.GetLocationOnRoad(fractionAlongCurrentRoad, controlPoints);
@@ -101,12 +64,10 @@ public class Road : MonoBehaviour {
         return BezierCurve.GetDerivitiveOnRoad(fractionAlongCurrentRoad, controlPoints);
     }
 
-    private float GetRandomOffset() {
-        return roadCurviness * UnityEngine.Random.Range(-1f, +1f);
-    }
 
 
-    private void DrawRoad() {
+
+    private void GenerateMesh() {
 
 
         Point3D[] fractionalPointsAlongBezier = new Point3D[segments + 1];
@@ -174,17 +135,6 @@ public class Road : MonoBehaviour {
     private Vector3 RightAngleVector(Vector3 derivitive) {
         return new Vector3(-derivitive.z, derivitive.y, derivitive.x);
 
-    }
-
-
-    private Point2D[] GetRow(Point2D[,] matrix, int row) {
-        var rowLength = matrix.GetLength(1);
-        var rowVector = new Point2D[rowLength];
-
-        for (var i = 0; i < rowLength; i++)
-            rowVector[i] = matrix[row, i];
-
-        return rowVector;
     }
 
 
