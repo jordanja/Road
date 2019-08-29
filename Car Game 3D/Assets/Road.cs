@@ -34,14 +34,12 @@ public class Road : MonoBehaviour {
         CommonInit(firstRoad);
     }
 
-    internal void Init(Point3D first, Point3D last, GameObject lastRoad) {
+    internal void Init(Point3D first, Point3D last, Road lastRoad) {
         firstPoint = first;
         lastPoint = last;
-        //lastVector = lastV;
 
-        Point3D[] lastRoadControlPoints = lastRoad.GetComponent<Road>().GetControlPoints();
-        int lastRoadControlPointsPerCurve = lastRoad.GetComponent<Road>().GetControlPointsPerCurve();
-        lastVector = (lastRoadControlPoints[lastRoadControlPointsPerCurve - 1] - lastRoadControlPoints[lastRoadControlPointsPerCurve - 2]).toVector();
+        lastVector = BezierCurve.FindLastVector(lastRoad.GetControlPoints(), lastRoad.GetControlPointsPerCurve());
+
         bool firstRoad = false;
         CommonInit(firstRoad);
 

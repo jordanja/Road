@@ -38,7 +38,7 @@ public class RoadManager : MonoBehaviour {
         if (roads.Count == 0) {
             road.GetComponent<Road>()?.Init(firstPoint, lastPoint);
         } else {
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1]);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>());
 
         }
 

@@ -88,6 +88,11 @@ public static class BezierCurve {
     }
 
 
+    public static Vector3 FindLastVector(Point3D[] lastRoadControlPoints, int lastRoadControlPointsPerCurve) {
+        Vector3 lastVector = (lastRoadControlPoints[lastRoadControlPointsPerCurve - 1] - lastRoadControlPoints[lastRoadControlPointsPerCurve - 2]).toVector();
+        return lastVector;
+    }
+
     private static int BinomialCoefficient(int k, int n) {
 
         int result = 1;
