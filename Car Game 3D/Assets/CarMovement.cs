@@ -35,6 +35,11 @@ public class CarMovement : MonoBehaviour {
                 GameObject road = RoadManager.instance.GetRoad(currentRoad);
                 Point3D location = road.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
                 transform.position = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
+
+                Vector3 facing = road.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
+
+
+
             }
         }
     }

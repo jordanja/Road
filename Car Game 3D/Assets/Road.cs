@@ -97,6 +97,10 @@ public class Road : MonoBehaviour {
         return BezierCurve.GetLocationOnRoad(fractionAlongCurrentRoad, controlPoints);
     }
 
+    internal Vector3 GetDerivitiveOnRoad(float fractionAlongCurrentRoad) {
+        return BezierCurve.GetDerivitiveOnRoad(fractionAlongCurrentRoad, controlPoints);
+    }
+
     private float GetRandomOffset() {
         return roadCurviness * UnityEngine.Random.Range(-1f, +1f);
     }
