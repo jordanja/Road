@@ -34,10 +34,14 @@ public class Road : MonoBehaviour {
         CommonInit(firstRoad);
     }
 
-    internal void Init(Point3D first, Point3D last, Vector3 lastV) {
+    internal void Init(Point3D first, Point3D last, GameObject lastRoad) {
         firstPoint = first;
         lastPoint = last;
-        lastVector = lastV;
+        //lastVector = lastV;
+
+        Point3D[] lastRoadControlPoints = lastRoad.GetComponent<Road>().GetControlPoints();
+        int lastRoadControlPointsPerCurve = lastRoad.GetComponent<Road>().GetControlPointsPerCurve();
+        lastVector = (lastRoadControlPoints[lastRoadControlPointsPerCurve - 1] - lastRoadControlPoints[lastRoadControlPointsPerCurve - 2]).toVector();
         bool firstRoad = false;
         CommonInit(firstRoad);
 

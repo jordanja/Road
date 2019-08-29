@@ -38,12 +38,7 @@ public class RoadManager : MonoBehaviour {
         if (roads.Count == 0) {
             road.GetComponent<Road>()?.Init(firstPoint, lastPoint);
         } else {
-            GameObject lastRoad = roads[roads.Count - 1];
-            Point3D[] controlPoints = lastRoad.GetComponent<Road>().GetControlPoints();
-            int controlPointsPerCurve = lastRoad.GetComponent<Road>().GetControlPointsPerCurve();
-            Vector3 lastVector = (controlPoints[controlPointsPerCurve - 1] - controlPoints[controlPointsPerCurve - 2]).toVector();
-
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint,lastVector);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1]);
 
         }
 
