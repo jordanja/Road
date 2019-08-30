@@ -166,6 +166,8 @@ MonoBehaviour:
   initialized: 0
   roadBlueprint: {fileID: 1648092180062045262, guid: 016e3296ad59f451c99664ff87f7ab48,
     type: 3}
+  roadBoxBlueprint: {fileID: 1648092180062045262, guid: c68ed4e7a3a2b482e9eaab854202693e,
+    type: 3}
 --- !u!1 &334774221
 GameObject:
   m_ObjectHideFlags: 0

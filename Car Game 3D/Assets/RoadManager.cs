@@ -11,10 +11,14 @@ public class RoadManager : MonoBehaviour {
 
     Point3D[] pointsOnRoad = { new Point3D(0, 0, 0), new Point3D(0, 0, 2), new Point3D(0, 0, 4), new Point3D(0, 0, 6), new Point3D(0, 0, 8) };
 
+    [HideInInspector]
     public bool initialized = false;
 
     [SerializeField]
     GameObject roadBlueprint;
+
+    [SerializeField]
+    GameObject roadBoxBlueprint;
 
     void Awake() {
         instance = this;
@@ -28,22 +32,25 @@ public class RoadManager : MonoBehaviour {
     }
 
     public void CreateNewRoad(Point3D firstPoint, Point3D lastPoint) {
-        GameObject road = Instantiate(roadBlueprint, transform, false);
+        GameObject roadParent = new GameObject();
+        roadParent.transform.parent = this.transform;
+        roadParent.name = "Road Parent " + roads.Count;
+
+        GameObject road = Instantiate(roadBlueprint, roadParent.transform, false);
         road.name = "Road " + roads.Count;
-
-
 
         if (roads.Count == 0) {
             road.GetComponent<Road>()?.Init(firstPoint, lastPoint);
         } else {
-            GameObject lastRoad = roads[roads.Count - 1];
-            Point3D[] controlPoints = lastRoad.GetComponent<Road>().GetControlPoints();
-            int controlPointsPerCurve = lastRoad.GetComponent<Road>().GetControlPointsPerCurve();
-            Vector3 lastVector = (controlPoints[controlPointsPerCurve - 1] - controlPoints[controlPointsPerCurve - 2]).toVector();
-
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint,lastVector);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>());
 
         }
+
+        GameObject roadBox = Instantiate(roadBoxBlueprint, roadParent.transform, false);
+        roadBox.name = "Road Box " + roads.Count;
+        roadBox.transform.parent = roadParent.transform;
+        roadBox.GetComponent<RoadBox>()?.Init(road.GetComponent<Road>());
+
         roads.Add(road);
     }
 
