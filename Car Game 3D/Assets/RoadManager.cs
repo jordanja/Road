@@ -11,10 +11,14 @@ public class RoadManager : MonoBehaviour {
 
     Point3D[] pointsOnRoad = { new Point3D(0, 0, 0), new Point3D(0, 0, 2), new Point3D(0, 0, 4), new Point3D(0, 0, 6), new Point3D(0, 0, 8) };
 
+    [HideInInspector]
     public bool initialized = false;
 
     [SerializeField]
     GameObject roadBlueprint;
+
+    [SerializeField]
+    GameObject roadBoxBlueprint;
 
     void Awake() {
         instance = this;
@@ -45,7 +49,7 @@ public class RoadManager : MonoBehaviour {
         GameObject roadBox = new GameObject();
         roadBox.name = "Road Box " + roads.Count;
         roadBox.transform.parent = roadParent.transform;
-
+        
 
         roads.Add(road);
     }
