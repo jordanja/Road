@@ -46,10 +46,10 @@ public class RoadManager : MonoBehaviour {
 
         }
 
-        GameObject roadBox = new GameObject();
+        GameObject roadBox = Instantiate(roadBoxBlueprint, roadParent.transform, false);
         roadBox.name = "Road Box " + roads.Count;
         roadBox.transform.parent = roadParent.transform;
-        
+        roadBox.GetComponent<RoadBox>()?.Init(road.GetComponent<Road>());
 
         roads.Add(road);
     }
