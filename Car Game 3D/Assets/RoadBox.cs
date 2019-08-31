@@ -37,7 +37,7 @@ public class RoadBox : MonoBehaviour {
         newMesh.vertices = vertices;
         
 
-        int[] loweredTris = new int[(6 + 6 + 6 + 6) * baseRoadMesh.vertices.Length/2];
+        int[] loweredTris = new int[((6 + 6 + 6 + 6) * baseRoadMesh.vertices.Length/2) + 6 + 6];
         for (int i = 0; i < baseRoadMesh.vertices.Length/2 - 1; i++) {
             loweredTris[i * 24 + 0] = i * 4 + 0;
             loweredTris[i * 24 + 1] = i * 4 + 1;
@@ -64,6 +64,13 @@ public class RoadBox : MonoBehaviour {
             loweredTris[i * 24 + 17] = i * 4 + 5;
         
         }
+        loweredTris[loweredTris.Length - 1 - 5] = 0;
+        loweredTris[loweredTris.Length - 1 - 4] = 3;
+        loweredTris[loweredTris.Length - 1 - 3] = 1;
+
+        loweredTris[loweredTris.Length - 1 - 2] = 2;
+        loweredTris[loweredTris.Length - 1 - 1] = 3;
+        loweredTris[loweredTris.Length - 1 - 0] = 0;
         newMesh.triangles = loweredTris;
 
         return newMesh;
