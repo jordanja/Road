@@ -1230,6 +1230,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GodCamera: {fileID: 963194227}
   ThirdPersonCamera: {fileID: 1936257290}
+  GodButton: {fileID: 891411940}
+  ThirdPersonButton: {fileID: 848731972}
 --- !u!1 &1936257287
 GameObject:
   m_ObjectHideFlags: 0
