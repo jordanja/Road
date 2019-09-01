@@ -9,7 +9,7 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
-    Point3D[] pointsOnRoad = { new Point3D(0, 0, 0), new Point3D(0, 0, 2), new Point3D(0, 0, 4), new Point3D(0, 0, 6), new Point3D(0, 0, 8) };
+    Point3D[] pointsOnRoad = { new Point3D(0, 0, 0), new Point3D(0, 0, 6), new Point3D(0, 0, 12), new Point3D(0, 0, 18), new Point3D(0, 0, 24) };
 
     [HideInInspector]
     public bool initialized = false;
@@ -19,6 +19,8 @@ public class RoadManager : MonoBehaviour {
 
     [SerializeField]
     GameObject roadBoxBlueprint;
+
+    private float roadWidth = 0.5f;
 
     void Awake() {
         instance = this;
@@ -67,6 +69,10 @@ public class RoadManager : MonoBehaviour {
 
     public int NumRoads() {
         return roads.Count - 1;
+    }
+
+    public float GetRoadWidth() {
+        return roadWidth;
     }
 
 }

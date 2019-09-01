@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour {
     Button ThirdPersonButton;
 
     void Start() {
-        ChooseGodCamera();
+        ChooseThirdPersonCamera();
     }
 
     public void ChooseGodCamera() {

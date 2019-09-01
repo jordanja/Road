@@ -12,8 +12,6 @@ public class Road : MonoBehaviour {
 
     float roadCurviness = 4;
 
-    float roadWidth = 0.25f;
-
     int controlPointsPerCurve = 4;
 
     [SerializeField]
@@ -97,7 +95,7 @@ public class Road : MonoBehaviour {
             float percentageThroughRoad = (float)(((float)i) / ((float)segments));
             Vector3 derivitive = BezierCurve.GetDerivitiveOnRoad(percentageThroughRoad, controlPoints);
 
-            Vector3 rightAngle = RightAngleVector(derivitive) * roadWidth;
+            Vector3 rightAngle = RightAngleVector(derivitive) * RoadManager.instance.GetRoadWidth();
 
             Point3D side1 = fractionalPointsAlongBezier[i] + rightAngle;
             Point3D side2 = fractionalPointsAlongBezier[i] - rightAngle;
