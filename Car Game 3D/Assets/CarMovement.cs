@@ -9,8 +9,10 @@ public class CarMovement : MonoBehaviour {
     float initialTime;
     float timeSinceStart;
 
-    float timeToTravelWhole = 50f;
+    float timeToTravelWhole = 200f;
     float timeForOneRoad;
+    float change;
+
     private void Start() {
         allowCarMovement = false;
         StartCoroutine(Setup());
@@ -22,7 +24,7 @@ public class CarMovement : MonoBehaviour {
         initialTime = Time.time;
         allowCarMovement = true;
         timeForOneRoad = timeToTravelWhole / RoadManager.instance.NumRoads();
-
+        change = 0;
     }
 
     private void Update() {
@@ -34,14 +36,22 @@ public class CarMovement : MonoBehaviour {
                 float fractionAlongCurrentRoad = (timeSinceStart - (currentRoad * timeForOneRoad))/timeForOneRoad;
                 GameObject road = RoadManager.instance.GetRoad(currentRoad);
                 Point3D location = road.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-                transform.position = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
+                Vector3 positionOnRoad = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
 
                 Vector3 facing = road.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
                 
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
+                // transform.eulerAngles = new Vector3(0, angle, 0);
 
-                //print("facing = " + facing + ", angle = " + angle);
-                transform.eulerAngles = new Vector3(0, angle, 0);
+                if (Input.GetMouseButton(0)) {
+                    change += Input.GetAxis("Mouse X");
+                    print(change);
+                }
+
+                transform.position = new Vector3(positionOnRoad.x + Mathf.Clamp(change * Mathf.Cos(angle * Mathf.Deg2Rad),-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth()) , 
+                                                 positionOnRoad.y, 
+                                                 positionOnRoad.z + Mathf.Clamp(change * Mathf.Sin(angle * Mathf.Deg2Rad),-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth()));
+                transform.eulerAngles = new Vector3(0, angle, 0);;
 
             }
         }

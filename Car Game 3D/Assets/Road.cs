@@ -10,7 +10,7 @@ public class Road : MonoBehaviour {
 
     int segments = 32;
 
-    float roadCurviness = 4;
+    float roadCurviness = 1;
 
     int controlPointsPerCurve = 4;
 
