@@ -9,7 +9,7 @@ public class CarMovement : MonoBehaviour {
     float initialTime;
     float timeSinceStart;
 
-    float timeToTravelWhole = 200f;
+    float timeToTravelWhole = 15f;
     float timeForOneRoad;
     float change;
 
@@ -36,7 +36,7 @@ public class CarMovement : MonoBehaviour {
                 float fractionAlongCurrentRoad = (timeSinceStart - (currentRoad * timeForOneRoad))/timeForOneRoad;
                 GameObject road = RoadManager.instance.GetRoad(currentRoad);
                 Point3D location = road.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-                Vector3 positionOnRoad = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
+                Vector3 centerOfRoadPosition = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
 
                 Vector3 facing = road.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
                 
@@ -45,14 +45,15 @@ public class CarMovement : MonoBehaviour {
 
                 if (Input.GetMouseButton(0)) {
                     change += Input.GetAxis("Mouse X");
-                    print(change);
                 }
 
-                transform.position = new Vector3(positionOnRoad.x + Mathf.Clamp(change * Mathf.Cos(angle * Mathf.Deg2Rad),-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth()) , 
-                                                 positionOnRoad.y, 
-                                                 positionOnRoad.z + Mathf.Clamp(change * Mathf.Sin(angle * Mathf.Deg2Rad),-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth()));
-                transform.eulerAngles = new Vector3(0, angle, 0);;
+                Vector3 normal = new Vector3(facing.z, facing.y, -facing.x).normalized;
+                Vector3 offset = normal * Mathf.Clamp(change,-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth());
 
+               
+                transform.position = centerOfRoadPosition + offset;
+
+                transform.eulerAngles = new Vector3(0, angle, 0);;
             }
         }
     }
