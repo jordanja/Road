@@ -39,9 +39,6 @@ public class CarMovement : MonoBehaviour {
                 Vector3 centerOfRoadPosition = new Vector3(location.getX(),location.getY() + transform.localScale.y/2, location.getZ());
 
                 Vector3 facing = road.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
-                
-                float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
-                // transform.eulerAngles = new Vector3(0, angle, 0);
 
                 if (Input.GetMouseButton(0)) {
                     change += Input.GetAxis("Mouse X");
@@ -50,9 +47,9 @@ public class CarMovement : MonoBehaviour {
                 Vector3 normal = new Vector3(facing.z, facing.y, -facing.x).normalized;
                 Vector3 offset = normal * Mathf.Clamp(change,-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth());
 
+                float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
                
                 transform.position = centerOfRoadPosition + offset;
-
                 transform.eulerAngles = new Vector3(0, angle, 0);;
             }
         }
