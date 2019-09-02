@@ -9,7 +9,7 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
-    Vector3[] pointsOnRoad = { new Vector3(0, 0, 0), new Vector3(0, 0, 6), new Vector3(0, 0, 12), new Vector3(0, 0, 18), new Vector3(0, 0, 24) };
+    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 6), new Vector3(0, 0, 12), new Vector3(0, 0, 18), new Vector3(0, 0, 24) };
 
     [HideInInspector]
     public bool initialized = false;
@@ -30,7 +30,7 @@ public class RoadManager : MonoBehaviour {
         int segments = 32;
         int roadCurviness = 2;
         int numberOfControlPoints = 4;
-        for (int i = 0; i < pointsOnRoad.Length - 1; i++) {
+        for (int i = 0; i < pointsOnRoad.Count - 1; i++) {
             CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1], segments, roadCurviness, numberOfControlPoints);
         }
         initialized = true;
@@ -76,6 +76,18 @@ public class RoadManager : MonoBehaviour {
 
     public float GetRoadWidth() {
         return roadWidth;
+    }
+
+    public void AddRoad() {
+        float xLocation = 0;
+        float yLocation = 0;
+        float zLocation = (roads.Count+1) * 6;
+
+        Vector3 newPointOnRoad = new Vector3(xLocation, yLocation, zLocation);
+
+        CreateNewRoad(roads[roads.Count - 1].GetComponent<Road>().GetLastPoint(), newPointOnRoad,32,2,4);
+
+
     }
 
 }

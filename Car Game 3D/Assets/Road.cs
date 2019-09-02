@@ -164,6 +164,8 @@ public class Road : MonoBehaviour {
         return _numberOfControlPoints;
     }
 
-
+    public Vector3 GetLastPoint() {
+        return controlPoints[controlPoints.Length - 1];
+    }
 
 }

@@ -34,6 +34,10 @@ public class CarMovement : MonoBehaviour {
             int currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
             if (currentRoadNum <= RoadManager.instance.NumRoads()) {
 
+                if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
+                    RoadManager.instance.AddRoad();
+                }
+
                 float fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
                 GameObject currentRoad = RoadManager.instance.GetRoad(currentRoadNum);
                 Vector3 location = currentRoad.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
