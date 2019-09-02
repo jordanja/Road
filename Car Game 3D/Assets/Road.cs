@@ -6,7 +6,7 @@ using System;
 
 public class Road : MonoBehaviour {
 
-    Point3D[] controlPoints;
+    Vector3[] controlPoints;
 
     int _segments;
 
@@ -17,15 +17,15 @@ public class Road : MonoBehaviour {
     [SerializeField]
     GameObject circleGizmo;
 
-    Point3D firstPoint;
-    Point3D lastPoint;
+    Vector3 firstPoint;
+    Vector3 lastPoint;
     Vector3 lastVector;
 
     [SerializeField]
     Material roadMat;
 
 
-    internal void Init(Point3D first, Point3D last, int segments, float roadCurviness, int numberOfControlPoints) {
+    internal void Init(Vector3 first, Vector3 last, int segments, float roadCurviness, int numberOfControlPoints) {
         firstPoint = first;
         lastPoint = last;
         bool firstRoad = true;
@@ -35,7 +35,7 @@ public class Road : MonoBehaviour {
         CommonInit(firstRoad);
     }
 
-    internal void Init(Point3D first, Point3D last, Road lastRoad, int segments, float roadCurviness, int numberOfControlPoints) {
+    internal void Init(Vector3 first, Vector3 last, Road lastRoad, int segments, float roadCurviness, int numberOfControlPoints) {
         firstPoint = first;
         lastPoint = last;
         lastVector = BezierCurve.FindLastVector(lastRoad.GetControlPoints(), lastRoad.GetControlPointsPerCurve());
@@ -61,7 +61,7 @@ public class Road : MonoBehaviour {
 
 
 
-    internal Point3D GetLocationOnRoad(float fractionAlongCurrentRoad) {
+    internal Vector3 GetLocationOnRoad(float fractionAlongCurrentRoad) {
         return BezierCurve.GetLocationOnRoad(fractionAlongCurrentRoad, controlPoints);
     }
 
@@ -75,7 +75,7 @@ public class Road : MonoBehaviour {
     private void GenerateMesh() {
 
 
-        Point3D[] fractionalPointsAlongBezier = new Point3D[_segments + 1];
+        Vector3[] fractionalPointsAlongBezier = new Vector3[_segments + 1];
         for (int i = 0; i < _segments + 1; i++) {
             float percentageThroughRoad = (float)(((float)i) / ((float)_segments));
             fractionalPointsAlongBezier[i] = BezierCurve.GetLocationOnRoad(percentageThroughRoad, controlPoints);
@@ -102,11 +102,11 @@ public class Road : MonoBehaviour {
 
             Vector3 rightAngle = RightAngleVector(derivitive) * RoadManager.instance.GetRoadWidth();
 
-            Point3D side1 = fractionalPointsAlongBezier[i] + rightAngle;
-            Point3D side2 = fractionalPointsAlongBezier[i] - rightAngle;
+            Vector3 side1 = fractionalPointsAlongBezier[i] + rightAngle;
+            Vector3 side2 = fractionalPointsAlongBezier[i] - rightAngle;
 
-            points[2 * i + 0] = side1.toVector();
-            points[2 * i + 1] = side2.toVector();
+            points[2 * i + 0] = side1;
+            points[2 * i + 1] = side2;
 
             uv[2 * i + 0] = new Vector2(0, percentageThroughRoad);
             uv[2 * i + 1] = new Vector2(1f, percentageThroughRoad);
@@ -123,7 +123,7 @@ public class Road : MonoBehaviour {
             triangles[i * 6 + 2] = i * 2 + 1;
 
             triangles[i * 6 + 3] = i * 2 + 1;
-            triangles[i * 6 + 4] = i * 2 + 2;//could be 1
+            triangles[i * 6 + 4] = i * 2 + 2;
             triangles[i * 6 + 5] = i * 2 + 3;
         }
 
@@ -146,7 +146,7 @@ public class Road : MonoBehaviour {
     private void DrawControlPointGizmos() {
 
         for (int j = 0; j < controlPoints.Length; j++) {
-            GameObject circle = Instantiate(circleGizmo, controlPoints[j].toVector(), Quaternion.identity, this.transform);
+            GameObject circle = Instantiate(circleGizmo, controlPoints[j], Quaternion.identity, this.transform);
             circle.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             circle.name = "Gizmo " + j;
         }
@@ -156,7 +156,7 @@ public class Road : MonoBehaviour {
 
     }
 
-    public Point3D[] GetControlPoints() {
+    public Vector3[] GetControlPoints() {
         return controlPoints;
     }
 

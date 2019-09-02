@@ -9,18 +9,18 @@ public static class BezierCurve {
 
 
 
-    public static Point3D[] GenerateControlPoints(Point3D firstPoint, Point3D lastPoint, int controlPointsPerCurve, float roadCurviness) {
-        Point3D[] controlPoints = new Point3D[controlPointsPerCurve];
+    public static Vector3[] GenerateControlPoints(Vector3 firstPoint, Vector3 lastPoint, int controlPointsPerCurve, float roadCurviness) {
+        Vector3[] controlPoints = new Vector3[controlPointsPerCurve];
 
 
         controlPoints[0] = firstPoint;
         controlPoints[controlPointsPerCurve - 1] = lastPoint;
 
-        Vector3 vecBetween = (controlPoints[controlPointsPerCurve - 1] - controlPoints[0]).toVector();
+        Vector3 vecBetween = (controlPoints[controlPointsPerCurve - 1] - controlPoints[0]);
         for (int remainingPoints = 1; remainingPoints < controlPoints.Length - 1; remainingPoints++) {
 
             float offset = GetRandomOffset(roadCurviness);
-            controlPoints[remainingPoints] = new Point3D(controlPoints[0].getX() + (remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1) + offset, 0, controlPoints[0].getZ() + ((remainingPoints * vecBetween.z) / (controlPointsPerCurve - 1)));
+            controlPoints[remainingPoints] = new Vector3(controlPoints[0].x + (remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1) + offset, 0, controlPoints[0].z + ((remainingPoints * vecBetween.z) / (controlPointsPerCurve - 1)));
 
 
         }
@@ -29,19 +29,19 @@ public static class BezierCurve {
 
 
     }
-    public static Point3D[] GenerateControlPoints(Point3D firstPoint, Point3D lastPoint, Vector3 lastVector, int controlPointsPerCurve, float roadCurviness) {
-        Point3D[] controlPoints = new Point3D[controlPointsPerCurve];
+    public static Vector3[] GenerateControlPoints(Vector3 firstPoint, Vector3 lastPoint, Vector3 lastVector, int controlPointsPerCurve, float roadCurviness) {
+        Vector3[] controlPoints = new Vector3[controlPointsPerCurve];
 
         controlPoints[0] = firstPoint;
         controlPoints[controlPointsPerCurve - 1] = lastPoint;
 
         controlPoints[1] = controlPoints[0] + lastVector;
 
-        Vector3 vecBetween = (controlPoints[controlPointsPerCurve - 1] - controlPoints[0]).toVector();
+        Vector3 vecBetween = (controlPoints[controlPointsPerCurve - 1] - controlPoints[0]);
 
         for (int remainingPoints = 2; remainingPoints < controlPoints.Length - 1; remainingPoints++) {
             float offset = GetRandomOffset(roadCurviness);
-            controlPoints[remainingPoints] = new Point3D(controlPoints[0].getX() + ((remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1)) + offset, 0, controlPoints[0].getZ() + (remainingPoints * vecBetween.z / (controlPointsPerCurve - 1)));
+            controlPoints[remainingPoints] = new Vector3(controlPoints[0].x + ((remainingPoints * vecBetween.x) / (controlPointsPerCurve - 1)) + offset, 0, controlPoints[0].z + (remainingPoints * vecBetween.z / (controlPointsPerCurve - 1)));
 
         }
 
@@ -49,11 +49,11 @@ public static class BezierCurve {
 
     }
 
-    public static Point3D GetLocationOnRoad(float t, Point3D[] controlPoints) {
+    public static Vector3 GetLocationOnRoad(float t, Vector3[] controlPoints) {
 
         int numControlPoints = controlPoints.Length;
 
-        Point3D sum = new Point3D(0, 0, 0);
+        Vector3 sum = new Vector3(0, 0, 0);
 
         for (int i = 0; i < numControlPoints; i++) {
             int binCof = BinomialCoefficient(i, numControlPoints - 1);
@@ -61,7 +61,7 @@ public static class BezierCurve {
             double term = binCof * Math.Pow((1 - t), (numControlPoints - 1 - i)) * Math.Pow(t, i);
 
 
-            sum = sum + (controlPoints[i] * term);
+            sum = sum + (controlPoints[i] * (float)term);
 
         }
 
@@ -71,25 +71,26 @@ public static class BezierCurve {
     }
 
 
-    public static Vector3 GetDerivitiveOnRoad(float t, Point3D[] controlPoints) {
+    public static Vector3 GetDerivitiveOnRoad(float t, Vector3[] controlPoints) {
 
         int numControlPoints = controlPoints.Length;
-        Point3D sum = new Point3D(0, 0, 0);
+        Vector3 sum = new Vector3(0, 0, 0);
 
         for (int i = 0; i < numControlPoints - 1; i++) {
             int binCof = BinomialCoefficient(i, numControlPoints - 2);
 
             double term = binCof * Math.Pow(t, i) * Math.Pow((1 - t), (numControlPoints - 2 - i));
 
-            sum = sum + ((controlPoints[i + 1] - controlPoints[i]) * term);
+            sum = sum + ((controlPoints[i + 1] - controlPoints[i]) * (float)term);
 
         }
-        return sum.toVector().normalized;
+
+        return sum.normalized;
     }
 
 
-    public static Vector3 FindLastVector(Point3D[] lastRoadControlPoints, int lastRoadControlPointsPerCurve) {
-        Vector3 lastVector = (lastRoadControlPoints[lastRoadControlPointsPerCurve - 1] - lastRoadControlPoints[lastRoadControlPointsPerCurve - 2]).toVector();
+    public static Vector3 FindLastVector(Vector3[] lastRoadControlPoints, int lastRoadControlPointsPerCurve) {
+        Vector3 lastVector = (lastRoadControlPoints[lastRoadControlPointsPerCurve - 1] - lastRoadControlPoints[lastRoadControlPointsPerCurve - 2]);
         return lastVector;
     }
 

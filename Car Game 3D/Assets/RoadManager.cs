@@ -9,7 +9,7 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
-    Point3D[] pointsOnRoad = { new Point3D(0, 0, 0), new Point3D(0, 0, 6), new Point3D(0, 0, 12), new Point3D(0, 0, 18), new Point3D(0, 0, 24) };
+    Vector3[] pointsOnRoad = { new Vector3(0, 0, 0), new Vector3(0, 0, 6), new Vector3(0, 0, 12), new Vector3(0, 0, 18), new Vector3(0, 0, 24) };
 
     [HideInInspector]
     public bool initialized = false;
@@ -28,7 +28,7 @@ public class RoadManager : MonoBehaviour {
 
     private void Start() {
         int segments = 32;
-        int roadCurviness = 7;
+        int roadCurviness = 2;
         int numberOfControlPoints = 4;
         for (int i = 0; i < pointsOnRoad.Length - 1; i++) {
             CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1], segments, roadCurviness, numberOfControlPoints);
@@ -36,7 +36,7 @@ public class RoadManager : MonoBehaviour {
         initialized = true;
     }
 
-    public void CreateNewRoad(Point3D firstPoint, Point3D lastPoint, int segments, int roadCurviness, int numberOfControlPoints) {
+    public void CreateNewRoad(Vector3 firstPoint, Vector3 lastPoint, int segments, int roadCurviness, int numberOfControlPoints) {
         GameObject roadParent = new GameObject();
         roadParent.transform.parent = this.transform;
         roadParent.name = "Road Parent " + roads.Count;
