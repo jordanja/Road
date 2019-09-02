@@ -27,24 +27,27 @@ public class RoadManager : MonoBehaviour {
     }
 
     private void Start() {
+        int segments = 32;
+        int roadCurviness = 7;
+        int numberOfControlPoints = 4;
         for (int i = 0; i < pointsOnRoad.Length - 1; i++) {
-            CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1]);
+            CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1], segments, roadCurviness, numberOfControlPoints);
         }
         initialized = true;
     }
 
-    public void CreateNewRoad(Point3D firstPoint, Point3D lastPoint) {
+    public void CreateNewRoad(Point3D firstPoint, Point3D lastPoint, int segments, int roadCurviness, int numberOfControlPoints) {
         GameObject roadParent = new GameObject();
         roadParent.transform.parent = this.transform;
         roadParent.name = "Road Parent " + roads.Count;
 
         GameObject road = Instantiate(roadBlueprint, roadParent.transform, false);
         road.name = "Road " + roads.Count;
-
+        
         if (roads.Count == 0) {
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, segments, roadCurviness, numberOfControlPoints);
         } else {
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>());
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>(), segments, roadCurviness, numberOfControlPoints);
 
         }
 

@@ -8,11 +8,11 @@ public class Road : MonoBehaviour {
 
     Point3D[] controlPoints;
 
-    int segments = 32;
+    int _segments;
 
-    float roadCurviness = 7;
+    float _roadCurviness;
 
-    int controlPointsPerCurve = 4;
+    int _numberOfControlPoints;
 
     [SerializeField]
     GameObject circleGizmo;
@@ -25,18 +25,23 @@ public class Road : MonoBehaviour {
     Material roadMat;
 
 
-    internal void Init(Point3D first, Point3D last) {
+    internal void Init(Point3D first, Point3D last, int segments, float roadCurviness, int numberOfControlPoints) {
         firstPoint = first;
         lastPoint = last;
         bool firstRoad = true;
+        _segments = segments;
+        _roadCurviness = roadCurviness;
+        _numberOfControlPoints = numberOfControlPoints;
         CommonInit(firstRoad);
     }
 
-    internal void Init(Point3D first, Point3D last, Road lastRoad) {
+    internal void Init(Point3D first, Point3D last, Road lastRoad, int segments, float roadCurviness, int numberOfControlPoints) {
         firstPoint = first;
         lastPoint = last;
-
         lastVector = BezierCurve.FindLastVector(lastRoad.GetControlPoints(), lastRoad.GetControlPointsPerCurve());
+        _segments = segments;
+        _roadCurviness = roadCurviness;
+        _numberOfControlPoints = numberOfControlPoints;
 
         bool firstRoad = false;
         CommonInit(firstRoad);
@@ -45,9 +50,9 @@ public class Road : MonoBehaviour {
 
     private void CommonInit(bool firstRoad) {
         if (firstRoad) {
-            controlPoints = BezierCurve.GenerateControlPoints(firstPoint, lastPoint, controlPointsPerCurve, roadCurviness);
+            controlPoints = BezierCurve.GenerateControlPoints(firstPoint, lastPoint, _numberOfControlPoints, _roadCurviness);
         } else {
-            controlPoints = BezierCurve.GenerateControlPoints(firstPoint, lastPoint, lastVector, controlPointsPerCurve, roadCurviness);
+            controlPoints = BezierCurve.GenerateControlPoints(firstPoint, lastPoint, lastVector, _numberOfControlPoints, _roadCurviness);
         }
         GenerateMesh();
 
@@ -70,9 +75,9 @@ public class Road : MonoBehaviour {
     private void GenerateMesh() {
 
 
-        Point3D[] fractionalPointsAlongBezier = new Point3D[segments + 1];
-        for (int i = 0; i < segments + 1; i++) {
-            float percentageThroughRoad = (float)(((float)i) / ((float)segments));
+        Point3D[] fractionalPointsAlongBezier = new Point3D[_segments + 1];
+        for (int i = 0; i < _segments + 1; i++) {
+            float percentageThroughRoad = (float)(((float)i) / ((float)_segments));
             fractionalPointsAlongBezier[i] = BezierCurve.GetLocationOnRoad(percentageThroughRoad, controlPoints);
         }
 
@@ -86,13 +91,13 @@ public class Road : MonoBehaviour {
         Mesh mesh = gameObject.GetComponent<MeshFilter>().mesh;
         mesh.Clear();
 
-        Vector3[] points = new Vector3[(segments + 1) * 2];
-        int[] triangles = new int[(segments + 1) * 6];
-        Vector2[] uv = new Vector2[(segments + 1) * 2];
+        Vector3[] points = new Vector3[(_segments + 1) * 2];
+        int[] triangles = new int[(_segments + 1) * 6];
+        Vector2[] uv = new Vector2[(_segments + 1) * 2];
 
 
-        for (int i = 0; i < segments + 1; i++) {
-            float percentageThroughRoad = (float)(((float)i) / ((float)segments));
+        for (int i = 0; i < _segments + 1; i++) {
+            float percentageThroughRoad = (float)(((float)i) / ((float)_segments));
             Vector3 derivitive = BezierCurve.GetDerivitiveOnRoad(percentageThroughRoad, controlPoints);
 
             Vector3 rightAngle = RightAngleVector(derivitive) * RoadManager.instance.GetRoadWidth();
@@ -111,7 +116,7 @@ public class Road : MonoBehaviour {
 
         }
 
-        for (int i = 0; i < (segments); i++) {
+        for (int i = 0; i < (_segments); i++) {
 
             triangles[i * 6 + 0] = i * 2;
             triangles[i * 6 + 1] = i * 2 + 2;
@@ -156,7 +161,7 @@ public class Road : MonoBehaviour {
     }
 
     public int GetControlPointsPerCurve() {
-        return controlPointsPerCurve;
+        return _numberOfControlPoints;
     }
 
 
