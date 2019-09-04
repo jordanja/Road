@@ -96,7 +96,7 @@ public class Road : MonoBehaviour {
         int[] triangles = new int[(_segments + 1) * 6];
         Vector2[] uv = new Vector2[(_segments + 1) * 2];
 
-        directionOfRoadVertices = new (Vector3,Vector3)[_segments + 1];
+        directionOfRoadVertices = new (Vector3,Vector3)[(_segments + 1) * 2];
 
         for (int i = 0; i < _segments + 1; i++) {
             float percentageThroughRoad = (float)(((float)i) / ((float)_segments));
@@ -108,8 +108,8 @@ public class Road : MonoBehaviour {
             Vector3 side1 = fractionalPointsAlongBezier[i] + rightAngle;
             Vector3 side2 = fractionalPointsAlongBezier[i] - rightAngle;
 
-            directionOfRoadVertices[i + 0] = (Point: side1, Direction: rightAngle);
-            directionOfRoadVertices[i + 1] = (Point: side2, Direction: -rightAngle);
+            directionOfRoadVertices[i * 2 + 0] = (Point: side1, Direction: rightAngle);
+            directionOfRoadVertices[i * 2 + 1] = (Point: side2, Direction: -rightAngle);
 
             points[2 * i + 0] = side1;
             points[2 * i + 1] = side2;
