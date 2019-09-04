@@ -8,7 +8,13 @@ public class RoadBox : MonoBehaviour {
     [SerializeField]
     Material SideMat;
 
-    internal void Init(Road baseRoad) {
+    private bool _leftRailing;
+    private bool _rightRailing;
+
+    internal void Init(Road baseRoad, bool leftRailing, bool rightRailing) {
+        _leftRailing = leftRailing;
+        _rightRailing = rightRailing;
+
         MeshFilter origMF = baseRoad.gameObject.GetComponent<MeshFilter>();
         if (origMF != null) {
             MeshFilter newMf = gameObject.AddComponent<MeshFilter>();
@@ -39,38 +45,49 @@ public class RoadBox : MonoBehaviour {
 
         int[] loweredTris = new int[((6 + 6 + 6 + 6) * baseRoadMesh.vertices.Length/2) + 6 + 6];
         for (int i = 0; i < baseRoadMesh.vertices.Length/2 - 1; i++) {
+
+            // left face: top right
             loweredTris[i * 24 + 0] = i * 4 + 0;
             loweredTris[i * 24 + 1] = i * 4 + 1;
             loweredTris[i * 24 + 2] = i * 4 + 4;
         
+            // left face: bottom left
             loweredTris[i * 24 + 3] = i * 4 + 4;
             loweredTris[i * 24 + 4] = i * 4 + 1;
             loweredTris[i * 24 + 5] = i * 4 + 5;
         
+            // right face: top left
             loweredTris[i * 24 + 6] = i * 4 + 2;
             loweredTris[i * 24 + 7] = i * 4 + 6;
             loweredTris[i * 24 + 8] = i * 4 + 3;
         
+            // right face: bottom right
             loweredTris[i * 24 + 9] = i * 4 + 6;
             loweredTris[i * 24 + 10] = i * 4 + 7;
             loweredTris[i * 24 + 11] = i * 4 + 3;
 
+            // bottom face: top left
             loweredTris[i * 24 + 12] = i * 4 + 1;
             loweredTris[i * 24 + 13] = i * 4 + 3;
             loweredTris[i * 24 + 14] = i * 4 + 5;
-        
+
+            // bottom face: bottom right
             loweredTris[i * 24 + 15] = i * 4 + 3;
             loweredTris[i * 24 + 16] = i * 4 + 7;
             loweredTris[i * 24 + 17] = i * 4 + 5;
         
         }
+
+        // front face: bottom left
         loweredTris[loweredTris.Length - 1 - 5] = 0;
         loweredTris[loweredTris.Length - 1 - 4] = 3;
         loweredTris[loweredTris.Length - 1 - 3] = 1;
 
+        // front face: top right
         loweredTris[loweredTris.Length - 1 - 2] = 2;
         loweredTris[loweredTris.Length - 1 - 1] = 3;
         loweredTris[loweredTris.Length - 1 - 0] = 0;
+
         newMesh.triangles = loweredTris;
 
         return newMesh;
