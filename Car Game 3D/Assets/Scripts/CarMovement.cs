@@ -14,6 +14,10 @@ public class CarMovement : MonoBehaviour {
     float change;
 
     int currentRoadNum;
+
+    [SerializeField]
+    Transform carTransform;
+
     private void Start() {
         allowCarMovement = false;
         currentRoadNum = 0;
@@ -42,7 +46,7 @@ public class CarMovement : MonoBehaviour {
                 float fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
                 GameObject currentRoad = RoadManager.instance.GetRoad(currentRoadNum);
                 Vector3 location = currentRoad.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-                Vector3 centerOfRoadPosition = new Vector3(location.x,location.y + transform.localScale.y/2, location.z);
+                Vector3 centerOfRoadPosition = new Vector3(location.x,location.y + carTransform.localScale.y/2, location.z);
 
                 Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
 
