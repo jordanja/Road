@@ -9,7 +9,7 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
-    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18)};
+    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18) };
 
     [HideInInspector]
     public bool initialized = false;
@@ -20,13 +20,14 @@ public class RoadManager : MonoBehaviour {
     [SerializeField]
     GameObject roadBoxBlueprint;
 
-    private float roadWidth = 0.3f;
+    private float roadWidth = 0.7f;
 
     void Awake() {
         instance = this;
     }
 
     private void Start() {
+    
         int segments = 32;
         int roadCurviness = 5;
         int numberOfControlPoints = 4;

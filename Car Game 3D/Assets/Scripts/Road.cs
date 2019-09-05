@@ -105,8 +105,8 @@ public class Road : MonoBehaviour {
             Vector3 rightAngle = RightAngleVector(derivitive);
             Vector3 rightAngleCorrectWidth = rightAngle * RoadManager.instance.GetRoadWidth();
 
-            Vector3 side1 = fractionalPointsAlongBezier[i] + rightAngle;
-            Vector3 side2 = fractionalPointsAlongBezier[i] - rightAngle;
+            Vector3 side1 = fractionalPointsAlongBezier[i] + rightAngleCorrectWidth;
+            Vector3 side2 = fractionalPointsAlongBezier[i] - rightAngleCorrectWidth;
 
             directionOfRoadVertices[i * 2 + 0] = (Point: side1, Direction: rightAngle);
             directionOfRoadVertices[i * 2 + 1] = (Point: side2, Direction: -rightAngle);

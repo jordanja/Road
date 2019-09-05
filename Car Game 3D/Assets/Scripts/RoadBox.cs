@@ -12,7 +12,7 @@ public class RoadBox : MonoBehaviour {
     private bool _rightRailing;
 
     private float depthBelowRoad = 0.2f;
-    private float heightAboveRoad = 0.3f;
+    private float heightAboveRoad = 0.2f;
     private float railingWidth = 0.1f;
 
     internal void Init(Road baseRoad, bool leftRailing, bool rightRailing) {
