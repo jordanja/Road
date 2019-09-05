@@ -9,7 +9,7 @@ public class CarMovement : MonoBehaviour {
     float initialTime;
     float timeSinceStart;
 
-    float timeToTravelWhole = 15f;
+    float timeToTravelOne = 4f;
     float timeForOneRoad;
     float change;
 
@@ -24,7 +24,7 @@ public class CarMovement : MonoBehaviour {
         yield return new WaitUntil(() => RoadManager.instance.initialized == true);
         initialTime = Time.time;
         allowCarMovement = true;
-        timeForOneRoad = timeToTravelWhole / RoadManager.instance.NumRoads();
+        timeForOneRoad = timeToTravelOne;
         change = 0;
     }
 
