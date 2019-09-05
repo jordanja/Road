@@ -13,9 +13,10 @@ public class CarMovement : MonoBehaviour {
     float timeForOneRoad;
     float change;
 
-
+    int currentRoadNum;
     private void Start() {
         allowCarMovement = false;
+        currentRoadNum = 0;
         StartCoroutine(Setup());
     }
 
@@ -31,7 +32,7 @@ public class CarMovement : MonoBehaviour {
     private void Update() {
         if (allowCarMovement) {
             timeSinceStart += Time.deltaTime;
-            int currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
+            currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
             if (currentRoadNum <= RoadManager.instance.NumRoads()) {
 
                 if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
