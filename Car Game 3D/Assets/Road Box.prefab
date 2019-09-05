@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c489a9d3a7b84f2197aa7b75ef2ca98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SideMat: {fileID: 2100000, guid: cac5310dde72d450a8dfb5601b119ab1, type: 2}
+  SideMat: {fileID: 2100000, guid: bd6480855cce04dff9d872778ecefcd5, type: 2}

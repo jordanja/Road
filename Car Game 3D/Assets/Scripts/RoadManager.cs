@@ -20,7 +20,7 @@ public class RoadManager : MonoBehaviour {
     [SerializeField]
     GameObject roadBoxBlueprint;
 
-    private float roadWidth = 0.5f;
+    private float roadWidth = 0.3f;
 
     void Awake() {
         instance = this;
@@ -28,7 +28,7 @@ public class RoadManager : MonoBehaviour {
 
     private void Start() {
         int segments = 32;
-        int roadCurviness = 0;
+        int roadCurviness = 5;
         int numberOfControlPoints = 4;
         for (int i = 0; i < pointsOnRoad.Count - 1; i++) {
             CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1], segments, roadCurviness, numberOfControlPoints);
