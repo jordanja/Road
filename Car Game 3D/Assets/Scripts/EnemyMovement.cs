@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
-    
+
+
+    public void Init(float positionOfEnemy) {
+
+    }
+
+
+
+
+    void Update() {
+        
+    }
 
 
 }
