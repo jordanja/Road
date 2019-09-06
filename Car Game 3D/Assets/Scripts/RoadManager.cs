@@ -93,4 +93,8 @@ public class RoadManager : MonoBehaviour {
 
     }
 
+    // public Vector3 GetLastPointOnRoad() {
+
+    // }
+
 }

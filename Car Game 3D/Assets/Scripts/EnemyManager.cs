@@ -5,31 +5,27 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    // public static EnemyManager instance;
+    public static EnemyManager instance;
 
-    // [SerializeField]
-    // GameObject _enemy;
+    [SerializeField]
+    GameObject _enemy;
+
+    void Start() {
+        StartCoroutine(SendEnemies());
+        
+    }
+
+    IEnumerator SendEnemies() {
+
+        while (true) {
+            sendEnemy();
+            yield return new WaitForSeconds(3f);
+        }
+    }
+
+    private void sendEnemy() {
 
 
-    // void Awake() {
-    //     instance = this;
-    // }
 
-    // void Start() {
-    //     Coroutine sendEnemy = StartCoroutine(SendEnemies());
-
-    // }
-
-
-    // IEnumerator SendEnemies() {
-    //     while(true) {
-    //             sendEnemy();
-    //             yield return new WaitForSeconds(3f);
-            
-    //     }
-    // }
-
-    // void sendEnemy() {
-    //     GameObject enemy = Instantiate(_enemy);
-    // }
+    }
 }
