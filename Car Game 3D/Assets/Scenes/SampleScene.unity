@@ -215,7 +215,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &250636634
 MonoBehaviour:
@@ -234,12 +234,6 @@ MonoBehaviour:
     type: 3}
   roadBoxBlueprint: {fileID: 1648092180062045262, guid: c68ed4e7a3a2b482e9eaab854202693e,
     type: 3}
---- !u!4 &587031428 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3132873765118771390, guid: bb24f46586b5d4de0b2618c2c152c6da,
-    type: 3}
-  m_PrefabInstance: {fileID: 1085094491}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,24 +589,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 891411938}
   m_CullTransparentMesh: 0
---- !u!114 &913014071 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8093780570166785878, guid: bb24f46586b5d4de0b2618c2c152c6da,
-    type: 3}
-  m_PrefabInstance: {fileID: 1085094491}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e99879fc1d5b4cabb0d699d3c4b80f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &913014072 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
-    type: 3}
-  m_PrefabInstance: {fileID: 1085094491}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,7 +663,7 @@ Transform:
   m_Father: {fileID: 1310675393}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 29.8, y: 0, z: 0}
---- !u!1001 &1085094491
+--- !u!1001 &998603929
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -697,7 +673,7 @@ PrefabInstance:
     - target: {fileID: 8093780570166785865, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
       propertyPath: m_Name
-      value: Car
+      value: Car Manager
       objectReference: {fileID: 0}
     - target: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
@@ -737,7 +713,7 @@ PrefabInstance:
     - target: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
@@ -752,21 +728,6 @@ PrefabInstance:
     - target: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8093780570166785878, guid: bb24f46586b5d4de0b2618c2c152c6da,
-        type: 3}
-      propertyPath: carTransform
-      value: 
-      objectReference: {fileID: 587031428}
-    - target: {fileID: 3423775164866607983, guid: bb24f46586b5d4de0b2618c2c152c6da,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 884465497497393424, guid: bb24f46586b5d4de0b2618c2c152c6da,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1236,6 +1197,24 @@ MonoBehaviour:
   ThirdPersonCamera: {fileID: 1936257290}
   GodButton: {fileID: 891411940}
   ThirdPersonButton: {fileID: 848731972}
+--- !u!4 &1436408003 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8898408345692923455, guid: bb24f46586b5d4de0b2618c2c152c6da,
+    type: 3}
+  m_PrefabInstance: {fileID: 998603929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1436408004 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7506909550748345234, guid: bb24f46586b5d4de0b2618c2c152c6da,
+    type: 3}
+  m_PrefabInstance: {fileID: 998603929}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e99879fc1d5b4cabb0d699d3c4b80f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1866003765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1265,7 +1244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189f68fddb0234d7f9c6a4fd2a8c6805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  car: {fileID: 913014071}
+  car: {fileID: 1436408004}
   _enemy: {fileID: 3335740923273145865, guid: f2072559999c84326b9664111b49b093, type: 3}
 --- !u!4 &1866003767
 Transform:
@@ -1281,6 +1260,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1883642024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8093780570166785865, guid: bb24f46586b5d4de0b2618c2c152c6da,
+    type: 3}
+  m_PrefabInstance: {fileID: 998603929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1883642025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883642024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81596d08a186e4a23973e80d32978131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1936257287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1325,7 +1322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e41fdc10ded94c1c90eca72156d4f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Car: {fileID: 913014072}
+  Car: {fileID: 1436408003}
 --- !u!20 &1936257290
 Camera:
   m_ObjectHideFlags: 0

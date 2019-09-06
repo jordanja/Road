@@ -15,7 +15,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     GameObject _enemy;
 
-    float distanceAheadToSendEnemyFrom = 2f;
+    int distanceAheadToSendEnemyFrom = 2;
 
     void Start() {
         enemies = new List<GameObject>();
@@ -33,11 +33,11 @@ public class EnemyManager : MonoBehaviour
 
     private void sendEnemy() {
 
-        float positionOfEnemy = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad() + distanceAheadToSendEnemyFrom;
-        
+        float positionOfEnemy = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad();
+        print("we are at: " + (car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad()) + ", planting enemy at position: " + positionOfEnemy);
 
         GameObject enemy = Instantiate(_enemy);
-        enemy?.GetComponent<EnemyMovement>().Init(positionOfEnemy);
+        enemy?.GetComponent<EnemyMovement>().Init(positionOfEnemy, distanceAheadToSendEnemyFrom);
 
         enemies.Add(enemy);
 

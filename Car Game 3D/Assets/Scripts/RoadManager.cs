@@ -9,7 +9,7 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
-    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18) };
+    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18), new Vector3(0, 0, 27), new Vector3(0, 0, 36) };
 
     [HideInInspector]
     public bool initialized = false;

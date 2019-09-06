@@ -9,7 +9,7 @@ public class CarMovement : MonoBehaviour {
     float initialTime;
     float timeSinceStart;
 
-    float timeToTravelOne = 4f;
+    // float timeToTravelOne = 4f;
     float timeForOneRoad;
     float change;
 
@@ -32,7 +32,8 @@ public class CarMovement : MonoBehaviour {
         yield return new WaitUntil(() => RoadManager.instance.initialized == true);
         initialTime = Time.time;
         allowCarMovement = true;
-        timeForOneRoad = timeToTravelOne;
+        timeForOneRoad = CarManager.instance.GetTimeToTravelOneRoad();
+
         change = 0;
     }
 
@@ -40,6 +41,7 @@ public class CarMovement : MonoBehaviour {
         if (allowCarMovement) {
             timeSinceStart += Time.deltaTime;
             currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
+
             if (currentRoadNum <= RoadManager.instance.NumRoads()) {
 
                 if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
@@ -80,7 +82,5 @@ public class CarMovement : MonoBehaviour {
         return fractionAlongCurrentRoad;
     } 
 
-    public float TimeForOneRoad() {
-        return timeForOneRoad;
-    }
+    
 }
