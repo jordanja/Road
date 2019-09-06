@@ -22,6 +22,8 @@ public class RoadManager : MonoBehaviour {
 
     private float roadWidth = 0.7f;
 
+    int numberOfLanes = 4;
+
     void Awake() {
         instance = this;
     }
@@ -46,9 +48,9 @@ public class RoadManager : MonoBehaviour {
         road.name = "Road " + roads.Count;
         
         if (roads.Count == 0) {
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, segments, roadCurviness, numberOfControlPoints);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, segments, roadCurviness, numberOfControlPoints, numberOfLanes);
         } else {
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>(), segments, roadCurviness, numberOfControlPoints);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>(), segments, roadCurviness, numberOfControlPoints, numberOfLanes);
 
         }
 
