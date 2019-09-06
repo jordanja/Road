@@ -35,7 +35,6 @@ public class EnemyManager : MonoBehaviour
 
         float positionOfEnemy = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad() + distanceAheadToSendEnemyFrom;
         
-        print(positionOfEnemy);
 
         GameObject enemy = Instantiate(_enemy);
         enemy?.GetComponent<EnemyMovement>().Init(positionOfEnemy);
