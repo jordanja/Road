@@ -234,6 +234,12 @@ MonoBehaviour:
     type: 3}
   roadBoxBlueprint: {fileID: 1648092180062045262, guid: c68ed4e7a3a2b482e9eaab854202693e,
     type: 3}
+--- !u!4 &587031428 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3132873765118771390, guid: bb24f46586b5d4de0b2618c2c152c6da,
+    type: 3}
+  m_PrefabInstance: {fileID: 1085094491}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +329,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &848731970
 GameObject:
@@ -719,7 +725,7 @@ PrefabInstance:
     - target: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
@@ -734,6 +740,21 @@ PrefabInstance:
     - target: {fileID: 8093780570166785877, guid: bb24f46586b5d4de0b2618c2c152c6da,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8093780570166785878, guid: bb24f46586b5d4de0b2618c2c152c6da,
+        type: 3}
+      propertyPath: carTransform
+      value: 
+      objectReference: {fileID: 587031428}
+    - target: {fileID: 3423775164866607983, guid: bb24f46586b5d4de0b2618c2c152c6da,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 884465497497393424, guid: bb24f46586b5d4de0b2618c2c152c6da,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1232,7 +1253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189f68fddb0234d7f9c6a4fd2a8c6805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
+  _enemy: {fileID: 3335740923273145865, guid: f2072559999c84326b9664111b49b093, type: 3}
 --- !u!4 &1866003767
 Transform:
   m_ObjectHideFlags: 0
