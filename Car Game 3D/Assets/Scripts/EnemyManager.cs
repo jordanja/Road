@@ -7,10 +7,13 @@ public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance;
 
+    private List<GameObject> enemies;
+
     [SerializeField]
     GameObject _enemy;
 
     void Start() {
+        enemies = new List<GameObject>();
         StartCoroutine(SendEnemies());
         
     }
@@ -25,7 +28,10 @@ public class EnemyManager : MonoBehaviour
 
     private void sendEnemy() {
 
+        GameObject enemy = Instantiate(_enemy);
         
+
+        enemies.Add(enemy);
 
     }
 }
