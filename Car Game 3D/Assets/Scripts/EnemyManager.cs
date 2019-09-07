@@ -27,17 +27,21 @@ public class EnemyManager : MonoBehaviour
 
         while (true) {
             sendEnemy();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
     private void sendEnemy() {
 
-        float positionOfEnemy = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad();
-        print("we are at: " + (car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad()) + ", planting enemy at position: " + positionOfEnemy);
+        float distanceCoveredByCar = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad();
+
+        print("we are at: " + (car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad()));
 
         GameObject enemy = Instantiate(_enemy);
-        enemy?.GetComponent<EnemyMovement>().Init(positionOfEnemy, distanceAheadToSendEnemyFrom);
+        enemy.name = "Enemy " + enemies.Count;
+        enemy.transform.parent = transform;
+
+        enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2);
 
         enemies.Add(enemy);
 

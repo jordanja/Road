@@ -6,16 +6,17 @@ public class EnemyMovement : MonoBehaviour {
 
 
 
-    public void Init(float distanceOfEnemy, int distanceAheadToSendEnemyFrom) {
-        int currentRoadNum = Mathf.RoundToInt(Mathf.Floor(distanceOfEnemy / CarManager.instance.GetTimeToTravelOneRoad())) + distanceAheadToSendEnemyFrom;
-        print("Roadnum of enemy = " + currentRoadNum);
-        if (currentRoadNum <= RoadManager.instance.NumRoads()) {
-            float fractionAlongCurrentRoad = (distanceOfEnemy - (currentRoadNum * CarManager.instance.GetTimeToTravelOneRoad()))/CarManager.instance.GetTimeToTravelOneRoad();
-            GameObject currentRoad = RoadManager.instance.GetRoad(currentRoadNum);
-            Vector3 location = currentRoad.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-            Vector3 centerOfRoadPosition = new Vector3(location.x,location.y, location.z);
+    public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead) {
+        int enemyRoadNum = currentCarRoadNum + roadsAhead;
+        
+        if (enemyRoadNum <= RoadManager.instance.NumRoads()) {
+            
+            
+            GameObject currentRoad = RoadManager.instance.GetRoad(enemyRoadNum);
+            
+            Vector3 centerOfRoadPosition = currentRoad.GetComponent<Road>().GetLocationOnRoad(currentCarPercentage);
 
-            Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);    
+            Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(currentCarPercentage);    
 
             float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
                
@@ -25,12 +26,6 @@ public class EnemyMovement : MonoBehaviour {
 
     }
 
-
-
-
-    void Update() {
-        
-    }
 
 
 }
