@@ -64,7 +64,6 @@ public class RoadBox : MonoBehaviour {
 
 
         }
-        // print(vertices.Length);
         newMesh.vertices = vertices;
         newMesh.uv = uv;
         int[] triangles = generateTriangles(baseRoadMesh);

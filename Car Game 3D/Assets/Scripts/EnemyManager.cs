@@ -35,7 +35,6 @@ public class EnemyManager : MonoBehaviour
 
         float distanceCoveredByCar = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad();
 
-        print("we are at: " + (car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad()));
 
         GameObject enemy = Instantiate(_enemy);
         enemy.name = "Enemy " + enemies.Count;
