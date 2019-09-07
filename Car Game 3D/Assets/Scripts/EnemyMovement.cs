@@ -7,14 +7,17 @@ public class EnemyMovement : MonoBehaviour {
     float timeSinceStart = 0f;
     float startingPoint = 0f;
 
+    int _lane;
 
-    public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead) {
+
+    public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane) {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
+        _lane = lane;
     }
 
     void Update() {
         timeSinceStart += Time.deltaTime;
-        float distanceTraveled = timeSinceStart/CarManager.instance.GetTimeToTravelOneRoad();
+        float distanceTraveled = timeSinceStart/EnemyManager.instance.GetTimeForOneRoad();
 
         float currentPosition = startingPoint - distanceTraveled;
 

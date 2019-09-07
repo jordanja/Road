@@ -17,6 +17,8 @@ public class EnemyManager : MonoBehaviour
 
     int distanceAheadToSendEnemyFrom = 2;
 
+    float timeForOneRoad = 1f;
+
     void Start() {
         enemies = new List<GameObject>();
         StartCoroutine(SendEnemies());
@@ -40,9 +42,13 @@ public class EnemyManager : MonoBehaviour
         enemy.name = "Enemy " + enemies.Count;
         enemy.transform.parent = transform;
 
-        enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2);
+        enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, 1);
 
         enemies.Add(enemy);
 
+    }
+
+    public float GetTimeForOneRoad() {
+        return timeForOneRoad;
     }
 }
