@@ -14,6 +14,8 @@ public class Road : MonoBehaviour {
 
     int _numberOfControlPoints;
 
+    int _numberOfLanes;
+
     [SerializeField]
     GameObject circleGizmo;
 
@@ -26,23 +28,25 @@ public class Road : MonoBehaviour {
 
     private (Vector3 Point,Vector3 Direction)[] directionOfRoadVertices; 
 
-    internal void Init(Vector3 first, Vector3 last, int segments, float roadCurviness, int numberOfControlPoints) {
+    internal void Init(Vector3 first, Vector3 last, int segments, float roadCurviness, int numberOfControlPoints, int numberOfLanes) {
         firstPoint = first;
         lastPoint = last;
         bool firstRoad = true;
         _segments = segments;
         _roadCurviness = roadCurviness;
         _numberOfControlPoints = numberOfControlPoints;
+        _numberOfLanes = numberOfLanes;
         CommonInit(firstRoad);
     }
 
-    internal void Init(Vector3 first, Vector3 last, Road lastRoad, int segments, float roadCurviness, int numberOfControlPoints) {
+    internal void Init(Vector3 first, Vector3 last, Road lastRoad, int segments, float roadCurviness, int numberOfControlPoints, int numberOfLanes) {
         firstPoint = first;
         lastPoint = last;
         lastVector = BezierCurve.FindLastVector(lastRoad.GetControlPoints(), lastRoad.GetControlPointsPerCurve());
         _segments = segments;
         _roadCurviness = roadCurviness;
         _numberOfControlPoints = numberOfControlPoints;
+        _numberOfLanes = numberOfLanes;
 
         bool firstRoad = false;
         CommonInit(firstRoad);
@@ -115,7 +119,7 @@ public class Road : MonoBehaviour {
             points[2 * i + 1] = side2;
 
             uv[2 * i + 0] = new Vector2(0, percentageThroughRoad);
-            uv[2 * i + 1] = new Vector2(1f, percentageThroughRoad);
+            uv[2 * i + 1] = new Vector2(_numberOfLanes/2, percentageThroughRoad);
 
 
 

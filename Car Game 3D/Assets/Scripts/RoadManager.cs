@@ -9,7 +9,7 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
-    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18) };
+    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18), new Vector3(0, 0, 27), new Vector3(0, 0, 36) };
 
     [HideInInspector]
     public bool initialized = false;
@@ -21,6 +21,8 @@ public class RoadManager : MonoBehaviour {
     GameObject roadBoxBlueprint;
 
     private float roadWidth = 0.7f;
+
+    int numberOfLanes = 4;
 
     void Awake() {
         instance = this;
@@ -46,9 +48,9 @@ public class RoadManager : MonoBehaviour {
         road.name = "Road " + roads.Count;
         
         if (roads.Count == 0) {
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, segments, roadCurviness, numberOfControlPoints);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, segments, roadCurviness, numberOfControlPoints, numberOfLanes);
         } else {
-            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>(), segments, roadCurviness, numberOfControlPoints);
+            road.GetComponent<Road>()?.Init(firstPoint, lastPoint, roads[roads.Count - 1].GetComponent<Road>(), segments, roadCurviness, numberOfControlPoints, numberOfLanes);
 
         }
 
@@ -61,8 +63,10 @@ public class RoadManager : MonoBehaviour {
     }
 
     public GameObject GetRoad(int roadNum) {
-        if (roads[roadNum] != null) {
-            return roads[roadNum];
+        if ((roadNum < roads.Count) && (roadNum >= 0)){
+            if (roads[roadNum] != null) {
+                return roads[roadNum];
+            }
         }
         return null;
     }
@@ -90,5 +94,9 @@ public class RoadManager : MonoBehaviour {
 
 
     }
+
+    // public Vector3 GetLastPointOnRoad() {
+
+    // }
 
 }

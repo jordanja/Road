@@ -9,13 +9,21 @@ public class CarMovement : MonoBehaviour {
     float initialTime;
     float timeSinceStart;
 
-    float timeToTravelOne = 4f;
+    // float timeToTravelOne = 4f;
     float timeForOneRoad;
     float change;
 
+    int currentRoadNum;
+    float fractionAlongCurrentRoad;
+
+
+    [SerializeField]
+    Transform carTransform;
 
     private void Start() {
         allowCarMovement = false;
+        currentRoadNum = 0;
+        fractionAlongCurrentRoad = 0f;
         StartCoroutine(Setup());
     }
 
@@ -24,24 +32,26 @@ public class CarMovement : MonoBehaviour {
         yield return new WaitUntil(() => RoadManager.instance.initialized == true);
         initialTime = Time.time;
         allowCarMovement = true;
-        timeForOneRoad = timeToTravelOne;
+        timeForOneRoad = CarManager.instance.GetTimeToTravelOneRoad();
+
         change = 0;
     }
 
     private void Update() {
         if (allowCarMovement) {
             timeSinceStart += Time.deltaTime;
-            int currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
+            currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
+
             if (currentRoadNum <= RoadManager.instance.NumRoads()) {
 
                 if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
                     RoadManager.instance.AddRoad();
                 }
 
-                float fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
+                fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
                 GameObject currentRoad = RoadManager.instance.GetRoad(currentRoadNum);
                 Vector3 location = currentRoad.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-                Vector3 centerOfRoadPosition = new Vector3(location.x,location.y + transform.localScale.y/2, location.z);
+                Vector3 centerOfRoadPosition = new Vector3(location.x,location.y, location.z);
 
                 Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
 
@@ -60,4 +70,17 @@ public class CarMovement : MonoBehaviour {
         }
     }
 
+    public int GetCurrentRoadNum() {
+        return currentRoadNum;
+    }
+
+    public Road GetCurrentRoad() {
+        return RoadManager.instance.GetRoad(currentRoadNum)?.GetComponent<Road>();
+    }
+
+    public float GetFractionAlongCurrentRoad(){
+        return fractionAlongCurrentRoad;
+    } 
+
+    
 }
