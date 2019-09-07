@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
+    float timeSinceStart = 0f;
+    float startingPoint = 0f;
 
 
     public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead) {
-        int enemyRoadNum = currentCarRoadNum + roadsAhead;
-        
-        if (enemyRoadNum <= RoadManager.instance.NumRoads()) {
-            
-            
-            GameObject currentRoad = RoadManager.instance.GetRoad(enemyRoadNum);
-            
-            Vector3 centerOfRoadPosition = currentRoad.GetComponent<Road>().GetLocationOnRoad(currentCarPercentage);
+        startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
+    }
 
-            Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(currentCarPercentage);    
+    void Update() {
+        timeSinceStart += Time.deltaTime;
+        float distanceTraveled = timeSinceStart/CarManager.instance.GetTimeToTravelOneRoad();
 
-            float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
+        float currentPosition = startingPoint - distanceTraveled;
+
+        int roadNum = Mathf.FloorToInt(currentPosition);
+        float percentageOnRoad = currentPosition - roadNum;
+
+        GameObject currentRoad = RoadManager.instance.GetRoad(roadNum);
+
+        Vector3 centerOfRoadPosition = currentRoad.GetComponent<Road>().GetLocationOnRoad(percentageOnRoad);
+        Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(percentageOnRoad);    
+
+        float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
                
-            transform.position = centerOfRoadPosition;
-            transform.eulerAngles = new Vector3(0, angle, 0);;
-        }   
+        transform.position = centerOfRoadPosition;
+        transform.eulerAngles = new Vector3(0, angle, 0);
 
     }
 

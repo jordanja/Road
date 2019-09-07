@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
 
         while (true) {
             sendEnemy();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(2f);
         }
     }
 
