@@ -17,7 +17,11 @@ public class EnemyManager : MonoBehaviour
 
     int distanceAheadToSendEnemyFrom = 2;
 
-    float timeForOneRoad = 1f;
+    float timeForOneRoad = 4f;
+
+    void Awake() {
+        instance = this;
+    }
 
     void Start() {
         enemies = new List<GameObject>();
