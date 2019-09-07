@@ -63,8 +63,10 @@ public class RoadManager : MonoBehaviour {
     }
 
     public GameObject GetRoad(int roadNum) {
-        if (roads[roadNum] != null) {
-            return roads[roadNum];
+        if ((roadNum < roads.Count) && (roadNum >= 0)){
+            if (roads[roadNum] != null) {
+                return roads[roadNum];
+            }
         }
         return null;
     }
