@@ -28,7 +28,7 @@ public class EnemyMovement : MonoBehaviour {
             Vector3 centerOfRoadPosition = currentRoad.GetComponent<Road>().GetLocationOnRoad(percentageOnRoad);
             Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(percentageOnRoad);    
 
-            float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
+            float angle = 180 + Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
                 
             transform.position = centerOfRoadPosition;
             transform.eulerAngles = new Vector3(0, angle, 0);
