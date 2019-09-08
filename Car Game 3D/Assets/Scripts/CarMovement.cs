@@ -49,11 +49,12 @@ public class CarMovement : MonoBehaviour {
             if (currentRoadNum <= RoadManager.instance.NumRoads()) { // Should be isValidRoadNum(currentRoadNum)
 
                 if (currentRoadNum != lastRoadNum) {
-                    // Moved onto new road
                     if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
                         RoadManager.instance.AddRoad(RoadManager.instance.GetRoadZLength(), RoadManager.instance.GetSegments(), RoadManager.instance.GetRoadCurviness(), RoadManager.instance.GetNumberOfControlPoints());
                     }
                     currentRoad = RoadManager.instance.GetRoad(currentRoadNum).GetComponent<Road>();
+
+                    RoadManager.instance.RemoveRoad(lastRoadNum - 1);
                 }
 
                 fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
@@ -65,7 +66,7 @@ public class CarMovement : MonoBehaviour {
                     change += Input.GetAxis("Mouse X");
                 }
 
-                Vector3 normal = new Vector3(facing.z, facing.y, -facing.x).normalized;
+                Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
                 Vector3 offset = normal * Mathf.Clamp(change,-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth());
 
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);

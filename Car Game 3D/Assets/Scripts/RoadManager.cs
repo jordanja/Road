@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Application;
+using System;
 
 public class RoadManager : MonoBehaviour {
 
     public static RoadManager instance;
 
     private List<GameObject> roads = new List<GameObject>();
+    private List<GameObject> roadBoxs = new List<GameObject>();
+    private List<GameObject> roadParents = new List<GameObject>();
+
 
     List<Vector3> pointsOnRoad;
 
@@ -56,11 +60,13 @@ public class RoadManager : MonoBehaviour {
         }
 
         GameObject roadBox = Instantiate(roadBoxBlueprint, roadParent.transform, false);
-        roadBox.name = "Road Box " + roads.Count;
+        roadBox.name = "Road Box " + roadBoxs.Count;
         roadBox.transform.parent = roadParent.transform;
         roadBox.GetComponent<RoadBox>()?.Init(road.GetComponent<Road>(), true, true);
 
+        roadBoxs.Add(roadBox);
         roads.Add(road);
+        roadParents.Add(roadParent);
     }
 
     public GameObject GetRoad(int roadNum) {
@@ -118,6 +124,17 @@ public class RoadManager : MonoBehaviour {
 
     public int NumberOfLanes() {
         return numberOfLanes;
+    }
+
+    public void RemoveRoad(int roadNum) {
+
+        if (roadNum >= 0) {
+            Destroy(roads[roadNum]);
+            Destroy(roadBoxs[roadNum]);
+            Destroy(roadParents[roadNum]);
+
+        }
+
     }
 
 }
