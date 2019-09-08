@@ -9,7 +9,6 @@ public class CarMovement : MonoBehaviour {
     float initialTime;
     float timeSinceStart;
 
-    // float timeToTravelOne = 4f;
     float timeForOneRoad;
     float change;
 

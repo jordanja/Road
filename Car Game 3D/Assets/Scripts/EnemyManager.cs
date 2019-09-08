@@ -43,6 +43,7 @@ public class EnemyManager : MonoBehaviour
 
 
         GameObject enemy = Instantiate(_enemy);
+        enemy.SetActive(false);
         enemy.name = "Enemy " + enemies.Count;
         enemy.transform.parent = transform;
 

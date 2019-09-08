@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,9 +14,12 @@ public class EnemyMovement : MonoBehaviour {
     public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane) {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
         _lane = lane;
+        SetPosition();
+        gameObject.SetActive(true);
+
     }
 
-    void Update() {
+    private void SetPosition() {
         timeSinceStart += Time.deltaTime;
         float distanceTraveled = timeSinceStart/EnemyManager.instance.GetTimeForOneRoad();
 
@@ -37,6 +41,10 @@ public class EnemyMovement : MonoBehaviour {
             transform.eulerAngles = new Vector3(0, angle, 0);
 
         }
+    }
+
+    void Update() {
+        SetPosition();
 
     }
 
