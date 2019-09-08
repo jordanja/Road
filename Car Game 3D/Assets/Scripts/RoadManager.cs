@@ -9,7 +9,7 @@ public class RoadManager : MonoBehaviour {
 
     private List<GameObject> roads = new List<GameObject>();
 
-    List<Vector3> pointsOnRoad = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18), new Vector3(0, 0, 27), new Vector3(0, 0, 36) };
+    List<Vector3> pointsOnRoad;// = new List<Vector3> { new Vector3(0, 0, 0), new Vector3(0, 0, 9), new Vector3(0, 0, 18), new Vector3(0, 0, 27), new Vector3(0, 0, 36) };
 
     [HideInInspector]
     public bool initialized = false;
@@ -32,7 +32,14 @@ public class RoadManager : MonoBehaviour {
     
         int segments = 32;
         int roadCurviness = 5;
-        int numberOfControlPoints = 4;
+        int numberOfControlPoints = 3;
+
+        pointsOnRoad = new List<Vector3>();
+
+        for (int i = 0; i < 5; i++) {
+            AddRoad();
+        }
+
         for (int i = 0; i < pointsOnRoad.Count - 1; i++) {
             CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1], segments, roadCurviness, numberOfControlPoints);
         }
@@ -89,8 +96,12 @@ public class RoadManager : MonoBehaviour {
         float zLocation = (roads.Count+1) * 9;
 
         Vector3 newPointOnRoad = new Vector3(xLocation, yLocation, zLocation);
+        if (roads.Count == 0) {
+            CreateNewRoad(new Vector3(0,0,0), newPointOnRoad,32,2,4);
+        } else {
+            CreateNewRoad(roads[roads.Count - 1].GetComponent<Road>().GetLastPoint(), newPointOnRoad,32,2,4);
 
-        CreateNewRoad(roads[roads.Count - 1].GetComponent<Road>().GetLastPoint(), newPointOnRoad,32,2,4);
+        }
 
 
     }
