@@ -12,8 +12,11 @@ public class CarMovement : MonoBehaviour {
     float change;
 
     int currentRoadNum;
+    int lastRoadNum;
+
     float fractionAlongCurrentRoad;
 
+    Road currentRoad;
 
     [SerializeField]
     Transform carTransform;
@@ -21,6 +24,7 @@ public class CarMovement : MonoBehaviour {
     private void Start() {
         allowCarMovement = false;
         currentRoadNum = 0;
+        lastRoadNum = 0;
         fractionAlongCurrentRoad = 0f;
         StartCoroutine(Setup());
     }
@@ -31,7 +35,7 @@ public class CarMovement : MonoBehaviour {
         initialTime = Time.time;
         allowCarMovement = true;
         timeForOneRoad = CarManager.instance.GetTimeToTravelOneRoad();
-
+        currentRoad = RoadManager.instance.GetRoad(0).GetComponent<Road>();
         change = 0;
     }
 
@@ -40,18 +44,22 @@ public class CarMovement : MonoBehaviour {
             timeSinceStart += Time.deltaTime;
             currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
 
-            if (currentRoadNum <= RoadManager.instance.NumRoads()) {
+            
 
-                if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
-                    RoadManager.instance.AddRoad(RoadManager.instance.GetRoadZLength(), RoadManager.instance.GetSegments(), RoadManager.instance.GetRoadCurviness(), RoadManager.instance.GetNumberOfControlPoints());
+            if (currentRoadNum <= RoadManager.instance.NumRoads()) { // Should be isValidRoadNum(currentRoadNum)
+
+                if (currentRoadNum != lastRoadNum) {
+                    // Moved onto new road
+                    if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
+                        RoadManager.instance.AddRoad(RoadManager.instance.GetRoadZLength(), RoadManager.instance.GetSegments(), RoadManager.instance.GetRoadCurviness(), RoadManager.instance.GetNumberOfControlPoints());
+                    }
+                    currentRoad = RoadManager.instance.GetRoad(currentRoadNum).GetComponent<Road>();
                 }
 
                 fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
-                GameObject currentRoad = RoadManager.instance.GetRoad(currentRoadNum);
-                Vector3 location = currentRoad.GetComponent<Road>().GetLocationOnRoad(fractionAlongCurrentRoad);
-                Vector3 centerOfRoadPosition = new Vector3(location.x,location.y, location.z);
-
-                Vector3 facing = currentRoad.GetComponent<Road>().GetDerivitiveOnRoad(fractionAlongCurrentRoad);
+                
+                Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(fractionAlongCurrentRoad);
+                Vector3 facing = currentRoad.GetDerivitiveOnRoad(fractionAlongCurrentRoad);
 
                 if (Input.GetMouseButton(0)) {
                     change += Input.GetAxis("Mouse X");
@@ -66,6 +74,7 @@ public class CarMovement : MonoBehaviour {
                 transform.eulerAngles = new Vector3(0, angle, 0);;
             }
         }
+        lastRoadNum = currentRoadNum;
     }
 
     public int GetCurrentRoadNum() {
