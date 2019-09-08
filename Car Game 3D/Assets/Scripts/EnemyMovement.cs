@@ -11,30 +11,21 @@ public class EnemyMovement : MonoBehaviour {
     int _lane;
 
     float change;
-    public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane) {
+    public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane)
+    {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
         _lane = lane;
-        
-        switch (lane) {
-            case 0:
-                change = -0.375f;
-                break;
-            case 1:
-                change = -0.125f;
-                break;
-            case 2:
-                change = 0.125f;
-                break;
-            case 3:
-                change = 0.375f;
-                break;
 
-        }
-        change = change * RoadManager.instance.GetRoadWidth() * 2;
+        GetLanePosition();
 
         SetPosition();
         gameObject.SetActive(true);
     }
+
+    void Update() {
+        SetPosition();
+    }
+
 
     private void SetPosition() {
         timeSinceStart += Time.deltaTime;
@@ -63,11 +54,30 @@ public class EnemyMovement : MonoBehaviour {
         }
     }
 
-    void Update() {
-        SetPosition();
 
+
+    private void GetLanePosition() {
+        if ((_lane >= 0) && (_lane <= RoadManager.instance.NumberOfLanes() - 1)) {
+            switch (_lane) {
+                case 0:
+                    change = -0.75f;
+                    break;
+                case 1:
+                    change = -0.25f;
+                    break;
+                case 2:
+                    change = 0.25f;
+                    break;
+                case 3:
+                    change = 0.75f;
+                    break;
+
+            }
+            change = change * RoadManager.instance.GetRoadWidth();
+        } else {
+            change = -0.75f * RoadManager.instance.GetRoadWidth();
+        }
+        
     }
-
-
 
 }

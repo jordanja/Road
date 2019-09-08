@@ -47,7 +47,7 @@ public class EnemyManager : MonoBehaviour
         enemy.name = "Enemy " + enemies.Count;
         enemy.transform.parent = transform;
 
-        enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, 3);
+        enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, GetRandomLaneNumber());
 
         enemies.Add(enemy);
 
@@ -55,5 +55,9 @@ public class EnemyManager : MonoBehaviour
 
     public float GetTimeForOneRoad() {
         return timeForOneRoad;
+    }
+
+    private int GetRandomLaneNumber() {
+        return UnityEngine.Random.Range(0,RoadManager.instance.NumberOfLanes());
     }
 }

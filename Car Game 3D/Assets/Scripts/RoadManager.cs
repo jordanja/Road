@@ -119,4 +119,8 @@ public class RoadManager : MonoBehaviour {
         return 3;
     }
 
+    public int NumberOfLanes() {
+        return numberOfLanes;
+    }
+
 }
