@@ -45,7 +45,7 @@ public class CarMovement : MonoBehaviour {
             if (currentRoadNum <= RoadManager.instance.NumRoads()) {
 
                 if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
-                    RoadManager.instance.AddRoad();
+                    RoadManager.instance.AddRoad(RoadManager.instance.GetRoadZLength(), RoadManager.instance.GetSegments(), RoadManager.instance.GetRoadCurviness(), RoadManager.instance.GetNumberOfControlPoints());
                 }
 
                 fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;

@@ -30,23 +30,20 @@ public class RoadManager : MonoBehaviour {
 
     private void Start() {
     
-        int segments = 32;
-        int roadCurviness = 5;
-        int numberOfControlPoints = 3;
-
+        
         pointsOnRoad = new List<Vector3>();
 
         for (int i = 0; i < 5; i++) {
-            AddRoad();
+            AddRoad(GetRoadZLength(), GetSegments(), GetRoadCurviness(), GetNumberOfControlPoints());
         }
 
-        for (int i = 0; i < pointsOnRoad.Count - 1; i++) {
-            CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1], segments, roadCurviness, numberOfControlPoints);
-        }
+        // for (int i = 0; i < pointsOnRoad.Count - 1; i++) {
+        //     CreateNewRoad(pointsOnRoad[i], pointsOnRoad[i + 1], segments, roadCurviness, numberOfControlPoints);
+        // }
         initialized = true;
     }
 
-    public void CreateNewRoad(Vector3 firstPoint, Vector3 lastPoint, int segments, int roadCurviness, int numberOfControlPoints) {
+    public void CreateNewRoad(Vector3 firstPoint, Vector3 lastPoint, int segments, float roadCurviness, int numberOfControlPoints) {
         GameObject roadParent = new GameObject();
         roadParent.transform.parent = this.transform;
         roadParent.name = "Road Parent " + roads.Count;
@@ -90,24 +87,36 @@ public class RoadManager : MonoBehaviour {
         return roadWidth;
     }
 
-    public void AddRoad() {
+    public void AddRoad(float roadZLength, int segments, float roadCurviness, int numberOfControlPoints) {
         float xLocation = 0;
         float yLocation = 0;
-        float zLocation = (roads.Count+1) * 9;
+        float zLocation = (roads.Count+1) * roadZLength;
 
         Vector3 newPointOnRoad = new Vector3(xLocation, yLocation, zLocation);
         if (roads.Count == 0) {
-            CreateNewRoad(new Vector3(0,0,0), newPointOnRoad,32,2,4);
+            CreateNewRoad(new Vector3(0,0,0), newPointOnRoad, segments, roadCurviness, numberOfControlPoints);
         } else {
-            CreateNewRoad(roads[roads.Count - 1].GetComponent<Road>().GetLastPoint(), newPointOnRoad,32,2,4);
+            CreateNewRoad(roads[roads.Count - 1].GetComponent<Road>().GetLastPoint(), newPointOnRoad, segments, roadCurviness, numberOfControlPoints);
 
         }
 
 
     }
 
-    // public Vector3 GetLastPointOnRoad() {
+    public float GetRoadZLength() {
+        return 9;
+    }
 
-    // }
+    public int GetSegments() {
+        return 32;
+    }
+
+    public float GetRoadCurviness() {
+        return 5f;
+    }
+
+    public int GetNumberOfControlPoints() {
+        return 3;
+    }
 
 }
