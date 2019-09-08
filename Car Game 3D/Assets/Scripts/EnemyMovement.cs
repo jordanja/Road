@@ -10,13 +10,30 @@ public class EnemyMovement : MonoBehaviour {
 
     int _lane;
 
-
+    float change;
     public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane) {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
         _lane = lane;
+        
+        switch (lane) {
+            case 0:
+                change = -0.375f;
+                break;
+            case 1:
+                change = -0.125f;
+                break;
+            case 2:
+                change = 0.125f;
+                break;
+            case 3:
+                change = 0.375f;
+                break;
+
+        }
+        change = change * RoadManager.instance.GetRoadWidth() * 2;
+
         SetPosition();
         gameObject.SetActive(true);
-
     }
 
     private void SetPosition() {
@@ -37,7 +54,10 @@ public class EnemyMovement : MonoBehaviour {
 
             float angle = 180 + Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
                 
-            transform.position = centerOfRoadPosition;
+            Vector3 normal = new Vector3(facing.z, facing.y, -facing.x).normalized;
+            Vector3 offset = normal * change;
+
+            transform.position = centerOfRoadPosition + offset;
             transform.eulerAngles = new Vector3(0, angle, 0);
 
         }

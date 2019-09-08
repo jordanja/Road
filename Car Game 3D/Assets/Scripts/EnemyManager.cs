@@ -47,7 +47,7 @@ public class EnemyManager : MonoBehaviour
         enemy.name = "Enemy " + enemies.Count;
         enemy.transform.parent = transform;
 
-        enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, 1);
+        enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, 3);
 
         enemies.Add(enemy);
 
