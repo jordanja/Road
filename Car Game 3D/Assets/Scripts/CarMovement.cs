@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Application;
 
 public class CarMovement : MonoBehaviour {
 
@@ -81,5 +80,9 @@ public class CarMovement : MonoBehaviour {
         return fractionAlongCurrentRoad;
     } 
 
+    void OnCollisionEnter(Collision collision) {
+        print("collided!");
+    }
+    
     
 }
