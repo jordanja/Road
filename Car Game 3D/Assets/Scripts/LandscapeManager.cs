@@ -15,9 +15,7 @@ public class LandscapeManager : MonoBehaviour {
         instance = this;
     }
 
-    void Start() {
-        
-    }
+    
 
     public void CreateLandscapeBetweenZPoints(float z1, float z2) {
         GameObject landscapeParent = new GameObject();
@@ -29,6 +27,9 @@ public class LandscapeManager : MonoBehaviour {
 
         landscape.GetComponent<LandscapeGenerator>().Init(z1, z2);
         landscapes.Add(landscape);
+
+        GameObject tree = FoliagePool.instance.Get();
+        // tree.transform.position = new Vector3(0,0,0);
 
     }
 

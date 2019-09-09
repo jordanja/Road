@@ -6,7 +6,7 @@ public class FoliagePool : MonoBehaviour {
     [SerializeField]
     private GameObject[] foliagePrefabs;
 
-    private Queue<GameObject> foliage = new Queue<GameObject>();
+    private Queue<GameObject> foliageQueue = new Queue<GameObject>();
 
     public static FoliagePool instance {get; private set;}
 
@@ -15,26 +15,30 @@ public class FoliagePool : MonoBehaviour {
     private void Awake() {
         instance = this;
         
+        // AddFoliage(10);
+    }
+
+    void Start() {
     }
 
     public GameObject Get() {
-        if (foliage.Count == 0) {
+        if (foliageQueue.Count == 0) {
             AddFoliage(1);
         }
-        return foliage.Dequeue();
+        return foliageQueue.Dequeue();
     }
 
 
     private void AddFoliage(int count) {
-        for (int i = 0; i < count; count++) {
-            GameObject foliateToInstantiate = Instantiate(foliagePrefabs[numInstantiated % (foliage.Count)]);
-            foliage.Enqueue(foliateToInstantiate);
+        for (int i = 0; i < count; i++) {
+            GameObject foliateToInstantiate = Instantiate(foliagePrefabs[numInstantiated % (foliagePrefabs.Length)]);
+            foliageQueue.Enqueue(foliateToInstantiate);
             numInstantiated++;
         }
     }
 
     public void ReturnToPool(GameObject foliageToReturn) {
         foliageToReturn.SetActive(false);
-        foliage.Enqueue(foliageToReturn);
+        foliageQueue.Enqueue(foliageToReturn);
     }
 }
