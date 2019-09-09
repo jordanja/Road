@@ -16,7 +16,7 @@ public class EnemyMovement : MonoBehaviour {
     int prevRoadNum;
     Road currentRoad;
 
-    float timeToChangeLanes = 0.5f;
+    float timeToChangeOneLane = 0.5f;
     bool currentlyChangingLanes;
     float timeStartedChangingLanes;
     int laneToChangeTo;
@@ -50,7 +50,7 @@ public class EnemyMovement : MonoBehaviour {
             laneToChangeTo = getNewLane();
             newChange = GetLanePosition(laneToChangeTo);
             float randomDelay = UnityEngine.Random.Range(0f, 2f);
-            yield return new WaitForSeconds(timeToChangeLanes + randomDelay);
+            yield return new WaitForSeconds(timeToChangeOneLane * Mathf.Abs(laneToChangeTo - _lane) + randomDelay);
         }
     }
 
@@ -77,8 +77,9 @@ public class EnemyMovement : MonoBehaviour {
                 
             Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
             Vector3 offset = normal;
+
             if (currentlyChangingLanes == true) {
-                float t = (Time.time - timeStartedChangingLanes)/timeToChangeLanes;
+                float t = (Time.time - timeStartedChangingLanes)/(Mathf.Abs(laneToChangeTo - _lane) * timeToChangeOneLane);
                 offset *= Mathf.Lerp(change, newChange,t);
                 if (t >= 1) {
                     currentlyChangingLanes = false;
