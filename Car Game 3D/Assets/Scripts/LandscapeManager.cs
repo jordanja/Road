@@ -16,8 +16,7 @@ public class LandscapeManager : MonoBehaviour {
     }
 
     void Start() {
-        // landscapes = new List<GameObject>();
-        // CreateLandscapeBetweenZPoints(0,9);
+        
     }
 
     public void CreateLandscapeBetweenZPoints(float z1, float z2) {
