@@ -90,3 +90,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17c0e2d7ff1741229702fc34d91eeca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  landscapeMat: {fileID: 2100000, guid: 0db99c5c57537462c9826528135d6830, type: 2}
