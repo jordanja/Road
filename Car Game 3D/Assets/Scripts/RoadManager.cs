@@ -111,11 +111,11 @@ public class RoadManager : MonoBehaviour {
     }
 
     public int GetSegments() {
-        return 32;
+        return 16;
     }
 
     public float GetRoadCurviness() {
-        return 0;
+        return 2f;
     }
 
     public int GetNumberOfControlPoints() {
