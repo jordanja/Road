@@ -16,23 +16,39 @@ public class EnemyMovement : MonoBehaviour {
     int prevRoadNum;
     Road currentRoad;
 
+    float timeToChangeLanes = 0.5f;
+    bool currentlyChangingLanes;
+    float timeStartedChangingLanes;
+    int laneToChangeTo;
+    float newChange;
+
     public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane)
     {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
         _lane = lane;
 
-
-
-        GetLanePosition();
+        change = GetLanePosition(_lane);
 
         SetPosition();
+
         gameObject.SetActive(true);
+
+        float laneChangerDelay = UnityEngine.Random.Range(0f, 1f);
+        currentlyChangingLanes = false;
+        StartCoroutine(laneChanger(0f));
     }
 
     void Update() {
         SetPosition();
     }
 
+    IEnumerator laneChanger(float laneChangerDelay) {
+        yield return new WaitForSeconds(laneChangerDelay);
+        currentlyChangingLanes = true;
+        timeStartedChangingLanes = Time.time;
+        laneToChangeTo = getNewLane();
+        newChange = GetLanePosition(laneToChangeTo);
+    }
 
     private void SetPosition() {
         timeSinceStart += Time.deltaTime;
@@ -56,7 +72,19 @@ public class EnemyMovement : MonoBehaviour {
             float angle = 180 + Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
                 
             Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
-            Vector3 offset = normal * change;
+            Vector3 offset = normal;
+            if (currentlyChangingLanes == true) {
+                float t = (Time.time - timeStartedChangingLanes)/timeToChangeLanes;
+                offset *= Mathf.Lerp(change, newChange,t);
+                if (t >= 1) {
+                    currentlyChangingLanes = false;
+                    _lane = laneToChangeTo;
+                    change = GetLanePosition(_lane);
+                }
+
+            } else {
+                offset *= change;
+            }
 
             transform.position = centerOfRoadPosition + offset;
             transform.eulerAngles = new Vector3(0, angle, 0);
@@ -68,28 +96,19 @@ public class EnemyMovement : MonoBehaviour {
 
 
 
-    private void GetLanePosition() {
-        if ((_lane >= 0) && (_lane <= RoadManager.instance.NumberOfLanes() - 1)) {
-            switch (_lane) {
-                case 0:
-                    change = -0.75f;
-                    break;
-                case 1:
-                    change = -0.25f;
-                    break;
-                case 2:
-                    change = 0.25f;
-                    break;
-                case 3:
-                    change = 0.75f;
-                    break;
+    private float GetLanePosition(float lane) {
+    
+        float xOffset = ((lane - 1.5f)/(2f)) * RoadManager.instance.GetRoadWidth();
+        return xOffset;
+    }
 
-            }
-            change = change * RoadManager.instance.GetRoadWidth();
-        } else {
-            change = -0.75f * RoadManager.instance.GetRoadWidth();
+    private int getNewLane(){ 
+        int newLane = UnityEngine.Random.Range(0,RoadManager.instance.NumberOfLanes());
+        while (newLane == _lane) {
+            newLane = UnityEngine.Random.Range(0,RoadManager.instance.NumberOfLanes());
         }
-        
+
+        return newLane;
     }
 
 }

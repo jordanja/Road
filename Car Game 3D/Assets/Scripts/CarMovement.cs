@@ -91,7 +91,7 @@ public class CarMovement : MonoBehaviour {
     } 
 
     void OnCollisionEnter(Collision collision) {
-        print("collided!");
+        // print("collided!");
     }
     
     
