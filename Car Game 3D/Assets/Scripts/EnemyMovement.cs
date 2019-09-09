@@ -22,6 +22,8 @@ public class EnemyMovement : MonoBehaviour {
     int laneToChangeTo;
     float newChange;
 
+    float maxLaneChangeAngle = 30f;
+
     public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane)
     {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
@@ -49,7 +51,7 @@ public class EnemyMovement : MonoBehaviour {
             timeStartedChangingLanes = Time.time;
             laneToChangeTo = getNewLane();
             newChange = GetLanePosition(laneToChangeTo);
-            float randomDelay = UnityEngine.Random.Range(0f, 2f);
+            float randomDelay = UnityEngine.Random.Range(1f, 2f);
             yield return new WaitForSeconds(timeToChangeOneLane * Mathf.Abs(laneToChangeTo - _lane) + randomDelay);
         }
     }
@@ -78,9 +80,23 @@ public class EnemyMovement : MonoBehaviour {
             Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
             Vector3 offset = normal;
 
+            float laneChangeAngle = 0f;
             if (currentlyChangingLanes == true) {
                 float t = (Time.time - timeStartedChangingLanes)/(Mathf.Abs(laneToChangeTo - _lane) * timeToChangeOneLane);
                 offset *= Mathf.Lerp(change, newChange,t);
+                if (t < 0.5) {
+                    laneChangeAngle = Mathf.Lerp(0,maxLaneChangeAngle, t*2);
+                    if (laneToChangeTo > _lane) {
+                        laneChangeAngle *= -1;
+                    }
+                } else {
+                    laneChangeAngle = Mathf.Lerp(maxLaneChangeAngle, 0, (t-0.5f)*2);
+                    if (laneToChangeTo > _lane) {
+                        laneChangeAngle *= -1;
+                    }
+                    
+                }
+
                 if (t >= 1) {
                     currentlyChangingLanes = false;
                     _lane = laneToChangeTo;
@@ -92,7 +108,7 @@ public class EnemyMovement : MonoBehaviour {
             }
 
             transform.position = centerOfRoadPosition + offset;
-            transform.eulerAngles = new Vector3(0, angle, 0);
+            transform.eulerAngles = new Vector3(0, angle + laneChangeAngle, 0);
 
         }
 
