@@ -1231,7 +1231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6f51cb0ac2446c18dd524e4fb20f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instance: {fileID: 0}
+  LandscapeBlueprint: {fileID: 1648092180062045262, guid: 9a9199521679d44a38f423945c8880f0,
+    type: 3}
 --- !u!4 &1362469362
 Transform:
   m_ObjectHideFlags: 0

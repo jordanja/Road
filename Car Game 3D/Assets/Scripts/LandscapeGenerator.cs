@@ -50,14 +50,17 @@ public class LandscapeGenerator : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < (vertices - 1) * (vertices - 1); i++) {
-            triangles[i * 6 + 0] = i + 0;
-            triangles[i * 6 + 1] = i + vertices;
-            triangles[i * 6 + 2] = i + 1;
+        for (int width = 0; width < (vertices - 1); width++) {
+            for (int depth = 0; depth < (vertices - 1); depth++) {
             
-            triangles[i * 6 + 3] = i + 1;
-            triangles[i * 6 + 4] = i + vertices;
-            triangles[i * 6 + 5] = i + vertices + 1;   
+                triangles[(width * (vertices - 1) + depth) * 6 + 0] = width * vertices + depth + 1;
+                triangles[(width * (vertices - 1) + depth) * 6 + 1] = width * vertices + depth;
+                triangles[(width * (vertices - 1) + depth) * 6 + 2] = width * vertices + depth + (vertices);
+                
+                triangles[(width * (vertices - 1) + depth) * 6 + 3] = width * vertices + depth + vertices;
+                triangles[(width * (vertices - 1) + depth) * 6 + 4] = width * vertices + depth + vertices + 1;
+                triangles[(width * (vertices - 1) + depth) * 6 + 5] = width * vertices + depth + 1;
+            }
         }
 
 
