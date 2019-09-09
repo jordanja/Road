@@ -33,9 +33,9 @@ public class EnemyMovement : MonoBehaviour {
 
         gameObject.SetActive(true);
 
-        float laneChangerDelay = UnityEngine.Random.Range(0f, 1f);
+        float laneChangerDelay = UnityEngine.Random.Range(0f, 0.5f);
         currentlyChangingLanes = false;
-        StartCoroutine(laneChanger(0f));
+        StartCoroutine(laneChanger(laneChangerDelay));
     }
 
     void Update() {
@@ -44,10 +44,14 @@ public class EnemyMovement : MonoBehaviour {
 
     IEnumerator laneChanger(float laneChangerDelay) {
         yield return new WaitForSeconds(laneChangerDelay);
-        currentlyChangingLanes = true;
-        timeStartedChangingLanes = Time.time;
-        laneToChangeTo = getNewLane();
-        newChange = GetLanePosition(laneToChangeTo);
+        while (true) {
+            currentlyChangingLanes = true;
+            timeStartedChangingLanes = Time.time;
+            laneToChangeTo = getNewLane();
+            newChange = GetLanePosition(laneToChangeTo);
+            float randomDelay = UnityEngine.Random.Range(0f, 2f);
+            yield return new WaitForSeconds(timeToChangeLanes + randomDelay);
+        }
     }
 
     private void SetPosition() {
