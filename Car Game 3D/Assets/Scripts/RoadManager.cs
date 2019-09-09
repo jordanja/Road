@@ -94,6 +94,7 @@ public class RoadManager : MonoBehaviour {
         float xLocation = 0;
         float yLocation = 0;
         float zLocation = (roads.Count+1) * roadZLength;
+        LandscapeManager.instance.CreateLandscapeForRoad(roads.Count);
 
         Vector3 newPointOnRoad = new Vector3(xLocation, yLocation, zLocation);
         if (roads.Count == 0) {
@@ -102,6 +103,7 @@ public class RoadManager : MonoBehaviour {
             CreateNewRoad(roads[roads.Count - 1].GetComponent<Road>().GetLastPoint(), newPointOnRoad, segments, roadCurviness, numberOfControlPoints);
 
         }
+
 
 
     }

@@ -9,28 +9,35 @@ public class LandscapeManager : MonoBehaviour {
     [SerializeField]
     GameObject LandscapeBlueprint;
 
-    List<GameObject> landscapes;
+    List<GameObject> landscapes = new List<GameObject>();
 
     void Awake() {
         instance = this;
     }
 
     void Start() {
-        landscapes = new List<GameObject>();
-        CreateLandscapeBetweenZPoints(0,9);
+        // landscapes = new List<GameObject>();
+        // CreateLandscapeBetweenZPoints(0,9);
     }
 
     public void CreateLandscapeBetweenZPoints(float z1, float z2) {
         GameObject landscapeParent = new GameObject();
         landscapeParent.name = "Landscape Parent " + landscapes.Count;
-        landscapeParent.transform.parent = transform.parent;
+        landscapeParent.transform.parent = transform;
 
         GameObject landscape = Instantiate(LandscapeBlueprint, landscapeParent.transform, false);
         landscape.name = "Landscape " + landscapes.Count;
 
         landscape.GetComponent<LandscapeGenerator>().Init(z1, z2);
+        landscapes.Add(landscape);
 
     }
 
+    public void CreateLandscapeForRoad(int roadNum) {
+        float z1 = (float)roadNum * RoadManager.instance.GetRoadZLength();
+        float z2 = (float)(roadNum + 1) * RoadManager.instance.GetRoadZLength();
+        // print("creating landscape between z points: " + z1 + " and " + z2);
+        CreateLandscapeBetweenZPoints(z1, z2);
+    }
 
 }

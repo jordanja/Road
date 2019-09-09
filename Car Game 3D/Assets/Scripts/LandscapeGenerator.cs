@@ -41,11 +41,11 @@ public class LandscapeGenerator : MonoBehaviour {
         for (int i = 0; i < vertices; i++) {
             for (int j = 0; j < vertices; j++) {
 
-                float x = MathHelper.Remap(j, 0, vertices, -10, +10);
-                float z = MathHelper.Remap(i, 0, vertices, _z1, _z2);
+                float x = MathHelper.Remap(j, 0, (vertices - 1), -10, +10);
+                float z = MathHelper.Remap(i, 0, (vertices - 1), _z1, _z2);
                 int index = i * vertices + j;
                 points[index] = new Vector3(x,-0.1f, z);
-                print("points[" + index + "] = " + points[index]);
+                // print("points[" + index + "] = " + points[index]); 
 
             }
         }
