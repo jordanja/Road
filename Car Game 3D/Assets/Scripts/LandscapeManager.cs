@@ -56,4 +56,9 @@ public class LandscapeManager : MonoBehaviour {
         CreateLandscapeBetweenZPoints(z1, z2);
     }
 
+    public void RemoveLandscape(int roadNum) {
+        Destroy(landscapes[roadNum]);
+        FoliagePool.instance.ReturnToPool((float)roadNum * RoadManager.instance.GetRoadZLength(), (float)(roadNum + 1) * RoadManager.instance.GetRoadZLength());
+    }
+
 }

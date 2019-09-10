@@ -136,7 +136,7 @@ public class RoadManager : MonoBehaviour {
             Destroy(roads[roadNum]);
             Destroy(roadBoxs[roadNum]);
             Destroy(roadParents[roadNum]);
-
+            LandscapeManager.instance.RemoveLandscape(roadNum);
         }
 
     }

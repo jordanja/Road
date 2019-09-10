@@ -32,7 +32,9 @@ public class FoliagePool : MonoBehaviour {
         if (foliageQueue.Count == 0) {
             AddFoliage(1);
         }
-        return foliageQueue.Dequeue();
+        GameObject obj = foliageQueue.Dequeue();
+        foliageQueue.Enqueue(obj);
+        return obj;
     }
 
 
@@ -48,6 +50,17 @@ public class FoliagePool : MonoBehaviour {
 
     public void ReturnToPool(GameObject foliageToReturn) {
         foliageToReturn.SetActive(false);
-        foliageQueue.Enqueue(foliageToReturn);
+        // foliageQueue.Enqueue(foliageToReturn);
+    }
+
+    public void ReturnToPool(float z1, float z2) {
+        foreach (GameObject obj in foliageQueue) {
+            if ((obj.transform.position.z >= z1) && (obj.transform.position.z < z2)) {
+                if (obj.activeInHierarchy == true) {
+                    obj.SetActive(false);
+                }
+
+            }
+        }
     }
 }
