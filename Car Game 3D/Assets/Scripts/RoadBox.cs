@@ -15,6 +15,8 @@ public class RoadBox : MonoBehaviour {
     private float heightAboveRoad = 0.2f;
     private float railingWidth = 0.1f;
 
+    float textureZRepeating = 10;
+
     internal void Init(Road baseRoad, bool leftRailing, bool rightRailing) {
         _leftRailing = leftRailing;
         _rightRailing = rightRailing;
@@ -56,11 +58,11 @@ public class RoadBox : MonoBehaviour {
             vertices[i * 5 + 3] = vertexLocation;
             vertices[i * 5 + 4] = vertexLocation + new Vector3(0, -depthBelowRoad, 0);
 
-            uv[i * 5 + 0] = new Vector2(1f * 0.2f, i/(float)baseRoadMesh.vertices.Length);
-            uv[i * 5 + 1] = new Vector2(1f * 0.4f, i/(float)baseRoadMesh.vertices.Length);
-            uv[i * 5 + 2] = new Vector2(1f * 0.6f, i/(float)baseRoadMesh.vertices.Length);
-            uv[i * 5 + 3] = new Vector2(1f * 0.8f, i/(float)baseRoadMesh.vertices.Length);
-            uv[i * 5 + 4] = new Vector2(1f * 1f,   i/(float)baseRoadMesh.vertices.Length);
+            uv[i * 5 + 0] = new Vector2(1f * 0.2f, (textureZRepeating * i)/(float)baseRoadMesh.vertices.Length);
+            uv[i * 5 + 1] = new Vector2(1f * 0.4f, (textureZRepeating * i)/(float)baseRoadMesh.vertices.Length);
+            uv[i * 5 + 2] = new Vector2(1f * 0.6f, (textureZRepeating * i)/(float)baseRoadMesh.vertices.Length);
+            uv[i * 5 + 3] = new Vector2(1f * 0.8f, (textureZRepeating * i)/(float)baseRoadMesh.vertices.Length);
+            uv[i * 5 + 4] = new Vector2(1f * 1f,   (textureZRepeating * i)/(float)baseRoadMesh.vertices.Length);
 
 
         }

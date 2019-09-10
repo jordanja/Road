@@ -12,6 +12,8 @@ public class LandscapeGenerator : MonoBehaviour {
     [SerializeField]
     Material landscapeMat;
 
+    float textureMultiplier = 3f;
+
     public void Init(float z1, float z2) {
         _z1 = z1;
         _z2 = z2;
@@ -49,6 +51,7 @@ public class LandscapeGenerator : MonoBehaviour {
 
                 int index = i * vertices + j;
                 points[index] = new Vector3(x, y , z);
+                uv[index] = textureMultiplier * new Vector2(((float)j) / ((float)vertices - 1),((float)i) / ((float)vertices - 1));
                 // print("points[" + index + "] = " + points[index]); 
 
             }
