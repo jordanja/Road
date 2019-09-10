@@ -21,7 +21,7 @@ public class FoliagePool : MonoBehaviour {
         FoliageParent.name = "Foliage Parent";
         FoliageParent.transform.parent = transform;
         
-        AddFoliage(20);
+        AddFoliage(60);
     }
 
     void Start() {

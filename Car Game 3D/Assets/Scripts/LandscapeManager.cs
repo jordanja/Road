@@ -11,6 +11,8 @@ public class LandscapeManager : MonoBehaviour {
 
     List<GameObject> landscapes = new List<GameObject>();
 
+    int numTreesPerLandscape = 10;
+
     void Awake() {
         instance = this;
     }
@@ -27,16 +29,23 @@ public class LandscapeManager : MonoBehaviour {
 
         landscape.GetComponent<LandscapeGenerator>().Init(z1, z2);
         landscapes.Add(landscape);
-
-        // addFoliage();
+        for (int i = 0; i < numTreesPerLandscape; i++) {
+            addFoliage(z1, z2);
+        }
 
     }
 
-    private void addFoliage() {
+    private void addFoliage(float z1, float z2) {
 
         GameObject tree = FoliagePool.instance.Get();
+        
+        float x = UnityEngine.Random.Range(-10f, 10f);
+        float z = UnityEngine.Random.Range(z1, z2);
+        float y = 0;
+        tree.transform.position = new Vector3(x, y, z);
+        
         tree.SetActive(true);
-        // tree.transform.position = new Vector3(0,0,0);
+
 
     }
 
