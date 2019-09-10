@@ -15,7 +15,7 @@ public class FoliagePool : MonoBehaviour {
     private void Awake() {
         instance = this;
         
-        // AddFoliage(10);
+        AddFoliage(20);
     }
 
     void Start() {
@@ -32,6 +32,7 @@ public class FoliagePool : MonoBehaviour {
     private void AddFoliage(int count) {
         for (int i = 0; i < count; i++) {
             GameObject foliateToInstantiate = Instantiate(foliagePrefabs[numInstantiated % (foliagePrefabs.Length)]);
+
             foliageQueue.Enqueue(foliateToInstantiate);
             numInstantiated++;
         }
