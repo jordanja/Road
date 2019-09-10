@@ -54,12 +54,16 @@ public class LandscapeManager : MonoBehaviour {
         int roadNum = Mathf.FloorToInt(z/RoadManager.instance.GetRoadZLength());
 
         Bounds roadBounds = RoadManager.instance.GetRoad(roadNum).GetComponent<MeshRenderer>().bounds;
+        roadBounds.Expand(1f);
+
         while (roadBounds.Contains(placementPoint)) {
             x = UnityEngine.Random.Range(GetLandscapeMinX(), GetLandscapeMaxX());
             z = UnityEngine.Random.Range(z1, z2);
             placementPoint = new Vector3(x, 0, z);
             roadNum = Mathf.FloorToInt(z/RoadManager.instance.GetRoadZLength());
             roadBounds = RoadManager.instance.GetRoad(roadNum).GetComponent<MeshRenderer>().bounds;
+            roadBounds.Expand(1f);
+
         }
         float y = GetHeightForLandscape(x);
         placementPoint = new Vector3(x, y, z);

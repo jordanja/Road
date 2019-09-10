@@ -46,7 +46,7 @@ public class LandscapeGenerator : MonoBehaviour {
 
                 float x = MathHelper.Remap(j, 0, (vertices - 1), xMin, xMax);
                 float z = MathHelper.Remap(i, 0, (vertices - 1), _z1, _z2);
-                float y = LandscapeManager.instance.GetHeightForLandscape(x);
+                float y = LandscapeManager.instance.GetHeightForLandscape(x)/* + Mathf.PerlinNoise(x*100,z*100)*0.3f - 0.3f*/;
 
                 int index = i * vertices + j;
                 points[index] = new Vector3(x, y , z);
