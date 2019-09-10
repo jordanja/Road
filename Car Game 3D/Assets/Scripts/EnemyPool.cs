@@ -40,10 +40,10 @@ public class EnemyPool : MonoBehaviour {
 
     private void AddEnemies(int count) {
         for (int i = 0; i < count; i++) {
-            GameObject foliateToInstantiate = Instantiate(enemyPrefabs[numInstantiated % (enemyPrefabs.Length)]);
-            foliateToInstantiate.transform.parent = EnemyParent.transform;
-            foliateToInstantiate.SetActive(false);
-            enemyQueue.Enqueue(foliateToInstantiate);
+            GameObject enemyToInstantiate = Instantiate(enemyPrefabs[numInstantiated % (enemyPrefabs.Length)]);
+            enemyToInstantiate.transform.parent = EnemyParent.transform;
+            enemyToInstantiate.SetActive(false);
+            enemyQueue.Enqueue(enemyToInstantiate);
             numInstantiated++;
         }
     }

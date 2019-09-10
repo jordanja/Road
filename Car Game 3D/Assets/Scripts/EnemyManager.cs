@@ -44,14 +44,17 @@ public class EnemyManager : MonoBehaviour
         float distanceCoveredByCar = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad();
 
 
-        GameObject enemy = Instantiate(_enemy);
-        enemy.SetActive(false);
-        enemy.name = "Enemy " + enemies.Count;
-        enemy.transform.parent = transform;
+        // GameObject enemy = Instantiate(_enemy);
+        GameObject enemy = EnemyPool.instance.Get();
+
+        // enemy.name = "Enemy " + enemies.Count;
+        // enemy.transform.parent = transform;
 
         enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, GetRandomLaneNumber());
 
-        enemies.Add(enemy);
+        // enemies.Add(enemy);
+
+        enemy.SetActive(true);
 
     }
 
