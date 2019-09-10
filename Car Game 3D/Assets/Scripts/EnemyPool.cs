@@ -14,12 +14,16 @@ public class EnemyPool : MonoBehaviour {
 
     GameObject EnemyParent;
 
+    int randomStartingOffset;
+
     private void Awake() {
         instance = this;
         
         EnemyParent = new GameObject();
         EnemyParent.name = "Enemy Parent";
         EnemyParent.transform.parent = transform;
+
+        randomStartingOffset = UnityEngine.Random.Range(0, enemyPrefabs.Length);
         
         AddEnemies(20);
     }
@@ -40,7 +44,7 @@ public class EnemyPool : MonoBehaviour {
 
     private void AddEnemies(int count) {
         for (int i = 0; i < count; i++) {
-            GameObject enemyToInstantiate = Instantiate(enemyPrefabs[numInstantiated % (enemyPrefabs.Length)]);
+            GameObject enemyToInstantiate = Instantiate(enemyPrefabs[(numInstantiated + randomStartingOffset) % (enemyPrefabs.Length)]);
             enemyToInstantiate.transform.parent = EnemyParent.transform;
             enemyToInstantiate.SetActive(false);
             enemyQueue.Enqueue(enemyToInstantiate);
