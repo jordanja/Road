@@ -41,7 +41,10 @@ public class EnemyMovement : MonoBehaviour {
     }
 
     void Update() {
-        SetPosition();
+        if (gameObject.activeInHierarchy == true) {
+            SetPosition();
+
+        }
     }
 
     IEnumerator laneChanger(float laneChangerDelay) {
