@@ -70,7 +70,8 @@ public class EnemyMovement : MonoBehaviour {
         }
 
         if (currentRoad  == null) {
-            Destroy(gameObject);
+            // Destroy(gameObject);
+            EnemyPool.instance.ReturnToPool(this.gameObject);
         } else {
             Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(percentageOnRoad);
             Vector3 facing = currentRoad.GetDerivitiveOnRoad(percentageOnRoad);    
