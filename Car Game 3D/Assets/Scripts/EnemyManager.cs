@@ -19,6 +19,8 @@ public class EnemyManager : MonoBehaviour
 
     float timeForOneRoad = 4f;
 
+    float timeBetweenSendingEnemies = 2f;
+
     void Awake() {
         instance = this;
     }
@@ -33,7 +35,7 @@ public class EnemyManager : MonoBehaviour
 
         while (true) {
             sendEnemy();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(timeBetweenSendingEnemies);
         }
     }
 
