@@ -69,6 +69,8 @@ public class RoadManager : MonoBehaviour {
         roadParents.Add(roadParent);
     }
 
+
+
     public GameObject GetRoad(int roadNum) {
         if ((roadNum < roads.Count) && (roadNum >= 0)){
             if (roads[roadNum] != null) {
@@ -94,6 +96,7 @@ public class RoadManager : MonoBehaviour {
         float xLocation = 0;
         float yLocation = 0;
         float zLocation = (roads.Count+1) * roadZLength;
+        LandscapeManager.instance.CreateLandscapeForRoad(roads.Count);
 
         Vector3 newPointOnRoad = new Vector3(xLocation, yLocation, zLocation);
         if (roads.Count == 0) {
@@ -102,6 +105,7 @@ public class RoadManager : MonoBehaviour {
             CreateNewRoad(roads[roads.Count - 1].GetComponent<Road>().GetLastPoint(), newPointOnRoad, segments, roadCurviness, numberOfControlPoints);
 
         }
+
 
 
     }
@@ -132,9 +136,14 @@ public class RoadManager : MonoBehaviour {
             Destroy(roads[roadNum]);
             Destroy(roadBoxs[roadNum]);
             Destroy(roadParents[roadNum]);
-
+            LandscapeManager.instance.RemoveLandscape(roadNum);
         }
 
+    }
+
+    public float GetApproxPointOnRoadAtZPosition(float z) {
+        int roadNum = Mathf.FloorToInt(z/GetRoadZLength());
+        return 0f;
     }
 
 }

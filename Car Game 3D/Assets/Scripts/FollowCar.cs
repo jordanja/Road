@@ -8,8 +8,8 @@ public class FollowCar : MonoBehaviour
     [SerializeField]
     Transform Car;
 
-    Vector3 translationOffset = new Vector3(0,1,-2);
-    Vector3 rotationOffset = new Vector3(30,0,0);
+    Vector3 translationOffset = new Vector3(0,0.6f,-2);
+    Vector3 rotationOffset = new Vector3(16.55f,0,0);
 
 
     void LateUpdate() {
