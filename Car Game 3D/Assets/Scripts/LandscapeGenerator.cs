@@ -37,14 +37,18 @@ public class LandscapeGenerator : MonoBehaviour {
         Vector3[] points = new Vector3[vertices * vertices];
         int[] triangles = new int[(vertices - 1) * (vertices - 1) * 6];
         Vector2[] uv = new Vector2[vertices * vertices];
-
+        float xMin = -10f;
+        float xMax = +10f;
         for (int i = 0; i < vertices; i++) {
             for (int j = 0; j < vertices; j++) {
 
-                float x = MathHelper.Remap(j, 0, (vertices - 1), -10, +10);
+                float x = MathHelper.Remap(j, 0, (vertices - 1), xMin, xMax);
                 float z = MathHelper.Remap(i, 0, (vertices - 1), _z1, _z2);
+                float y = (Mathf.Abs(x)/6f) - 0.5f;
+                // float distanceFromRoad = RoadManager.instance.GetApproxPointOnRoadAtZPosition(z);
+
                 int index = i * vertices + j;
-                points[index] = new Vector3(x,-0.1f, z);
+                points[index] = new Vector3(x, y , z);
                 // print("points[" + index + "] = " + points[index]); 
 
             }

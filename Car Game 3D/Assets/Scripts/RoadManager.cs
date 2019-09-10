@@ -69,6 +69,8 @@ public class RoadManager : MonoBehaviour {
         roadParents.Add(roadParent);
     }
 
+
+
     public GameObject GetRoad(int roadNum) {
         if ((roadNum < roads.Count) && (roadNum >= 0)){
             if (roads[roadNum] != null) {
@@ -137,6 +139,11 @@ public class RoadManager : MonoBehaviour {
 
         }
 
+    }
+
+    public float GetApproxPointOnRoadAtZPosition(float z) {
+        int roadNum = Mathf.FloorToInt(z/GetRoadZLength());
+        return 0f;
     }
 
 }

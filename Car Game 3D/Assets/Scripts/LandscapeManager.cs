@@ -28,7 +28,7 @@ public class LandscapeManager : MonoBehaviour {
         landscape.GetComponent<LandscapeGenerator>().Init(z1, z2);
         landscapes.Add(landscape);
 
-        addFoliage();
+        // addFoliage();
 
     }
 
