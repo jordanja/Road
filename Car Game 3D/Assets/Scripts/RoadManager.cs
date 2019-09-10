@@ -40,7 +40,6 @@ public class RoadManager : MonoBehaviour {
         for (int i = 0; i < 5; i++) {
             AddRoad(GetRoadZLength(), GetSegments(), GetRoadCurviness(), GetNumberOfControlPoints());
         }
-        print("added all required roads");
 
         initialized = true;
     }

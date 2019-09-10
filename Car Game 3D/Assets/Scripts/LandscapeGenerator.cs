@@ -39,8 +39,8 @@ public class LandscapeGenerator : MonoBehaviour {
         Vector3[] points = new Vector3[vertices * vertices];
         int[] triangles = new int[(vertices - 1) * (vertices - 1) * 6];
         Vector2[] uv = new Vector2[vertices * vertices];
-        float xMin = -10f;
-        float xMax = +10f;
+        float xMin = LandscapeManager.instance.GetLandscapeMinX();
+        float xMax = LandscapeManager.instance.GetLandscapeMaxX();
         for (int i = 0; i < vertices; i++) {
             for (int j = 0; j < vertices; j++) {
 

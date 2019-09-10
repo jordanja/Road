@@ -10,8 +10,12 @@ public class LandscapeManager : MonoBehaviour {
     GameObject LandscapeBlueprint;
 
     List<GameObject> landscapes = new List<GameObject>();
+    List<GameObject> landscapeParents = new List<GameObject>();
 
-    int numTreesPerLandscape = 10;
+    int numTreesPerLandscape = 40;
+
+    float landscapeMinX = -10f;
+    float landscapeMaxX = 10f;
 
     void Awake() {
         instance = this;
@@ -23,6 +27,7 @@ public class LandscapeManager : MonoBehaviour {
         GameObject landscapeParent = new GameObject();
         landscapeParent.name = "Landscape Parent " + landscapes.Count;
         landscapeParent.transform.parent = transform;
+        landscapeParents.Add(landscapeParent);
 
         GameObject landscape = Instantiate(LandscapeBlueprint, landscapeParent.transform, false);
         landscape.name = "Landscape " + landscapes.Count;
@@ -42,17 +47,16 @@ public class LandscapeManager : MonoBehaviour {
 
         GameObject tree = FoliagePool.instance.Get();
         
-        float x = UnityEngine.Random.Range(-10f, 10f);
+        float x = UnityEngine.Random.Range(GetLandscapeMinX(), GetLandscapeMaxX());
         float z = UnityEngine.Random.Range(z1, z2);
-        // float y = GetHeightForLandscape(x);
+
         Vector3 placementPoint = new Vector3(x, 0, z);
         int roadNum = Mathf.FloorToInt(z/RoadManager.instance.GetRoadZLength());
-        print("getting road bounds for road number: " + roadNum);
+
         Bounds roadBounds = RoadManager.instance.GetRoad(roadNum).GetComponent<MeshRenderer>().bounds;
         while (roadBounds.Contains(placementPoint)) {
-            x = UnityEngine.Random.Range(-10f, 10f);
+            x = UnityEngine.Random.Range(GetLandscapeMinX(), GetLandscapeMaxX());
             z = UnityEngine.Random.Range(z1, z2);
-            // y = GetHeightForLandscape(x);
             placementPoint = new Vector3(x, 0, z);
             roadNum = Mathf.FloorToInt(z/RoadManager.instance.GetRoadZLength());
             roadBounds = RoadManager.instance.GetRoad(roadNum).GetComponent<MeshRenderer>().bounds;
@@ -75,6 +79,7 @@ public class LandscapeManager : MonoBehaviour {
 
     public void RemoveLandscape(int roadNum) {
         Destroy(landscapes[roadNum]);
+        Destroy(landscapeParents[roadNum]);
         FoliagePool.instance.ReturnToPool((float)roadNum * RoadManager.instance.GetRoadZLength(), (float)(roadNum + 1) * RoadManager.instance.GetRoadZLength());
     }
 
@@ -82,4 +87,11 @@ public class LandscapeManager : MonoBehaviour {
         return (Mathf.Abs(xPos)/6f) - 0.5f;
     }
 
+    public float GetLandscapeMinX() {
+        return landscapeMinX;
+    }
+
+    public float GetLandscapeMaxX() {
+        return landscapeMaxX;
+    }
 }
