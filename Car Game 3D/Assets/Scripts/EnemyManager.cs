@@ -7,7 +7,6 @@ public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance;
 
-    private List<GameObject> enemies;
 
     [SerializeField]
     CarMovement car;
@@ -26,7 +25,6 @@ public class EnemyManager : MonoBehaviour
     }
 
     void Start() {
-        enemies = new List<GameObject>();
         StartCoroutine(SendEnemies());
         
     }
@@ -44,15 +42,10 @@ public class EnemyManager : MonoBehaviour
         float distanceCoveredByCar = car.GetCurrentRoadNum() + car.GetFractionAlongCurrentRoad();
 
 
-        // GameObject enemy = Instantiate(_enemy);
         GameObject enemy = EnemyPool.instance.Get();
-
-        // enemy.name = "Enemy " + enemies.Count;
-        // enemy.transform.parent = transform;
 
         enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, GetRandomLaneNumber());
 
-        // enemies.Add(enemy);
 
         enemy.SetActive(true);
 
