@@ -28,7 +28,14 @@ public class LandscapeManager : MonoBehaviour {
         landscape.GetComponent<LandscapeGenerator>().Init(z1, z2);
         landscapes.Add(landscape);
 
+        addFoliage();
+
+    }
+
+    private void addFoliage() {
+
         GameObject tree = FoliagePool.instance.Get();
+        tree.SetActive(true);
         // tree.transform.position = new Vector3(0,0,0);
 
     }
