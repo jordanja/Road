@@ -41,7 +41,7 @@ public class LandscapeManager : MonoBehaviour {
         
         float x = UnityEngine.Random.Range(-10f, 10f);
         float z = UnityEngine.Random.Range(z1, z2);
-        float y = 0;
+        float y = GetHeightForLandscape(x);
         tree.transform.position = new Vector3(x, y, z);
         
         tree.SetActive(true);
@@ -59,6 +59,10 @@ public class LandscapeManager : MonoBehaviour {
     public void RemoveLandscape(int roadNum) {
         Destroy(landscapes[roadNum]);
         FoliagePool.instance.ReturnToPool((float)roadNum * RoadManager.instance.GetRoadZLength(), (float)(roadNum + 1) * RoadManager.instance.GetRoadZLength());
+    }
+
+    public float GetHeightForLandscape(float xPos) {
+        return (Mathf.Abs(xPos)/6f) - 0.5f;
     }
 
 }

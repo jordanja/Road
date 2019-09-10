@@ -46,7 +46,7 @@ public class LandscapeGenerator : MonoBehaviour {
 
                 float x = MathHelper.Remap(j, 0, (vertices - 1), xMin, xMax);
                 float z = MathHelper.Remap(i, 0, (vertices - 1), _z1, _z2);
-                float y = (Mathf.Abs(x)/6f) - 0.5f;
+                float y = LandscapeManager.instance.GetHeightForLandscape(x);
                 // float distanceFromRoad = RoadManager.instance.GetApproxPointOnRoadAtZPosition(z);
 
                 int index = i * vertices + j;
@@ -76,5 +76,7 @@ public class LandscapeGenerator : MonoBehaviour {
         mesh.uv = uv;
 
     }
+
+
 
 }
