@@ -40,6 +40,7 @@ public class RoadManager : MonoBehaviour {
         for (int i = 0; i < 5; i++) {
             AddRoad(GetRoadZLength(), GetSegments(), GetRoadCurviness(), GetNumberOfControlPoints());
         }
+        print("added all required roads");
 
         initialized = true;
     }
@@ -66,6 +67,7 @@ public class RoadManager : MonoBehaviour {
 
         roadBoxs.Add(roadBox);
         roads.Add(road);
+        // print("bounds for road = " + road.GetComponent<MeshRenderer>().bounds.Contains());
         roadParents.Add(roadParent);
     }
 

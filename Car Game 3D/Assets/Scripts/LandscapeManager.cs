@@ -30,19 +30,36 @@ public class LandscapeManager : MonoBehaviour {
         landscape.GetComponent<LandscapeGenerator>().Init(z1, z2);
         landscapes.Add(landscape);
         for (int i = 0; i < numTreesPerLandscape; i++) {
-            addFoliage(z1, z2);
+            // addFoliage(z1, z2);
+            StartCoroutine(addFoliage(z1,z2));
         }
 
     }
 
-    private void addFoliage(float z1, float z2) {
+    IEnumerator addFoliage(float z1, float z2) {
+        
+        yield return new WaitUntil(() => RoadManager.instance.initialized == true);
 
         GameObject tree = FoliagePool.instance.Get();
         
         float x = UnityEngine.Random.Range(-10f, 10f);
         float z = UnityEngine.Random.Range(z1, z2);
+        // float y = GetHeightForLandscape(x);
+        Vector3 placementPoint = new Vector3(x, 0, z);
+        int roadNum = Mathf.FloorToInt(z/RoadManager.instance.GetRoadZLength());
+        print("getting road bounds for road number: " + roadNum);
+        Bounds roadBounds = RoadManager.instance.GetRoad(roadNum).GetComponent<MeshRenderer>().bounds;
+        while (roadBounds.Contains(placementPoint)) {
+            x = UnityEngine.Random.Range(-10f, 10f);
+            z = UnityEngine.Random.Range(z1, z2);
+            // y = GetHeightForLandscape(x);
+            placementPoint = new Vector3(x, 0, z);
+            roadNum = Mathf.FloorToInt(z/RoadManager.instance.GetRoadZLength());
+            roadBounds = RoadManager.instance.GetRoad(roadNum).GetComponent<MeshRenderer>().bounds;
+        }
         float y = GetHeightForLandscape(x);
-        tree.transform.position = new Vector3(x, y, z);
+        placementPoint = new Vector3(x, y, z);
+        tree.transform.position = placementPoint;
         
         tree.SetActive(true);
 
