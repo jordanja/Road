@@ -11,6 +11,7 @@ public class CarMovement : MonoBehaviour {
 
     float timeForOneRoad;
     float xChange;
+    float lastXChange;
 
     int currentRoadNum;
     int lastRoadNum;
@@ -32,6 +33,7 @@ public class CarMovement : MonoBehaviour {
 
     [SerializeField]
     ParticleSystem LeftSparks;
+    float clampedXChange;
 
     private void Start() {
         allowCarMovement = false;
@@ -39,6 +41,7 @@ public class CarMovement : MonoBehaviour {
         lastRoadNum = 0;
         fractionAlongCurrentRoad = 0f;
         carWidth = CarBody.GetComponent<Renderer>().bounds.size.x/2;
+        clampedXChange = 0;
         StartCoroutine(Setup());
 
     }
@@ -73,51 +76,59 @@ public class CarMovement : MonoBehaviour {
                     currentRoad = RoadManager.instance.GetRoad(currentRoadNum).GetComponent<Road>();
 
                     RoadManager.instance.RemoveRoad(lastRoadNum - 1);
+                    lastRoadNum = currentRoadNum;
+
                 }
 
                 fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
                 
-                Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(fractionAlongCurrentRoad);
-                Vector3 facing = currentRoad.GetDerivitiveOnRoad(fractionAlongCurrentRoad);
                 if (Input.GetMouseButton(0)) {
                     xChange += Input.GetAxis("Mouse X");
 
-                    // A lot of lines of code could be moved in this if statement
+                    if (lastXChange != xChange) {
+                        clampedXChange = Mathf.Clamp(xChange, -RoadManager.instance.GetRoadWidth() + carWidth, +RoadManager.instance.GetRoadWidth() - carWidth);
+                        SparksParticleSystem();
+                    }
+
+                    lastXChange = xChange;
                 }
 
 
+                Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(fractionAlongCurrentRoad);
+                Vector3 facing = currentRoad.GetDerivitiveOnRoad(fractionAlongCurrentRoad);
+
                 Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
-                float clampedXChange = Mathf.Clamp(xChange,-RoadManager.instance.GetRoadWidth() + carWidth, +RoadManager.instance.GetRoadWidth() - carWidth);
                 Vector3 offset = normal * clampedXChange;
                 
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
 
                 transform.position = centerOfRoadPosition + offset;
                 transform.eulerAngles = new Vector3(0, angle, 0);;
-                if (clampedXChange >= +RoadManager.instance.GetRoadWidth() - carWidth - 0.1f) {
-                    if (RightSparks.isPlaying == false) {
-                        RightSparks.Play();
-                    }
-                } else {
-                    if (RightSparks.isPlaying == true) {
-                        RightSparks.Stop();
-                    }
-                }
-
-                if (clampedXChange <= -RoadManager.instance.GetRoadWidth() + carWidth + 0.1f) {
-                    if (LeftSparks.isPlaying == false) {
-                        LeftSparks.Play();
-                    }
-                } else {
-                    if (LeftSparks.isPlaying == true) {
-                        LeftSparks.Stop();
-                    }
-                }
-
+                
 
             }
         }
-        lastRoadNum = currentRoadNum;
+    }
+
+    private void SparksParticleSystem() {
+        if (clampedXChange >= +RoadManager.instance.GetRoadWidth() - carWidth - 0.1f) {
+            if (RightSparks.isPlaying == false) {
+                RightSparks.Play();
+            }
+        } else {
+            if (RightSparks.isPlaying == true) {
+                RightSparks.Stop();
+            }
+        }
+        if (clampedXChange <= -RoadManager.instance.GetRoadWidth() + carWidth + 0.1f) {
+            if (LeftSparks.isPlaying == false) {
+                LeftSparks.Play();
+            }
+        } else {
+            if (LeftSparks.isPlaying == true) {
+                LeftSparks.Stop();
+            }
+        }
     }
 
     public int GetCurrentRoadNum() {

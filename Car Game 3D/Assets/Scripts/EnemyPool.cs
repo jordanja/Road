@@ -25,7 +25,7 @@ public class EnemyPool : MonoBehaviour {
 
         randomStartingOffset = UnityEngine.Random.Range(0, enemyPrefabs.Length);
         
-        AddEnemies(20);
+        AddEnemies(100);
     }
 
     void Start() {

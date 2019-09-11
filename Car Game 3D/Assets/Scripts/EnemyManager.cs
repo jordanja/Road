@@ -18,7 +18,10 @@ public class EnemyManager : MonoBehaviour
 
     float timeForOneRoad = 4f;
 
-    float timeBetweenSendingEnemies = 2f;
+    // float timeBetweenSendingEnemies = 2f;
+
+    [SerializeField]
+    AnimationCurve timeBetweenSendingEnemiesCurve;
 
     void Awake() {
         instance = this;
@@ -33,7 +36,7 @@ public class EnemyManager : MonoBehaviour
 
         while (true) {
             sendEnemy();
-            yield return new WaitForSeconds(timeBetweenSendingEnemies);
+            yield return new WaitForSeconds(timeBetweenSendingEnemiesCurve.Evaluate(Time.time/60f));
         }
     }
 

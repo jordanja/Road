@@ -605,6 +605,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 1436408004}
   _enemy: {fileID: 3335740923273145865, guid: f2072559999c84326b9664111b49b093, type: 3}
+  timeBetweenSendingEnemiesCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2
+      inSlope: -0.114228494
+      outSlope: -0.114228494
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.20837532
+    - serializedVersion: 3
+      time: 0.35527992
+      value: 1.7872342
+      inSlope: -1.0581092
+      outSlope: -1.0581092
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.26828885
+    - serializedVersion: 3
+      time: 0.5465987
+      value: 1.3590374
+      inSlope: -0.25975424
+      outSlope: -0.25975424
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.13818587
+    - serializedVersion: 3
+      time: 0.73043185
+      value: 1.0330156
+      inSlope: -0.46178558
+      outSlope: -0.46178558
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.18169735
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1866003767
 Transform:
   m_ObjectHideFlags: 0
