@@ -46,7 +46,6 @@ public class EnemyManager : MonoBehaviour
 
         enemy?.GetComponent<EnemyMovement>().Init(car.GetCurrentRoadNum(), car.GetFractionAlongCurrentRoad(), 2, GetRandomLaneNumber());
 
-
         enemy.SetActive(true);
 
     }
