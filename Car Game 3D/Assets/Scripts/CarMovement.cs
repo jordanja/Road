@@ -26,6 +26,12 @@ public class CarMovement : MonoBehaviour {
 
     float carWidth;
 
+    [SerializeField]
+    ParticleSystem RightSparks;
+
+    [SerializeField]
+    ParticleSystem LeftSparks;
+
     private void Start() {
         allowCarMovement = false;
         currentRoadNum = 0;
@@ -80,12 +86,32 @@ public class CarMovement : MonoBehaviour {
                 Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
                 float clampedXChange = Mathf.Clamp(xChange,-RoadManager.instance.GetRoadWidth() + carWidth, +RoadManager.instance.GetRoadWidth() - carWidth);
                 Vector3 offset = normal * clampedXChange;
-
+                
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
 
                 transform.position = centerOfRoadPosition + offset;
                 transform.eulerAngles = new Vector3(0, angle, 0);;
-                
+                if (clampedXChange >= +RoadManager.instance.GetRoadWidth() - carWidth - 0.1f) {
+                    if (RightSparks.isPlaying == false) {
+                        RightSparks.Play();
+                    }
+                } else {
+                    if (RightSparks.isPlaying == true) {
+                        RightSparks.Stop();
+                    }
+                }
+
+                if (clampedXChange <= -RoadManager.instance.GetRoadWidth() + carWidth + 0.1f) {
+                    if (LeftSparks.isPlaying == false) {
+                        LeftSparks.Play();
+                    }
+                } else {
+                    if (LeftSparks.isPlaying == true) {
+                        LeftSparks.Stop();
+                    }
+                }
+
+
             }
         }
         lastRoadNum = currentRoadNum;
