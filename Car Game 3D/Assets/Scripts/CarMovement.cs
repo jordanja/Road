@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CarMovement : MonoBehaviour {
 
@@ -80,6 +81,8 @@ public class CarMovement : MonoBehaviour {
                 Vector3 facing = currentRoad.GetDerivitiveOnRoad(fractionAlongCurrentRoad);
                 if (Input.GetMouseButton(0)) {
                     xChange += Input.GetAxis("Mouse X");
+
+                    // A lot of lines of code could be moved in this if statement
                 }
 
 
@@ -129,9 +132,11 @@ public class CarMovement : MonoBehaviour {
         return fractionAlongCurrentRoad;
     } 
 
-    // void OnCollisionEnter(Collision collision) {
-
-    // }
+    void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Enemy") {
+            SceneManager.LoadScene(0);
+        }
+    }
     
     
 }
