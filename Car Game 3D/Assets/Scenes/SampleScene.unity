@@ -735,6 +735,11 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7506909550748345234, guid: bb24f46586b5d4de0b2618c2c152c6da,
+        type: 3}
+      propertyPath: CarBody
+      value: 
+      objectReference: {fileID: 1651179197}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb24f46586b5d4de0b2618c2c152c6da, type: 3}
 --- !u!1 &1124727480
@@ -1297,6 +1302,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e99879fc1d5b4cabb0d699d3c4b80f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!23 &1651179197 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3132873765121065566, guid: bb24f46586b5d4de0b2618c2c152c6da,
+    type: 3}
+  m_PrefabInstance: {fileID: 998603929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1866003765
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,7 +1461,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 40
   field of view: 60
   orthographic: 0
   orthographic size: 5

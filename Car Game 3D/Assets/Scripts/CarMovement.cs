@@ -9,7 +9,7 @@ public class CarMovement : MonoBehaviour {
     float timeSinceStart;
 
     float timeForOneRoad;
-    float change;
+    float xChange;
 
     int currentRoadNum;
     int lastRoadNum;
@@ -43,11 +43,15 @@ public class CarMovement : MonoBehaviour {
         allowCarMovement = true;
         timeForOneRoad = CarManager.instance.GetTimeToTravelOneRoad();
         currentRoad = RoadManager.instance.GetRoad(0).GetComponent<Road>();
-        change = 0;
+        xChange = 0;
+
+
     }
 
     private void Update() {
         if (allowCarMovement) {
+            
+
             timeSinceStart += Time.deltaTime;
             currentRoadNum = Mathf.RoundToInt(Mathf.Floor(timeSinceStart / timeForOneRoad));
 
@@ -56,7 +60,7 @@ public class CarMovement : MonoBehaviour {
             if (currentRoadNum <= RoadManager.instance.NumRoads()) { // Should be isValidRoadNum(currentRoadNum)
 
                 if (currentRoadNum != lastRoadNum) {
-                    if (currentRoadNum >= RoadManager.instance.NumRoads() -1) {
+                    while (currentRoadNum >= RoadManager.instance.NumRoads() - 4) {
                         RoadManager.instance.AddRoad(RoadManager.instance.GetRoadZLength(), RoadManager.instance.GetSegments(), RoadManager.instance.GetRoadCurviness(), RoadManager.instance.GetNumberOfControlPoints());
                     }
                     currentRoad = RoadManager.instance.GetRoad(currentRoadNum).GetComponent<Road>();
@@ -68,18 +72,20 @@ public class CarMovement : MonoBehaviour {
                 
                 Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(fractionAlongCurrentRoad);
                 Vector3 facing = currentRoad.GetDerivitiveOnRoad(fractionAlongCurrentRoad);
-
                 if (Input.GetMouseButton(0)) {
-                    change += Input.GetAxis("Mouse X");
+                    xChange += Input.GetAxis("Mouse X");
                 }
 
+
                 Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
-                Vector3 offset = normal * Mathf.Clamp(change,-RoadManager.instance.GetRoadWidth() + carWidth, +RoadManager.instance.GetRoadWidth() - carWidth);
+                float clampedXChange = Mathf.Clamp(xChange,-RoadManager.instance.GetRoadWidth() + carWidth, +RoadManager.instance.GetRoadWidth() - carWidth);
+                Vector3 offset = normal * clampedXChange;
 
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
-               
+
                 transform.position = centerOfRoadPosition + offset;
                 transform.eulerAngles = new Vector3(0, angle, 0);;
+                
             }
         }
         lastRoadNum = currentRoadNum;
@@ -97,9 +103,9 @@ public class CarMovement : MonoBehaviour {
         return fractionAlongCurrentRoad;
     } 
 
-    void OnCollisionEnter(Collision collision) {
-        // print("collided!");
-    }
+    // void OnCollisionEnter(Collision collision) {
+
+    // }
     
     
 }
