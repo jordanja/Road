@@ -21,12 +21,19 @@ public class CarMovement : MonoBehaviour {
     [SerializeField]
     Transform carTransform;
 
+    [SerializeField]
+    MeshRenderer CarBody;
+
+    float carWidth;
+
     private void Start() {
         allowCarMovement = false;
         currentRoadNum = 0;
         lastRoadNum = 0;
         fractionAlongCurrentRoad = 0f;
+        carWidth = CarBody.GetComponent<Renderer>().bounds.size.x/2;
         StartCoroutine(Setup());
+
     }
 
 
@@ -67,7 +74,7 @@ public class CarMovement : MonoBehaviour {
                 }
 
                 Vector3 normal = new Vector3(facing.z, facing.y, -facing.x);
-                Vector3 offset = normal * Mathf.Clamp(change,-RoadManager.instance.GetRoadWidth(),+RoadManager.instance.GetRoadWidth());
+                Vector3 offset = normal * Mathf.Clamp(change,-RoadManager.instance.GetRoadWidth() + carWidth, +RoadManager.instance.GetRoadWidth() - carWidth);
 
                 float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
                
