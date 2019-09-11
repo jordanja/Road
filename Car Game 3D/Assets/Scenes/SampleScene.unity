@@ -234,6 +234,12 @@ MonoBehaviour:
     type: 3}
   roadBoxBlueprint: {fileID: 1648092180062045262, guid: c68ed4e7a3a2b482e9eaab854202693e,
     type: 3}
+--- !u!198 &478537776 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1473755049204065737, guid: bb24f46586b5d4de0b2618c2c152c6da,
+    type: 3}
+  m_PrefabInstance: {fileID: 998603929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,6 +746,11 @@ PrefabInstance:
       propertyPath: CarBody
       value: 
       objectReference: {fileID: 1651179197}
+    - target: {fileID: 7506909550748345234, guid: bb24f46586b5d4de0b2618c2c152c6da,
+        type: 3}
+      propertyPath: LeftSparks
+      value: 
+      objectReference: {fileID: 478537776}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb24f46586b5d4de0b2618c2c152c6da, type: 3}
 --- !u!1 &1124727480
@@ -1461,7 +1472,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 40
+  far clip plane: 100
   field of view: 60
   orthographic: 0
   orthographic size: 5
