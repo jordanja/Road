@@ -145,7 +145,7 @@ public class CarMovement : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Enemy") {
-            SceneManager.LoadScene(0);
+            GameplayManager.instance.RestartGame();
         }
     }
     
