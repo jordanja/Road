@@ -86,28 +86,10 @@ public class EnemyMovement : MonoBehaviour {
 
             float laneChangeAngle = 0f;
             if (currentlyChangingLanes == true) {
-                float t = (Time.time - timeStartedChangingLanes)/(Mathf.Abs(laneToChangeTo - _lane) * timeToChangeOneLane);
-                offset *= Mathf.Lerp(change, newChange,t);
-                if (t < 0.5) {
-                    laneChangeAngle = Mathf.Lerp(0,maxLaneChangeAngle, t*2);
-                    if (laneToChangeTo > _lane) {
-                        laneChangeAngle *= -1;
-                    }
-                } else {
-                    laneChangeAngle = Mathf.Lerp(maxLaneChangeAngle, 0, (t-0.5f)*2);
-                    if (laneToChangeTo > _lane) {
-                        laneChangeAngle *= -1;
-                    }
-                    
-                }
+                (laneChangeAngle, offset) = ChangeLanes(offset);
 
-                if (t >= 1) {
-                    currentlyChangingLanes = false;
-                    _lane = laneToChangeTo;
-                    change = GetLanePosition(_lane);
-                }
-
-            } else {
+            }
+            else {
                 offset *= change;
             }
 
@@ -119,12 +101,34 @@ public class EnemyMovement : MonoBehaviour {
         prevRoadNum = currentRoadNum;
     }
 
+    private (float, Vector3) ChangeLanes(Vector3 offset) {
+        float laneChangeAngle;
+        float t = (Time.time - timeStartedChangingLanes) / (Mathf.Abs(laneToChangeTo - _lane) * timeToChangeOneLane);
+        offset *= Mathf.Lerp(change, newChange, t);
+        if (t < 0.5) {
+            laneChangeAngle = Mathf.Lerp(0, maxLaneChangeAngle, t * 2);
+            if (laneToChangeTo > _lane) {
+                laneChangeAngle *= -1;
+            }
+        } else {
+            laneChangeAngle = Mathf.Lerp(maxLaneChangeAngle, 0, (t - 0.5f) * 2);
+            if (laneToChangeTo > _lane) {
+                laneChangeAngle *= -1;
+            }
 
+        }
+
+        if (t >= 1) {
+            currentlyChangingLanes = false;
+            _lane = laneToChangeTo;
+            change = GetLanePosition(_lane);
+        }
+
+        return (laneChangeAngle, offset);
+    }
 
     private float GetLanePosition(float lane) {
-    
-        float xOffset = ((lane - 1.5f)/(2f)) * RoadManager.instance.GetRoadWidth();
-        return xOffset;
+        return ((lane - 1.5f)/(2f)) * RoadManager.instance.GetRoadWidth();
     }
 
     private int getNewLane(){ 
