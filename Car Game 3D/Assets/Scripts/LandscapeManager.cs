@@ -17,11 +17,17 @@ public class LandscapeManager : MonoBehaviour {
     float landscapeMinX = -10f;
     float landscapeMaxX = 10f;
 
+    int numberOfMountainsAdded = 0;
+
     void Awake() {
         instance = this;
     }
 
-    
+    void Start() {
+        addLeftAndRightMountains();
+        addLeftAndRightMountains();
+        addLeftAndRightMountains();
+    }
 
     public void CreateLandscapeBetweenZPoints(float z1, float z2) {
         GameObject landscapeParent = new GameObject();
@@ -74,6 +80,20 @@ public class LandscapeManager : MonoBehaviour {
 
     }
 
+    public void addLeftAndRightMountains(){
+        GameObject mountainLeft = MountainsPool.instance.Get();
+        GameObject mountainRight = MountainsPool.instance.Get();
+
+        mountainLeft.transform.position = new Vector3(-20f, -0.3f, GetInitialMountainZ() + GetMountainMultiplier() * (numberOfMountainsAdded/2));
+        mountainRight.transform.position = new Vector3(+20f, -0.3f, GetInitialMountainZ() + GetMountainMultiplier() * (numberOfMountainsAdded/2));
+        
+        mountainLeft.SetActive(true);
+        mountainRight.SetActive(true);
+
+        numberOfMountainsAdded += 2;
+
+    }
+
     public void CreateLandscapeForRoad(int roadNum) {
         float z1 = (float)roadNum * RoadManager.instance.GetRoadZLength();
         float z2 = (float)(roadNum + 1) * RoadManager.instance.GetRoadZLength();
@@ -97,5 +117,17 @@ public class LandscapeManager : MonoBehaviour {
 
     public float GetLandscapeMaxX() {
         return landscapeMaxX;
+    }
+
+    public int GetNumberOfMountainsAdded() {
+        return numberOfMountainsAdded;
+    }
+
+    public float GetInitialMountainZ() {
+        return 18f;
+    }
+
+    public float GetMountainMultiplier() {
+        return 32f;
     }
 }

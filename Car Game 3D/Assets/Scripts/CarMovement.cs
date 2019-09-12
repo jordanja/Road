@@ -35,6 +35,8 @@ public class CarMovement : MonoBehaviour {
     ParticleSystem LeftSparks;
     float clampedXChange;
 
+    float carPosAtLastMountainPlacement = 0;
+
     private void Start() {
         allowCarMovement = false;
         currentRoadNum = 0;
@@ -72,6 +74,10 @@ public class CarMovement : MonoBehaviour {
                 if (currentRoadNum != lastRoadNum) {
                     while (currentRoadNum >= RoadManager.instance.NumRoads() - 4) {
                         RoadManager.instance.AddRoad(RoadManager.instance.GetRoadZLength(), RoadManager.instance.GetSegments(), RoadManager.instance.GetRoadCurviness(), RoadManager.instance.GetNumberOfControlPoints());
+                        if ((currentRoadNum) * RoadManager.instance.GetRoadZLength() - carPosAtLastMountainPlacement >= LandscapeManager.instance.GetMountainMultiplier()) {
+                            carPosAtLastMountainPlacement = currentRoadNum * RoadManager.instance.GetRoadZLength();
+                            LandscapeManager.instance.addLeftAndRightMountains();
+                        }
                     }
                     currentRoad = RoadManager.instance.GetRoad(currentRoadNum).GetComponent<Road>();
 
@@ -145,7 +151,7 @@ public class CarMovement : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Enemy") {
-            GameplayManager.instance.RestartGame();
+            // GameplayManager.instance.RestartGame();
         }
     }
     

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MountainsPool : MonoBehaviour {
-    
+
     [SerializeField]
     private GameObject mountainPrefab;
 
@@ -22,7 +22,7 @@ public class MountainsPool : MonoBehaviour {
         MountainParent.name = "Mountain Parent";
         MountainParent.transform.parent = transform;
         
-        AddMountains(10);
+        AddMountains(8);
     }
 
     void Start() {
