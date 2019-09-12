@@ -17,6 +17,7 @@ public class EnemyManager : MonoBehaviour
     int distanceAheadToSendEnemyFrom = 2;
 
     float timeForOneRoad = 3f;
+    float startTime;
 
     // float timeBetweenSendingEnemies = 2f;
 
@@ -29,14 +30,14 @@ public class EnemyManager : MonoBehaviour
 
     void Start() {
         StartCoroutine(SendEnemies());
-        
+        startTime = Time.time;
     }
 
     IEnumerator SendEnemies() {
 
         while (true) {
             sendEnemy();
-            yield return new WaitForSeconds(timeBetweenSendingEnemiesCurve.Evaluate(Time.time/60f));
+            yield return new WaitForSeconds(timeBetweenSendingEnemiesCurve.Evaluate((Time.time - startTime)/60f));
         }
     }
 
