@@ -49,7 +49,7 @@ public class GameplayManager : MonoBehaviour {
             updateHightScoreText();
             
         }
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(AppManager.GameScene);
     }
 
 }
