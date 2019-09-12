@@ -25,6 +25,8 @@ public class EnemyMovement : MonoBehaviour {
     float maxLaneChangeAngle = 30f;
     bool pastPlayer = false;
 
+    float totalLaneChangingTime;
+
 
     public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane) {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
@@ -45,7 +47,6 @@ public class EnemyMovement : MonoBehaviour {
     void Update() {
         if (gameObject.activeInHierarchy == true) {
             SetPosition();
-
         }
     }
 
@@ -57,6 +58,7 @@ public class EnemyMovement : MonoBehaviour {
             laneToChangeTo = getNewLane();
             newChange = GetLanePosition(laneToChangeTo);
             float randomDelay = UnityEngine.Random.Range(1f, 2f);
+            totalLaneChangingTime = (Mathf.Abs(laneToChangeTo - _lane) * timeToChangeOneLane);
             yield return new WaitForSeconds(timeToChangeOneLane * Mathf.Abs(laneToChangeTo - _lane) + randomDelay);
         }
     }
@@ -93,7 +95,9 @@ public class EnemyMovement : MonoBehaviour {
 
             float laneChangeAngle = 0f;
             if (currentlyChangingLanes == true) {
-                (laneChangeAngle, offset) = ChangeLanes(offset);
+                float t = (Time.time - timeStartedChangingLanes) / totalLaneChangingTime;
+                offset *= Mathf.Lerp(change, newChange, t);
+                laneChangeAngle = ChangeLanes(t);
 
             }
             else {
@@ -108,10 +112,9 @@ public class EnemyMovement : MonoBehaviour {
         prevRoadNum = currentRoadNum;
     }
 
-    private (float, Vector3) ChangeLanes(Vector3 offset) {
+    private float ChangeLanes(float t) {
         float laneChangeAngle;
-        float t = (Time.time - timeStartedChangingLanes) / (Mathf.Abs(laneToChangeTo - _lane) * timeToChangeOneLane);
-        offset *= Mathf.Lerp(change, newChange, t);
+        
         if (t < 0.5) {
             laneChangeAngle = Mathf.Lerp(0, maxLaneChangeAngle, t * 2);
             if (laneToChangeTo > _lane) {
@@ -131,7 +134,7 @@ public class EnemyMovement : MonoBehaviour {
             change = GetLanePosition(_lane);
         }
 
-        return (laneChangeAngle, offset);
+        return laneChangeAngle;
     }
 
     void checkIfPastPlayer(float percentageOnRoad) {

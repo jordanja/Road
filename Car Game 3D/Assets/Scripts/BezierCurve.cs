@@ -58,7 +58,7 @@ public static class BezierCurve {
         for (int i = 0; i < numControlPoints; i++) {
             int binCof = BinomialCoefficient(i, numControlPoints - 1);
 
-            double term = binCof * Math.Pow((1 - t), (numControlPoints - 1 - i)) * Math.Pow(t, i);
+            double term = binCof * efficientPow((1 - t), (numControlPoints - 1 - i)) * efficientPow(t, i);
 
 
             sum = sum + (controlPoints[i] * (float)term);
@@ -79,7 +79,7 @@ public static class BezierCurve {
         for (int i = 0; i < numControlPoints - 1; i++) {
             int binCof = BinomialCoefficient(i, numControlPoints - 2);
 
-            double term = binCof * Math.Pow(t, i) * Math.Pow((1 - t), (numControlPoints - 2 - i));
+            double term = binCof * efficientPow(t, i) * efficientPow((1 - t), (numControlPoints - 2 - i));
 
             sum = sum + ((controlPoints[i + 1] - controlPoints[i]) * (float)term);
 
@@ -104,6 +104,19 @@ public static class BezierCurve {
         return result;
 
     }
+
+    private static float efficientPow(float num, int exp) {
+        float result = 1f;
+        while (exp > 0) {
+            if (exp % 2 == 1) {
+                result *= num;
+            }
+            exp >>= 1;
+            num *= num;
+        }
+        return result;
+    }
+
 
 
     private static float GetRandomOffset(float roadCurviness) {
