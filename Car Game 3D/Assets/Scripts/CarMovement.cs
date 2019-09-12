@@ -111,7 +111,7 @@ public class CarMovement : MonoBehaviour {
     }
 
     private void SparksParticleSystem() {
-        if (clampedXChange >= +RoadManager.instance.GetRoadWidth() - carWidth - 0.1f) {
+        if (clampedXChange >= +RoadManager.instance.GetRoadWidth() - carWidth - 0.05f) {
             if (RightSparks.isPlaying == false) {
                 RightSparks.Play();
             }
@@ -120,7 +120,7 @@ public class CarMovement : MonoBehaviour {
                 RightSparks.Stop();
             }
         }
-        if (clampedXChange <= -RoadManager.instance.GetRoadWidth() + carWidth + 0.1f) {
+        if (clampedXChange <= -RoadManager.instance.GetRoadWidth() + carWidth + 0.05f) {
             if (LeftSparks.isPlaying == false) {
                 LeftSparks.Play();
             }

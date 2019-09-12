@@ -23,12 +23,14 @@ public class EnemyMovement : MonoBehaviour {
     float newChange;
 
     float maxLaneChangeAngle = 30f;
+    bool pastPlayer = false;
 
-    public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane)
-    {
+
+    public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane) {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
         _lane = lane;
 
+        pastPlayer = false;
         change = GetLanePosition(_lane);
 
         SetPosition();
@@ -65,15 +67,20 @@ public class EnemyMovement : MonoBehaviour {
 
         float currentPosition = startingPoint - distanceTraveled;
 
-        int currentRoadNum = Mathf.FloorToInt(currentPosition);
+        currentRoadNum = Mathf.FloorToInt(currentPosition);
         float percentageOnRoad = currentPosition - currentRoadNum;
 
         if (currentRoadNum != prevRoadNum) {
             currentRoad = RoadManager.instance.GetRoad(currentRoadNum)?.GetComponent<Road>();
+            
+        }
+        if (currentRoadNum == CarManager.instance.getPlayerRoadNum()) {
+            if ((pastPlayer == false)) {
+                checkIfPastPlayer(percentageOnRoad);
+            }
         }
 
         if (currentRoad  == null) {
-            // Destroy(gameObject);
             EnemyPool.instance.ReturnToPool(this.gameObject);
         } else {
             Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(percentageOnRoad);
@@ -125,6 +132,15 @@ public class EnemyMovement : MonoBehaviour {
         }
 
         return (laneChangeAngle, offset);
+    }
+
+    void checkIfPastPlayer(float percentageOnRoad) {
+        // print(this.name + ": " + percentageOnRoad);
+        if (percentageOnRoad < CarManager.instance.getPercentageAlongRoad()) {
+            // print(this.name + " has percentage " + percentageOnRoad + ". I have percentage " + CarManager.instance.getPercentageAlongRoad());
+            pastPlayer = true;
+            GameplayManager.instance.IncreaseScore();
+        }
     }
 
     private float GetLanePosition(float lane) {

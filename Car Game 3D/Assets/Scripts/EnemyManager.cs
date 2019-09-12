@@ -16,7 +16,7 @@ public class EnemyManager : MonoBehaviour
 
     int distanceAheadToSendEnemyFrom = 2;
 
-    float timeForOneRoad = 4f;
+    float timeForOneRoad = 3f;
 
     // float timeBetweenSendingEnemies = 2f;
 
