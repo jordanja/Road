@@ -19,28 +19,23 @@ public class FollowCar : MonoBehaviour
         
         int roadNum = CarManager.instance.getPlayerRoadNum();
         float percentage = CarManager.instance.getPercentageAlongRoad();
+        
+        float carPos = ((float)roadNum) + percentage;
 
-        float carPosition = ((float)roadNum) + percentage;
-        float total = carPosition - subtraction;
-
-        if (total < 0) {
+       
             
-        } else {
-            int camRoad = Mathf.FloorToInt(total);
-            float camPercent = total - camRoad;
-            
-            currentRoad = RoadManager.instance.GetRoad(camRoad).GetComponent<Road>();
-            Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(camPercent);
-            Vector3 facing = currentRoad.GetDerivitiveOnRoad(camPercent);
+            currentRoad = RoadManager.instance.GetRoad(roadNum).GetComponent<Road>();
+            Vector3 centerOfRoadPosition = currentRoad.GetLocationOnRoad(percentage);
+            Vector3 facing = currentRoad.GetDerivitiveOnRoad(percentage);
 
             float angle = Mathf.Rad2Deg * Mathf.Atan2(facing.x, facing.z);
-
+            
             transform.position = centerOfRoadPosition + new Vector3(0,0.6f,0);
             transform.eulerAngles = new Vector3(0, angle, 0);
-            transform.Translate(0,0,-1);
+            transform.Translate(0,0,-2.5f);
 
 
-        }
+        
 
         
     }

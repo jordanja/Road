@@ -89,7 +89,7 @@ public class CarMovement : MonoBehaviour {
                 fractionAlongCurrentRoad = (timeSinceStart - (currentRoadNum * timeForOneRoad))/timeForOneRoad;
                 
                 if (Input.GetMouseButton(0)) {
-                    xChange += Input.GetAxis("Mouse X");
+                    xChange += Input.GetAxis("Mouse X")/5f;
 
                     if (lastXChange != xChange) {
                         clampedXChange = Mathf.Clamp(xChange, -RoadManager.instance.GetRoadWidth() + carWidth, +RoadManager.instance.GetRoadWidth() - carWidth);
