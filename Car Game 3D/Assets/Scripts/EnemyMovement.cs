@@ -31,10 +31,12 @@ public class EnemyMovement : MonoBehaviour {
 
     public void Init(int currentCarRoadNum, float currentCarPercentage, int roadsAhead, int lane) {
         startingPoint = currentCarRoadNum + roadsAhead + currentCarPercentage;
+        // print("starting point = " + startingPoint + ", car is at: " + (currentCarRoadNum + currentCarPercentage));
         _lane = lane;
 
         pastPlayer = false;
         change = GetLanePosition(_lane);
+        timeSinceStart = 0f;
 
         SetPosition();
 
