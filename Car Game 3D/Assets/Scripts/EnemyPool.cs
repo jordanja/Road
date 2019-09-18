@@ -57,5 +57,9 @@ public class EnemyPool : MonoBehaviour {
         obj.SetActive(false);
     }
 
+    public int GetNumberOfEnemiesSent() {
+        return numInstantiated;
+    }
+
     
 }
