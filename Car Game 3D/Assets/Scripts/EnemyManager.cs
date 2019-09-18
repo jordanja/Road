@@ -36,8 +36,12 @@ public class EnemyManager : MonoBehaviour
     IEnumerator SendEnemies() {
 
         while (true) {
-            sendEnemy(2);
-            // sendEnemy();
+            float randomNum = UnityEngine.Random.Range(0f,1f);
+            if (randomNum + (EnemyPool.instance.GetNumberOfEnemiesSent()/10f) < 1) {
+                sendEnemy(1);
+            } else {
+                sendEnemy(2);
+            }
             yield return new WaitForSeconds(timeBetweenSendingEnemiesCurve.Evaluate((Time.time - startTime)/60f));
         }
     }

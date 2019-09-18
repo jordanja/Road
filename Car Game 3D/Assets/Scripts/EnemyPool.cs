@@ -11,6 +11,7 @@ public class EnemyPool : MonoBehaviour {
     public static EnemyPool instance {get; private set;}
 
     int numInstantiated = 0;
+    int numSent = 0;
 
     GameObject EnemyParent;
 
@@ -29,13 +30,14 @@ public class EnemyPool : MonoBehaviour {
     }
 
     void Start() {
-        
+        numSent = 0;
     }
 
     public GameObject Get() {
         if (enemyQueue.Count == 0) {
             AddEnemies(1);
         }
+        numSent++;
         GameObject obj = enemyQueue.Dequeue();
         enemyQueue.Enqueue(obj);
         return obj;
@@ -58,7 +60,7 @@ public class EnemyPool : MonoBehaviour {
     }
 
     public int GetNumberOfEnemiesSent() {
-        return numInstantiated;
+        return numSent;
     }
 
     
